@@ -5,22 +5,58 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "check-new-ai-mails", "web_service\check-new-ai-mails\check-new-ai-mails.vbproj", "{BA1A124E-BE7C-4BC2-9481-3307C989A233}"
 EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "web_app", "web_app\", "{6987D310-4B0C-4809-BA11-9017503ABE90}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv2.0"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_3542"
+		Debug.AspNetCompiler.PhysicalPath = "web_app\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_3542\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_3542"
+		Release.AspNetCompiler.PhysicalPath = "web_app\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_3542\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "3542"
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BA1A124E-BE7C-4BC2-9481-3307C989A233}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{BA1A124E-BE7C-4BC2-9481-3307C989A233}.Debug|x64.ActiveCfg = Debug|x64
 		{BA1A124E-BE7C-4BC2-9481-3307C989A233}.Debug|x64.Build.0 = Debug|x64
 		{BA1A124E-BE7C-4BC2-9481-3307C989A233}.Debug|x86.ActiveCfg = Debug|x86
 		{BA1A124E-BE7C-4BC2-9481-3307C989A233}.Debug|x86.Build.0 = Debug|x86
+		{BA1A124E-BE7C-4BC2-9481-3307C989A233}.Release|Any CPU.ActiveCfg = Release|x86
 		{BA1A124E-BE7C-4BC2-9481-3307C989A233}.Release|x64.ActiveCfg = Release|x64
 		{BA1A124E-BE7C-4BC2-9481-3307C989A233}.Release|x64.Build.0 = Release|x64
 		{BA1A124E-BE7C-4BC2-9481-3307C989A233}.Release|x86.ActiveCfg = Release|x86
 		{BA1A124E-BE7C-4BC2-9481-3307C989A233}.Release|x86.Build.0 = Release|x86
+		{6987D310-4B0C-4809-BA11-9017503ABE90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6987D310-4B0C-4809-BA11-9017503ABE90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6987D310-4B0C-4809-BA11-9017503ABE90}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6987D310-4B0C-4809-BA11-9017503ABE90}.Debug|x64.Build.0 = Debug|Any CPU
+		{6987D310-4B0C-4809-BA11-9017503ABE90}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6987D310-4B0C-4809-BA11-9017503ABE90}.Debug|x86.Build.0 = Debug|Any CPU
+		{6987D310-4B0C-4809-BA11-9017503ABE90}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{6987D310-4B0C-4809-BA11-9017503ABE90}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{6987D310-4B0C-4809-BA11-9017503ABE90}.Release|x64.ActiveCfg = Debug|Any CPU
+		{6987D310-4B0C-4809-BA11-9017503ABE90}.Release|x64.Build.0 = Debug|Any CPU
+		{6987D310-4B0C-4809-BA11-9017503ABE90}.Release|x86.ActiveCfg = Debug|Any CPU
+		{6987D310-4B0C-4809-BA11-9017503ABE90}.Release|x86.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
