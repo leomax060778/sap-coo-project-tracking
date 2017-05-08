@@ -1,0 +1,158 @@
+﻿Imports Microsoft.VisualBasic
+Imports System
+Imports System.IO
+Imports System.Data
+Imports System.Configuration
+Imports check_new_ai_mails.SysConfig
+Imports check_new_ai_mails.SapUser
+Imports check_new_ai_mails.SapActions
+Imports check_new_ai_mails.MailTemplate
+Imports Outlook = Microsoft.Office.Interop.Outlook
+'Imports MAPI
+
+'Highligth COLOR
+'#FFFC6E
+
+Module Module1
+    Sub MyHandler(ByVal sender As Object, ByVal args As UnhandledExceptionEventArgs)
+        Dim e As Exception = DirectCast(args.ExceptionObject, Exception)
+        log("Unhandled Exception: " + e.Message)
+    End Sub
+
+    Sub Main2()
+        'log("start")
+
+        Dim currentDomain As AppDomain = AppDomain.CurrentDomain
+        AddHandler currentDomain.UnhandledException, AddressOf MyHandler
+        Dim objNS As Outlook.NameSpace
+
+        ' log("1")
+
+        Dim sapMails As New MailTemplate
+        Dim log_dict As New Dictionary(Of String, String)
+        Dim newLog As New LogSAPTareas
+        Dim syscfg As New SysConfig
+        Dim actions As New SapActions
+
+        'CLOSE OUTLOOK APPS
+        syscfg.killOutlook()
+
+        'log("2")
+
+        objNS = sapMails.openSession()
+
+        'log("3")
+        'IF THE DB CONNECTION IS OK THEN PROCCESS THE MAILS
+        'If dbConnectionOK() Then
+        sapMails.CheckMail(objNS)
+        'End If
+        'log("4")
+        'actions.sendOwnerReport("this week")
+        'actions.sendOwnerReport("today")
+        'syscfg.setSentReportToday()
+
+        If Now.Hour = 8 And (0 < Now.Minute < 5) Then
+            sapMails.SendNotifications()
+
+            'log("41")
+
+            'MONDAY SEND WEEK REPORT
+            If Today.DayOfWeek = 1 And Not syscfg.hasSentReportToday() Then
+                actions.sendOwnerReport("this week")
+            End If
+
+            'log("42")
+
+            'DAILY REPORT FROM MONDAY TO FRIDAY
+            If Today.DayOfWeek <> 6 And Today.DayOfWeek <> 0 And Not syscfg.hasSentReportToday() Then
+                ' log("421")
+                actions.sendOwnerReport("today")
+                actions.sendAdminReport()
+                syscfg.setSentReportToday()
+                'log("422")
+            End If
+
+            'log("43")
+
+        End If
+
+        ' log("5")
+
+        If syscfg.getSendMailStatus Then
+            'log("51")
+            sapMails.sendAndDelete(objNS)
+            'log("52")
+        End If
+
+        'log("6")
+
+        sapMails.closeSession(objNS)
+
+        ' log("7")
+
+        'CLOSE OUTLOOK APPS
+        syscfg.killOutlook()
+
+        'log("end")
+
+    End Sub
+
+    Sub log(ByVal message As String)
+        Dim strFile As String = "log.txt"
+        Dim fileExists As Boolean = File.Exists(strFile)
+        Using sw As New StreamWriter(File.Open(strFile, FileMode.Append))
+            sw.WriteLine( _
+                    "[" & DateTime.Now & "] " & message)
+        End Using
+    End Sub
+
+    Sub Main3()
+
+
+
+        Dim currentDomain As AppDomain = AppDomain.CurrentDomain
+        AddHandler currentDomain.UnhandledException, AddressOf MyHandler
+        Dim objNS As Outlook.NameSpace
+
+        Dim sapMails As New MailTemplate
+        Dim log_dict As New Dictionary(Of String, String)
+        Dim newLog As New LogSAPTareas
+        Dim syscfg As New SysConfig
+        Dim actions As New SapActions
+
+        'CLOSE OUTLOOK APPS
+        syscfg.killOutlook()
+
+
+
+        objNS = sapMails.openSession()
+
+
+
+        sapMails.sendAndDelete(objNS)
+
+
+
+        sapMails.closeSession(objNS)
+
+
+
+        'CLOSE OUTLOOK APPS
+        syscfg.killOutlook()
+
+
+
+    End Sub
+
+    Sub Main()
+        Dim syscfg As New SysConfig
+
+        Main2()
+
+        'Main3()
+
+        'CLOSE OUTLOOK APPS
+        syscfg.killOutlook()
+    End Sub
+
+End Module

@@ -1,0 +1,127 @@
+<table width="650">
+<tbody>
+<tr>
+    <td>
+        <a href="http://rtm-bmo.bue.sap.corp:8888/sap_main.aspx">
+            <img src="http://rtm-bmo.bue.sap.corp:8888/email-templates/sap.png" title="SAP logo" alt="SAP logo" />
+            <!--<img src="sap.png" title="SAP logo" alt="SAP logo" />-->
+        </a>
+    </td>
+</tr>
+<tr>
+<td>
+    <h2 style="color: #555555;font-size: 20px; font-family: Arial, Helvetica, sans-serif; margin-top: 40px;">Hi {requestor_name},</h2>
+    <p style="color: #555555;font-size: 14px; line-height: 18px; font-family: Arial, Helvetica, sans-serif;">{owner} completed the action item listed below. Please make sure that you perform the following actions:</p>
+
+    <p style="color: #555555;font-size: 14px; line-height: 18px; font-family: Arial, Helvetica, sans-serif;">1. Download the requested documents using the links below.</p>
+    <p style="color: #555555;font-size: 14px; line-height: 18px; font-family: Arial, Helvetica, sans-serif;">2. Use the approve/reject buttons to indicate if the deliveries meets your expectations or some adjustments are needed.</p>
+    <p style="color: #555555;font-size: 14px; line-height: 18px; font-family: Arial, Helvetica, sans-serif;">3. If you decide to reject it please use the comments area to provide feedback to the owner.</p>
+</td>
+</tr>
+<tr><td>
+    <table width="650" cellpadding="10" cellspacing="0" style="margin-top: 40px; border-width:1px;border-style:solid;border-color:#FDB813; border-radius: 6px; -moz-border-radius: 6px; -webkit-border-radius: 6px;">
+                <tr>
+                    <th style="border-radius: 5px 0 0 0;font-size: 14px;font-family: Arial, Helvetica, sans-serif;background:#FDB813;color:#fff;border-bottom-width:3px;border-bottom-style:solid;border-bottom-color:#F58B1E">AI#</th>
+                    <th style="font-size: 14px;font-family: Arial, Helvetica, sans-serif;background:#FDB813;color:#fff;border-bottom-width:3px;border-bottom-style:solid;border-bottom-color:#F58B1E">Description</th>
+                    <th style="font-size: 14px;font-family: Arial, Helvetica, sans-serif;background:#FDB813;color:#fff;border-bottom-width:3px;border-bottom-style:solid;border-bottom-color:#F58B1E">Owner</th>
+                    <th style="font-size: 14px;font-family: Arial, Helvetica, sans-serif;background:#FDB813;color:#fff;border-bottom-width:3px;border-bottom-style:solid;border-bottom-color:#F58B1E">Original Due Date</th>
+                    <th style="border-radius: 0 5px 0 0;font-size: 14px;font-family: Arial, Helvetica, sans-serif;background:#FDB813;color:#fff;border-bottom-width:3px;border-bottom-style:solid;border-bottom-color:#F58B1E">Delivery Date</th>
+                </tr>
+                <tr>
+                    <td style="border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;">{ai_id}</td>
+                    <td style="width: 300px; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;">{description}</td>
+                    <td style="font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;">{owner}</td>
+                    <td style="text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555; background: #FFDB84;">{duedate}</td>
+                    <td style="border-radius: 0 0 5px 0;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555; background: #B5FF84;">{delivery}</td>
+                </tr>
+            </table>
+</td></tr>
+<tr><td style="text-align: center;">
+    <p style="color: #555555;font-size: 14px; line-height: 18px; font-family: Arial, Helvetica, sans-serif;"><b>{detail}</b></p>
+</td></tr>
+<tr><td style="text-align: center;">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 30px;">
+<tr>
+    <td>
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td align="center">
+              <table border="0" cellspacing="2" cellpadding="2">
+                <tr>
+                  <td align="center" style="-webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px;" bgcolor="#008FD3">
+                  <a href="{delivery_link1}" target="_blank" style="font-size: 16px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; color: #ffffff; text-decoration: none; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; padding: 12px 18px; border: 1px solid #008FD3; display: inline-block;">DOWNLOAD {filename1} &rarr;</a>
+                  </td>
+                </tr>
+                <tr style="display: {d2}">
+                  <td align="center" style="-webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px;" bgcolor="#008FD3">
+                  <a href="{delivery_link2}" target="_blank" style="font-size: 16px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; color: #ffffff; text-decoration: none; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; padding: 12px 18px; border: 1px solid #008FD3; display: inline-block;">DOWNLOAD {filename2} &rarr;</a>
+                  </td>
+                </tr>
+                <tr style="display: {d3}">
+                  <td align="center" style="-webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px;" bgcolor="#008FD3">
+                  <a href="{delivery_link3}" target="_blank" style="font-size: 16px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; color: #ffffff; text-decoration: none; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; padding: 12px 18px; border: 1px solid #008FD3; display: inline-block;">DOWNLOAD {filename3} &rarr;</a>
+                  </td>
+                </tr>
+                <tr style="display: {d4}">
+                  <td align="center" style="-webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px;" bgcolor="#008FD3">
+                  <a href="{delivery_link4}" target="_blank" style="font-size: 16px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; color: #ffffff; text-decoration: none; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; padding: 12px 18px; border: 1px solid #008FD3; display: inline-block;">DOWNLOAD {filename4} &rarr;</a>
+                  </td>
+                </tr>
+                <tr style="display: {d5}">
+                  <td align="center" style="-webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px;" bgcolor="#008FD3">
+                  <a href="{delivery_link5}" target="_blank" style="font-size: 16px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; color: #ffffff; text-decoration: none; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; padding: 12px 18px; border: 1px solid #008FD3; display: inline-block;">DOWNLOAD {filename5} &rarr;</a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+    </td>
+</tr>
+</table>
+</td></tr>
+<tr><td style="text-align: center;">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 30px;">
+<tr>
+    <td>
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td align="center">
+              <table border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td align="center" style="-webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px;" bgcolor="#008FD3">
+                  <a href="{completed_link}" target="_blank" style="font-size: 16px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; color: #ffffff; text-decoration: none; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; padding: 12px 18px; border: 1px solid #008FD3; display: inline-block;">APPROVE DELIVERY &rarr;</a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+    </td>
+    <td>
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td align="center">
+              <table border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td align="center" style="-webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px;" bgcolor="#008FD3">
+                  <a href="{uncompleted_link}" target="_blank" style="font-size: 16px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; color: #ffffff; text-decoration: none; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; padding: 12px 18px; border: 1px solid #008FD3; display: inline-block;">REJECT DELIVERY &rarr;</a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+    </td>
+</tr>
+</table>
+</td></tr>
+<tr><td><p style="margin-top: 20px; color: #555555;font-size: 14px; line-height: 18px; font-family: Arial, Helvetica, sans-serif;">Thank you,<br />SAP COO Project Tracking Team</p></td></tr>
+</tbody>
+</table>
+
+<div id="footer">
+    <br />
+    <p style="color: #555555;font-size: 14px; line-height: 18px; font-family: Arial, Helvetica, sans-serif;">If you have any questions about the report please <a style="color: #008FD3;" href="{contact_mail_link}" target="_top">email us.</a></p>
+    <p style="color: #555555;font-size: 14px; line-height: 18px; font-family: Arial, Helvetica, sans-serif;">Access the COO Project Tracking Tool <a style="color: #008FD3;" href="{app_link}" target="_blank">click here.</a></p>
+</div>

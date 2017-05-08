@@ -1,0 +1,280 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="c:\program files (x86)\microsoft visual studio 14.0\team tools\static analysis tools\fxcop\Xml\CodeAnalysisReport.xsl"?>
+<FxCopReport Version="14.0">
+ <Targets>
+  <Target Name="C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails\bin\x64\Debug\check-new-ai-mails.exe">
+   <Modules>
+    <Module Name="check-new-ai-mails.exe">
+     <Namespaces>
+      <Namespace Name="check_new_ai_mails">
+       <Types>
+        <Type Name="Cryptors" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Messages>
+          <Message TypeName="TypesThatOwnDisposableFieldsShouldBeDisposable" Category="Microsoft.Design" CheckId="CA1001" Status="Active" Created="2017-03-28 19:02:01Z" FixCategory="DependsOnFix">
+           <Issue Name="DependsOnFix" Certainty="95" Level="CriticalError">Implement IDisposable on 'Cryptors' because it creates members of the following IDisposable types: 'TripleDESCryptoServiceProvider'. If 'Cryptors' has previously shipped, adding new members that implement IDisposable to this type is considered a breaking change to existing consumers.</Issue>
+          </Message>
+         </Messages>
+        </Type>
+        <Type Name="LogSAPTareas" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#LogWrite(System.Collections.Generic.Dictionary`2&lt;System.String,System.String&gt;&amp;)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2017-03-28 19:02:01Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails" File="log.vb" Line="32">The query string passed to 'OleDbCommand.New(String, OleDbConnection)' in 'LogSAPTareas.LogWrite(ByRef Dictionary(Of String, String))' could contain the following variables 'kvp.Key', 'kvp.Value', 'kvp.Value'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="MailTemplate" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Messages>
+          <Message TypeName="TypesThatOwnDisposableFieldsShouldBeDisposable" Category="Microsoft.Design" CheckId="CA1001" Status="Active" Created="2017-03-28 19:02:01Z" FixCategory="DependsOnFix">
+           <Issue Name="DependsOnFix" Certainty="95" Level="CriticalError">Implement IDisposable on 'MailTemplate' because it creates members of the following IDisposable types: 'SmtpClient', 'MailMessage'. If 'MailTemplate' has previously shipped, adding new members that implement IDisposable to this type is considered a breaking change to existing consumers.</Issue>
+          </Message>
+         </Messages>
+         <Members>
+          <Member Name="#sendAndDelete()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2017-03-28 19:02:01Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails" File="mails.vb" Line="541">The query string passed to 'OleDbCommand.New(String, OleDbConnection)' in 'MailTemplate.sendAndDelete()' could contain the following variables 'MyBase.ToString()'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails" File="mails.vb" Line="559">The query string passed to 'OleDbCommand.New(String, OleDbConnection)' in 'MailTemplate.sendAndDelete()' could contain the following variables 'MyBase.ToString()'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails" File="mails.vb" Line="584">The query string passed to 'OleDbCommand.New(String, OleDbConnection)' in 'MailTemplate.sendAndDelete()' could contain the following variables 'MyBase.ToString()'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails" File="mails.vb" Line="534">The query string passed to 'OleDbCommand.New(String, OleDbConnection)' in 'MailTemplate.sendAndDelete()' could contain the following variables 'dbread.GetString(1)', 'New String(7)(3)', 'New String(7)(5)'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails" File="mails.vb" Line="519">The query string passed to 'OleDbCommand.New(String, OleDbConnection)' in 'MailTemplate.sendAndDelete()' could contain the following variables 'dbread.GetString(3)', 'Local29.ToString("yyyy-MM-dd hh:mm:ss tt")', 'New String(5)(3)'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#SendHtmlFormattedEmail(System.String,System.String,System.String)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2017-03-28 19:02:01Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails" File="mails.vb" Line="396">The query string passed to 'OleDbCommand.New(String, OleDbConnection)' in 'MailTemplate.SendHtmlFormattedEmail(String, String, String)' could contain the following variables 'recipientEmail', 'subject', 'body'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#SendNotifications()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2017-03-28 19:02:01Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails" File="mails.vb" Line="661">The query string passed to 'OleDbCommand.New(String, OleDbConnection)' in 'MailTemplate.SendNotifications()' could contain the following variables 'MyBase.ToString()'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails" File="mails.vb" Line="705">The query string passed to 'OleDbCommand.New(String, OleDbConnection)' in 'MailTemplate.SendNotifications()' could contain the following variables 'MyBase.ToString()'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails" File="mails.vb" Line="633">The query string passed to 'OleDbCommand.New(String, OleDbConnection)' in 'MailTemplate.SendNotifications()' could contain the following variables 'New String(7)(1)', 'New String(7)(3)', 'New String(7)(5)'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails" File="mails.vb" Line="676">The query string passed to 'OleDbCommand.New(String, OleDbConnection)' in 'MailTemplate.SendNotifications()' could contain the following variables 'New String(7)(1)', 'New String(7)(3)', 'New String(7)(5)'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="SapActions" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#ais_sum_filter(System.String)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2017-03-28 19:02:01Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails" File="sapactions.vb" Line="421">The query string passed to 'OleDbCommand.New(String, OleDbConnection)' in 'SapActions.ais_sum_filter(String)' could contain the following variables 'hoy'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#createNewRequest(System.Collections.Generic.Dictionary`2&lt;System.String,System.String&gt;)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2017-03-28 19:02:01Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails" File="sapactions.vb" Line="228">The query string passed to 'OleDbCommand.New(String, OleDbConnection)' in 'SapActions.createNewRequest(Dictionary(Of String, String))' could contain the following variables 'New String(11)(3)', 'Strings.Mid(mailSubject, 1, 250)', 'sourceMail("subject")', 'ownerID', 'New String(7)(1)', 'New String(7)(3)', 'New String(7)(5)'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails" File="sapactions.vb" Line="205">The query string passed to 'OleDbCommand.New(String, OleDbConnection)' in 'SapActions.createNewRequest(Dictionary(Of String, String))' could contain the following variables 'users.getIdByMail(mailFrom)', 'mailDate', 'sourceMail("raw")', 'Strings.Mid(mailSubject, 1, 250)', 'sourceMail("subject")', 'Strings.Mid(mailBody, 1, 250)', 'sourceMail("body")', 'sourceMail("id")', 'New String(7)(1)', 'New String(7)(3)', 'New String(7)(5)'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#deliverAI(System.String,System.String,System.String,System.String,System.String,System.String,System.String)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2017-03-28 19:02:01Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails" File="sapactions.vb" Line="689">The query string passed to 'OleDbCommand.New(String, OleDbConnection)' in 'SapActions.deliverAI(String, String, String, String, String, String, String)' could contain the following variables 'New String(5)(0)', 'New String(5)(2)', 'New String(5)(4)', 'fileName1', 'fileName2', 'fileName3', 'fileName4', 'fileName5', 'descr', 'ai_id'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails" File="sapactions.vb" Line="693">The query string passed to 'OleDbCommand.New(String, OleDbConnection)' in 'SapActions.deliverAI(String, String, String, String, String, String, String)' could contain the following variables 'ai_id'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#getCountFromLog(System.String,System.Int32,System.String)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2017-03-28 19:02:01Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails" File="sapactions.vb" Line="53">The query string passed to 'OleDbCommand.New(String, OleDbConnection)' in 'SapActions.getCountFromLog(String, Integer, String)' could contain the following variables 'eventType', 'elementType', 'New String(6)(5)'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#getFirstDateFromLog(System.String,System.Int32,System.String,System.DateTime&amp;)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2017-03-28 19:02:01Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails" File="sapactions.vb" Line="76">The query string passed to 'OleDbCommand.New(String, OleDbConnection)' in 'SapActions.getFirstDateFromLog(String, Integer, String, ByRef Date)' could contain the following variables 'eventType', 'elementType', 'New String(7)(5)'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#getRequestorIdFromRequestId(System.Int32)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2017-03-28 19:02:01Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails" File="sapactions.vb" Line="25">The query string passed to 'OleDbCommand.New(String, OleDbConnection)' in 'SapActions.getRequestorIdFromRequestId(Integer)' could contain the following variables 'MyBase.ToString()'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#ownerActivityList(System.String)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2017-03-28 19:02:01Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails" File="sapactions.vb" Line="523">The query string passed to 'OleDbCommand.New(String, OleDbConnection)' in 'SapActions.ownerActivityList(String)' could contain the following variables 'id'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#requestIsUnset(System.String)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2017-03-28 19:02:01Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails" File="sapactions.vb" Line="312">The query string passed to 'OleDbCommand.New(String, OleDbConnection)' in 'SapActions.requestIsUnset(String)' could contain the following variables 'id'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#requestMailProcessed(System.String)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2017-03-28 19:02:01Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails" File="sapactions.vb" Line="366">The query string passed to 'OleDbCommand.New(String, OleDbConnection)' in 'SapActions.requestMailProcessed(String)' could contain the following variables 'id'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#requestSetDueDate(System.String)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2017-03-28 19:02:01Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails" File="sapactions.vb" Line="340">The query string passed to 'OleDbCommand.New(String, OleDbConnection)' in 'SapActions.requestSetDueDate(String)' could contain the following variables 'id'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="SapUser" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#getIdByMail(System.String)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2017-03-28 19:02:01Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails" File="sapuser.vb" Line="67">The query string passed to 'OleDbCommand.New(String, OleDbConnection)' in 'SapUser.getIdByMail(String)' could contain the following variables 'mailAddress'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#getMailById(System.String)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2017-03-28 19:02:01Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails" File="sapuser.vb" Line="125">The query string passed to 'OleDbCommand.New(String, OleDbConnection)' in 'SapUser.getMailById(String)' could contain the following variables 'data'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#getMailByName(System.String)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2017-03-28 19:02:01Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails" File="sapuser.vb" Line="152">The query string passed to 'OleDbCommand.New(String, OleDbConnection)' in 'SapUser.getMailByName(String)' could contain the following variables 'data'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#getNameById(System.String)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2017-03-28 19:02:01Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails" File="sapuser.vb" Line="37">The query string passed to 'OleDbCommand.New(String, OleDbConnection)' in 'SapUser.getNameById(String)' could contain the following variables 'id'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#getNameByMail(System.String)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2017-03-28 19:02:01Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails" File="sapuser.vb" Line="96">The query string passed to 'OleDbCommand.New(String, OleDbConnection)' in 'SapUser.getNameByMail(String)' could contain the following variables 'mailAddress'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#getRoleById(System.String)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2017-03-28 19:02:01Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails" File="sapuser.vb" Line="184">The query string passed to 'OleDbCommand.New(String, OleDbConnection)' in 'SapUser.getRoleById(String)' could contain the following variables 'id'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#isOwner(System.String)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2017-03-28 19:02:01Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails" File="sapuser.vb" Line="384">The query string passed to 'OleDbCommand.New(String, OleDbConnection)' in 'SapUser.isOwner(String)' could contain the following variables 'mailAddress'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#isRequestor(System.String)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2017-03-28 19:02:01Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails" File="sapuser.vb" Line="362">The query string passed to 'OleDbCommand.New(String, OleDbConnection)' in 'SapUser.isRequestor(String)' could contain the following variables 'mailAddress'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="SysConfig" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#setMailLastCheck(System.DateTime)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2017-03-28 19:02:01Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails" File="sysconfig.vb" Line="131">The query string passed to 'OleDbCommand.New(String, OleDbConnection)' in 'SysConfig.setMailLastCheck(Date)' could contain the following variables 'dt.ToString("yyyy-MM-dd HH:mm:ss")'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#setSentNotificationToday()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2017-03-28 19:02:01Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails" File="sysconfig.vb" Line="166">The query string passed to 'OleDbCommand.New(String, OleDbConnection)' in 'SysConfig.setSentNotificationToday()' could contain the following variables 'Local4.ToString("yyyy-MM-dd")'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#setSentReportToday()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2017-03-28 19:02:01Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails" File="sysconfig.vb" Line="152">The query string passed to 'OleDbCommand.New(String, OleDbConnection)' in 'SysConfig.setSentReportToday()' could contain the following variables 'Local4.ToString("yyyy-MM-dd")'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+       </Types>
+      </Namespace>
+     </Namespaces>
+    </Module>
+   </Modules>
+  </Target>
+ </Targets>
+ <Rules>
+  <Rule TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100">
+   <Name>Review SQL queries for security vulnerabilities</Name>
+   <Description>A SQL command string built from user input is vulnerable to SQL injection attacks. Microsoft SQL Server and other database servers support stored procedures and parameterized SQL queries, which reduce the risk of injection attacks.</Description>
+   <Resolution Name="WithNonLiterals">The query string passed to {0} in {1} could contain the following variables {2}. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Resolution>
+   <Owner>RuleOwner</Owner>
+   <Url>http://msdn.microsoft.com/library/ms182310.aspx</Url>
+   <Email />
+   <MessageLevel Certainty="75">Warning</MessageLevel>
+   <File Name="dataflowrules.dll" Version="14.0.0.0" />
+  </Rule>
+  <Rule TypeName="TypesThatOwnDisposableFieldsShouldBeDisposable" Category="Microsoft.Design" CheckId="CA1001">
+   <Name>Types that own disposable fields should be disposable</Name>
+   <Description>Types that declare disposable members should also implement IDisposable. If the type does not own any unmanaged resources, do not implement a finalizer on it.</Description>
+   <Resolution Name="DependsOnFix">Implement IDisposable on {0} because it creates members of the following IDisposable types: {1}. If {0} has previously shipped, adding new members that implement IDisposable to this type is considered a breaking change to existing consumers.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182172.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">CriticalError</MessageLevel>
+   <File Name="designrules.dll" Version="14.0.0.0" />
+  </Rule>
+ </Rules>
+ <Localized>
+  <String Key="Category">Category</String>
+  <String Key="Certainty">Certainty</String>
+  <String Key="CollapseAll">Collapse All</String>
+  <String Key="CheckId">Check Id</String>
+  <String Key="Error">Error</String>
+  <String Key="Errors">error(s)</String>
+  <String Key="ExpandAll">Expand All</String>
+  <String Key="Help">Help</String>
+  <String Key="Line">Line</String>
+  <String Key="Messages">message(s)</String>
+  <String Key="LocationNotStoredInPdb">[Location not stored in Pdb]</String>
+  <String Key="Project">Project</String>
+  <String Key="Resolution">Resolution</String>
+  <String Key="Rule">Rule</String>
+  <String Key="RuleFile">Rule File</String>
+  <String Key="RuleDescription">Rule Description</String>
+  <String Key="Source">Source</String>
+  <String Key="Status">Status</String>
+  <String Key="Target">Target</String>
+  <String Key="Warning">Warning</String>
+  <String Key="Warnings">warning(s)</String>
+  <String Key="ReportTitle">Code Analysis Report</String>
+ </Localized>
+</FxCopReport>

@@ -1,0 +1,26 @@
+G:\Leo\Folder\SAP\Action Item Tool\Codigo fuente\SAP_AI_ZIP\web_service\check-new-ai-mails\bin\x64\Debug\check-new-ai-mails.exe.config
+C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails\bin\x64\Debug\check-new-ai-mails.exe.config
+C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails\bin\x64\Debug\check-new-ai-mails.exe.manifest
+C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails\bin\x64\Debug\check-new-ai-mails.application
+C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails\bin\x64\Debug\check-new-ai-mails.exe
+C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails\bin\x64\Debug\check-new-ai-mails.pdb
+C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails\bin\x64\Debug\check-new-ai-mails.xml
+C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails\bin\x64\Debug\BouncyCastle.Crypto.dll
+C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails\bin\x64\Debug\Mail.dll
+C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails\bin\x64\Debug\MailKit.dll
+C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails\bin\x64\Debug\MimeKit.dll
+C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails\bin\x64\Debug\Mail.xml
+C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails\bin\x64\Debug\MailKit.xml
+C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails\bin\x64\Debug\MimeKit.xml
+C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails\obj\x64\Debug\check-new-ai-mails.vbprojResolveAssemblyReference.cache
+C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails\obj\x64\Debug\check_new_ai_mails.Resources.resources
+C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails\obj\x64\Debug\check-new-ai-mails.vbproj.GenerateResource.Cache
+C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails\obj\x64\Debug\check-new-ai-mails.exe.manifest
+C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails\obj\x64\Debug\check-new-ai-mails.application
+C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails\obj\x64\Debug\check-new-ai-mails.exe
+C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails\obj\x64\Debug\check-new-ai-mails.xml
+C:\SAP\source\actionitem\dev\web_service\check-new-ai-mails\obj\x64\Debug\check-new-ai-mails.pdb
+C:\SAP\source\sap-coo-project-tracking\web_service\check-new-ai-mails\bin\x64\Debug\check-new-ai-mails.exe.config
+C:\SAP\source\sap-coo-project-tracking\web_service\check-new-ai-mails\obj\x64\Debug\check-new-ai-mails.exe
+C:\SAP\source\sap-coo-project-tracking\web_service\check-new-ai-mails\obj\x64\Debug\check-new-ai-mails.xml
+C:\SAP\source\sap-coo-project-tracking\web_service\check-new-ai-mails\obj\x64\Debug\check-new-ai-mails.pdb

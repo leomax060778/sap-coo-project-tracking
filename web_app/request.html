@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<title>SAP - Action Items Panel</title>
+
+<!-- Meta -->
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1.0, initial-scale=1.0" />
+<meta name="robots" content="index, follow" />
+<meta name="description" content="" />
+<meta name="keywords" content="" />
+<meta name="author" content="" />
+<meta name="copyright" content="" />
+
+<!-- Favicon -->
+<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
+
+<!-- CSS -->
+<link href="css/main.css" rel="stylesheet" type="text/css" />
+<link href="css/nivo-slider.css" rel="stylesheet" type="text/css" />
+<link href="css/nivotheme.css" rel="stylesheet" type="text/css" />
+<link href="css/prettyPhoto.css" rel="stylesheet" type="text/css" />
+
+<!-- JS -->
+<script type="text/javascript" src="js/jquery-1.7.2.js"></script>
+<script type="text/javascript" src="js/jquery.nivo.slider.pack.js"></script>
+<script type="text/javascript" src="js/jquery.quicksand.js"></script>
+<script type="text/javascript" src="js/jquery.prettyPhoto.js"></script>
+<script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
+<script type="text/javascript" src="js/script.js"></script>
+<script type="text/javascript" src="js/custom.js"></script>
+<!--[if lte IE 7]><script src="lte-ie7.js"></script><![endif]-->
+
+<!--[if IE 9]>
+	<link rel="stylesheet" type="text/css" href="css/ie9.css">
+<![endif]-->
+
+</head>
+
+<body>
+
+	<!-- Header
+		============================= -->
+	<div id="header">
+        <div class="inner">
+
+            <!-- Logo -->
+            <h1 class="logo left"><a href="home.html">SAP</a></h1><!-- .logo-->
+
+            <!-- Nav Menu -->
+            <ul class="nav-menu right">
+                <li class="current"><a href="#">home</a></li>
+                <li><a href="#">requests</a></li>
+                <li><a href="#">archive</a></li>
+                <li><a href="#">support</a></li>
+            </ul><!-- .nav-menu-->
+
+        </div><!-- .inner -->
+	</div><!-- #header -->
+	<!-- End Header -->
+
+
+	<!-- Title
+		============================= -->
+	<div id="title" class="theme-default">
+        <div class="inner">
+            <h4>REQ# 0000134</h4>
+            <h2>Buy a snack machine for the Office</h2>
+        </div><!-- .inner -->
+	</div><!-- #title -->
+	<!-- End Title -->
+
+	<!-- Content
+		============================= -->
+	<div id="content">
+        <div class="inner">
+            <ul>
+                <!-- Short Description -->
+                <li class="description">We need a snack machine to be installed in the new office. I'll be back by 14/02/2015 and I need it ASAP. Please make sure that it has a variety of healthy snacks too. Thanks!</li>
+                <li>
+                    <div class="created" title="25/01/2015">
+                        <div class="daymonth">
+                            <div id="cm">Jan</div>
+                            <div id="cy">2015</div>
+                        </div>
+                        <div id="cd">25</div>
+                    </div>
+                    <div class="duedate" title="14/02/2015">
+                        <div class="daymonth">
+                            <div id="dm">Feb</div>
+                            <div id="dy">2015</div>
+                        </div>
+                        <div id="dd">14</div>
+                    </div>
+                </li>
+            </ul>
+
+				
+            <table id="ai_list" cellpadding="10" cellspacing="0">
+                <tr class="ai-maintitle">
+				<th colspan="6" style="
+					background: #FDB813 !important;  color: #fff;  border-bottom: 3px solid #F58B1E !important;
+				"><h4>Action Items</h4></th>
+                    <th class="add-ai"><a href="#new-ai-form" id="add-ai-btn" title="Add new AI">+</a></th>
+                    
+                </tr>
+                <tr>
+                    <th class="ai-id">AI#</th>
+                    <th class="ai-desc">Description</th>
+                    <th class="ai-other">Owner</th>
+                    <th class="ai-other">Created</th>
+                    <th class="ai-other">Due Date</th>
+                    <th class="ai-other">Status</th>
+                    <th class="ai-actions">Action</th>
+                </tr>
+                <tr>
+                    <td>151</td>
+                    <td class="ai-desc">We need a snack machine to be installed in the new office. I'll be back by 14/02/2015 and I need it ASAP. Please make sure that it has a variety of healthy snacks too. Thanks!</td>
+                    <td>Mark</td>
+                    <td>Jan 25, 2015</td>
+                    <td>Feb 14, 2015</td>
+                    <td>Pending</td>
+                    <td><a href="#">Create</a></td>
+                </tr>
+                <tr>
+                    <td>152</td>
+                    <td class="ai-desc">Call technician to find out requirements.</td>
+                    <td>Susan</td>
+                    <td>Jan 25, 2015</td>
+                    <td></td>
+                    <td>Created</td>
+                    <td><a href="#">Request more info</a></td>
+                </tr>
+            </table>
+            <div id="new-ai-form">
+            <h4 class="subtitle">New Action Item</h4>
+            <table cellpadding="10" cellspacing="0" style="width: 100%;" class="newai">
+                <tr><td colspan="2">
+                    <h4>Description</h4>
+                    <textarea rows="4" cols="50" name="descr" class="fw fs" ></textarea>
+                </td></tr>
+                <tr><td>
+                    <h4>Owner:</h4>
+                    <input type="text" name="newdd" class="fs" />
+                </td>
+                <td>
+                    <div style="float: right;"><h4>Due Date</h4>
+                    <input type="text" name="newdd" class="datetimepicker fs" /></div>
+                </td>
+            </tr>
+            <tr><td colspan="2" class="height: 50px;">
+                <input type="submit" value="submit" name="subscribe" class="submitbtn" style="float: right;" />
+            </td></tr>
+            </table>
+            </div>
+
+
+
+        </div><!-- .inner -->
+	</div><!-- #content -->
+	<!-- End Content -->
+
+
+	<!-- Footer
+		============================= -->
+	<div id="footer">
+        <div class="inner">
+
+        	<p class="left"><a href="http://www.sap.com/">SAP</a> © Copyright 2015</p>
+
+            <ul>
+            	<li>
+                    <a href="https://www.facebook.com/SAP" target="_blank"><span class="icon-facebook"></span></a>
+                    <a href="https://plus.google.com/+SAP/posts" target="_blank"><span class="icon-gplus"></span></a>
+                    <a href="https://twitter.com/sap" target="_blank"><span class="icon-twitter"></span></a>
+                    <a href="https://www.linkedin.com/company/sap" target="_blank"><span class="icon-linkedin"></span></a>
+                </li>
+            </ul>
+
+        </div><!-- .inner -->
+	</div><!-- #footer -->
+	<!-- End Footer -->
+
+    <a href="" class="go-top">Top</a>
+
+    <script type="text/javascript">
+    jQuery('#add-ai-btn').click( function(){
+        jQuery('#new-ai-form').toggle('fast');
+    });
+    </script>
+
+</body>
+</html>

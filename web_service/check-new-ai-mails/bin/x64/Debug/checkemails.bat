@@ -1,0 +1,1 @@
+runas /user:Administrator check-new-ai-mails.exe
