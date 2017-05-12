@@ -111,8 +111,7 @@ jQuery(function () {
                 <li><a href="#">archive</a></li>
                 <li><a href="#">support</a></li>
                 <li><a href="./sap_crud.aspx">users</a></li>
-        	    <li><a href="./sap_owner.aspx"><asp:Literal ID="current_user" runat="server"></asp:Literal></a></li>
-                <li style='margin–right:13px'></li>            
+        	    <li class="right"><a href="./sap_owner.aspx"><asp:Literal ID="current_user" runat="server"></asp:Literal></a></li>
             </ul><!-- .nav-menu-->
 
         </div><!-- .inner -->
@@ -124,7 +123,7 @@ jQuery(function () {
         ============================= -->
     <div id="title" class="theme-default">
         <div class="inner">
-            <h4>REQ# <asp:Literal ID="req_id" runat="server"></asp:Literal></h4>
+            <h4>Request Number <asp:Literal ID="req_id" runat="server"></asp:Literal></h4>
             <h2><asp:Literal ID="req_detail" runat="server"></asp:Literal></h2>
         </div><!-- .inner -->
     </div><!-- #title -->
@@ -133,6 +132,16 @@ jQuery(function () {
     <!-- Content
         ============================= -->
     <div id="content">
+        <div class="inner">
+            <p class="subtitle">Welcome to the COO Project Tracking Tool</p>
+            <span class="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</span>
+        </div>
+        
+        <div class="inner">
+            <span class="projects">Latest Projects</span>
+            <hr class="separator" />
+        </div>
+        
         <div class="inner">
             <div id="new_item_dialog" style="display:block;padding:10px;">
             <form id="form1" method="post" action="" runat="server">

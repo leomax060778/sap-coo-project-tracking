@@ -99,14 +99,13 @@ background-color: white;
 
             <!-- Nav Menu -->
 
-            <ul class="nav-menu right">
+            <ul class="nav-menu left">
                 <li class="current"><a href="./sap_main.aspx">home</a></li>
                 <li><a href="./sap_main.aspx">requests</a></li>
                 <li><a href="./sap_archive.aspx">archive</a></li>
                 <li><a href="#">support</a></li>
                 <li><a href="./sap_crud.aspx">users</a></li>
-                <li><a href="./sap_owner.aspx"><asp:Literal ID="current_user" runat="server"></asp:Literal></a></li>
-                <li style='margin–right:13px'></li>
+                <li class="right"><a href="./sap_owner.aspx"><asp:Literal ID="current_user" runat="server"></asp:Literal></a></li>
             </ul><!-- .nav-menu-->
 
         </div><!-- .inner -->
@@ -141,10 +140,20 @@ background-color: white;
         ============================= -->
     <div id="content">
         <div class="inner">
+            <p class="subtitle">Welcome to the COO Project Tracking Tool</p>
+            <span class="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</span>
+        </div>
+        
+        <div class="inner">
+            <span class="projects">Latest Projects</span>
+            <hr class="separator" />
+        </div>
+        
+        <div class="inner">
             <form id="form1" method="post" action="" runat="server">
                 <table id="ai_list" cellpadding="10" cellspacing="0" runat="server">
                     <tr class="req-titles">
-                        <th class="ai-id">REQ#</th>
+                        <th class="ai-id">Request Number</th>
                         <th class="ai-desc">Description</th>
                         <th class="ai-other">Created</th>
                         <th class="ai-other">Next Due Date</th>
