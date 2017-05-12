@@ -1,9 +1,19 @@
+<style>
+    /*Font config */
+    @font-face {
+        font-family: "BentonSans";
+        src: url(../fonts/BentonSans-Regular.ttf) format("truetype"); }
+    * { font-family: BentonSans, Arial !important; }
+    table.content tr:nth-child(odd) td {
+        background: #CCCCCC;
+    }
+</style>
 <table width="650">
 <tbody>
 <tr>
     <td>
         <a href="http://rtm-bmo.bue.sap.corp:8888/sap_main.aspx">
-            <img src="http://rtm-bmo.bue.sap.corp:8888/email-templates/sap.png" title="SAP logo" alt="SAP logo" />
+            <img style="width: 150px; height: 73px" src="http://rtm-bmo.bue.sap.corp:8888/email-templates/sap.png" title="SAP logo" alt="SAP logo" />
             <!--<img src="sap.png" title="SAP logo" alt="SAP logo" />-->
         </a>
     </td>
@@ -19,14 +29,14 @@
 	
 	<table width="650" cellpadding="10" cellspacing="0" style="margin-top: 20px; border-width:1px;border-style:solid;border-color:#FDB813; border-radius: 6px; -moz-border-radius: 6px; -webkit-border-radius: 6px;">
                 <tr>
-                    <th style="border-radius: 5px 0 0 0;font-size: 14px;font-family: Arial, Helvetica, sans-serif;background:#FDB813;color:#fff;border-bottom-width:3px;border-bottom-style:solid;border-bottom-color:#F58B1E">AI#</th>
-                    <th style="font-size: 14px;font-family: Arial, Helvetica, sans-serif;background:#FDB813;color:#fff;border-bottom-width:3px;border-bottom-style:solid;border-bottom-color:#F58B1E">Description</th>
-                    <th style="border-radius: 0 5px 0 0;font-size: 14px;font-family: Arial, Helvetica, sans-serif;background:#FDB813;color:#fff;border-bottom-width:3px;border-bottom-style:solid;border-bottom-color:#F58B1E">Due Date</th>
+                    <th style="border-radius: 5px 0 0 0;font-size: 14px;font-family: Arial, Helvetica, sans-serif;background:#fff;color:#F0AB00;border-bottom-width:3px;border-bottom-style:solid;border-bottom-color:#fff">AI#</th>
+                    <th style="font-size: 14px;font-family: Arial, Helvetica, sans-serif;background:#fff;color:#F0AB00;border-bottom-width:3px;border-bottom-style:solid;border-bottom-color:#fff">Description</th>
+                    <th style="border-radius: 0 5px 0 0;font-size: 14px;font-family: Arial, Helvetica, sans-serif;background:#fff;color:#F0AB00;border-bottom-width:3px;border-bottom-style:solid;border-bottom-color:#fff">Due Date</th>
                 </tr>
                 <tr>
                     <td style="border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;">{ai_id}</td>
                     <td style="width: 410px; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;">{description}</td>
-                    <td style="border-radius: 0 0 5px 0;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555; background: #FFDB84;">{duedate}</td>
+                    <td style="border-radius: 0 0 5px 0;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555; background: #E35500;">{duedate}</td>
                 </tr>
             </table>
 

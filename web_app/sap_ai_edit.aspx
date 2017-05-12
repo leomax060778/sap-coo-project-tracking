@@ -170,7 +170,9 @@
 							</a>                    
 						</td>
 						<td colspan="2" style="text-align: right;">
-							<a href="#" name="link_req_id" id="link_req_id" runat="server" style="padding: 20px;">Cancel</a>
+                            <a href="#" name="link_req_id" id="link_req_id" runat="server">
+                                <input type="button" value="Cancel" class="submitbtn"/>
+                            </a>
 							<input type="submit" name="btnSave" value="Save changes" onclick="return formValid();" id="Submit1" class="submitbtn" style=""/>
 						</td>
                     </tr>
@@ -189,7 +191,7 @@
     <div id="footer">
         <div class="inner">
             <input type="hidden" id="max_due_input" runat="server"/>
-            <p class="left"><a href="http://www.sap.com/">SAP</a> © Copyright 2015</p>
+            <p class="left"><a href="http://www.sap.com/">SAP</a> © Copyright <script type="text/javascript">document.write(new Date().getFullYear())</script></p>
 
         </div><!-- .inner -->
     </div><!-- #footer -->

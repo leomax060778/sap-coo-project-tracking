@@ -179,7 +179,7 @@ background-color: white;
     <div id="footer">
         <div class="inner">
 
-            <p class="left"><a href="http://www.sap.com/">SAP</a> © Copyright 2015</p>
+            <p class="left"><a href="http://www.sap.com/">SAP</a> © Copyright <script type="text/javascript">document.write(new Date().getFullYear())</script></p>
 
         </div><!-- .inner -->
     </div><!-- #footer -->

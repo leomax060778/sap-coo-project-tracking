@@ -161,7 +161,7 @@
     <div id="footer">
         <div class="inner">
             <input type="hidden" id="max_due_input" runat="server"/>
-            <p class="left"><a href="http://www.sap.com/">SAP</a> ɠCopyright 2015</p>
+            <p class="left"><a href="http://www.sap.com/">SAP</a> ɠCopyright <script type="text/javascript">document.write(new Date().getFullYear())</script></p>
 
         </div><!-- .inner -->
     </div><!-- #footer -->

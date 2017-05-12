@@ -154,8 +154,10 @@ jQuery(function () {
 						
                     </td>
                     <td style="text-align: right;">
-                    <a href="./sap_main.aspx" name="link_req_id" id="link_req_id" runat="server" style="padding: 20px;">Cancel</a>
-                    <input type="submit" name="btnSave" value="Save changes" onclick="return formValid();" id="Submit1" class="btn warning-btn" style=""/>
+                    <a href="./sap_main.aspx" name="link_req_id" id="link_req_id" runat="server">
+                        <input type="button" name="btnCancel" value="Cancel" id="Cancel1" class="submitbtn"/>
+                    </a>
+                    <input type="submit" name="btnSave" value="Save changes" onclick="return formValid();" id="Submit1" class="submitbtn"/>
                     </td>
                     </tr>
                 </tbody>
@@ -176,7 +178,7 @@ jQuery(function () {
     <div id="footer">
         <div class="inner">
 
-            <p class="left"><a href="http://www.sap.com/">SAP</a> © Copyright 2015</p>
+            <p class="left"><a href="http://www.sap.com/">SAP</a> © Copyright <script type="text/javascript">document.write(new Date().getFullYear())</script></p>
 
         </div><!-- .inner -->
     </div><!-- #footer -->

@@ -162,16 +162,16 @@ jQuery(function () {
             <table id="ai_list" cellpadding="10" cellspacing="0" runat="server">
                 <tr class="ai-maintitle">
                     <th class="add-ai"><a href="#" id="NAI" title="Add new AI" style="text-decoration: none;color:white;padding-top:5px">+</a></th>
-                    <th colspan="6" style="  background-color: #FDB813;"><h4>Action Items</h4></th>
+                    <th colspan="6" style="  background-color: #0563C1;"><h4>Action Items</h4></th>
                 </tr>
                 <tr>
                     <th class="ai-id">AI#</th>
-                    <th class="ai-desc">Description</th>
+                    <th class="ai-other">Description</th>
                     <th class="ai-other">Owner</th>
                     <th class="ai-other">Created</th>
                     <th class="ai-other">Due Date</th>
                     <th class="ai-other">Status</th>
-                    <th class="ai-actions">Action</th>
+                    <th class="ai-actions" style="width: 25%">Action</th>
                 </tr>
             </table>
 
@@ -220,7 +220,7 @@ jQuery(function () {
     <div id="footer">
         <div class="inner">
 
-            <p class="left"><a href="http://www.sap.com/">SAP</a> © Copyright 2015</p>
+            <p class="left"><a href="http://www.sap.com/">SAP</a> © Copyright <script type="text/javascript">document.write(new Date().getFullYear())</script></p>
 
         </div><!-- .inner -->
     </div><!-- #footer -->

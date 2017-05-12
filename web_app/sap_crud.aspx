@@ -103,7 +103,7 @@
             <table id="ai_list" cellpadding="10" cellspacing="0" runat="server">
                 <tr class="ai-maintitle">
                     <th class="add-ai"><a href="#" id="NAI" title="Add New User">+</a></th>
-                    <th colspan="6" style="  background-color: #FDB813;"><h4>Add New User</h4></th>
+                    <th colspan="6" style="  background-color: #0563C1;"><h4>Add New User</h4></th>
                 </tr>
                 <tr class="req-titles">
                     <th class="ai-id">ID</th>
@@ -138,7 +138,9 @@
 				    </table>
 				    <div class="height: 50px;" style="/* float: right; */">
 					    <input type="submit" name="btnSave" value="Save" onclick="return formValid();" id="btnSave" class="submitbtn" style="float: right;"/>
-					    <a href="#" onclick="$('.modal_dialog').hide();" style="float: right;padding: 10px;">Cancel</a>
+					    <a href="#" onclick="$('.modal_dialog').hide();">
+                            <input type="button" name="btnCancel" value="Cancel" id="btnCancel" class="submitbtn" style="float: right; margin-right: 10px"/>
+					    </a>
 				    </div>
                 </form>
             </div>
@@ -152,7 +154,7 @@
     <div id="footer">
         <div class="inner">
 
-            <p class="left"><a href="http://www.sap.com/">SAP</a> © Copyright 2015</p>
+            <p class="left"><a href="http://www.sap.com/">SAP</a> © Copyright <script type="text/javascript">document.write(new Date().getFullYear())</script></p>
 
         </div><!-- .inner -->
     </div><!-- #footer -->
