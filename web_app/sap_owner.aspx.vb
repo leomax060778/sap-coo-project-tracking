@@ -210,6 +210,8 @@ Partial Class _Default
 
         Dim connString As String = ConfigurationManager.ConnectionStrings("myConnectionString").ConnectionString
 
+        Dim users As SapUser = New SapUser
+        current_user.Text = users.getName()
 
         dbconn = New OleDbConnection(connString)
         dbconn.Open()
