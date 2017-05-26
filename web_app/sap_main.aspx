@@ -85,6 +85,7 @@ background-color: white;
   border-radius: 5px;
   font-weight: normal;
 }
+
 </style>
 </head>
 <body>
@@ -141,8 +142,10 @@ background-color: white;
     <div id="content">
         <div class="inner">
             <p class="subtitle">Welcome to the COO Project Tracking Tool</p>
-            <span class="text">A solution developed for the benefit of improving our collaboration as a team. This tool provides us with the opportunity to simplify the way we process our many action items with increased accuracy, predictability, full transparency and visibility.  All the elements in one single place [project, owner, objective, and due date] and the workflow streamlined to make our interaction significantly more efficient.   
-                <br/> Please, see below what it is in your portfolio of actions today:
+                <span class="text">A solution developed for the benefit of improving our collaboration as a team. This tool provides us with the opportunity to simplify the way we process our many action items with increased accuracy, predictability, full transparency and visibility.  All the elements in one single place [project, owner, objective, and due date] and the workflow streamlined to make our interaction significantly more efficient.   
+                </br>
+                </br>
+                Please, see below what it is in your portfolio of actions today:
             </span>
         </div>
         

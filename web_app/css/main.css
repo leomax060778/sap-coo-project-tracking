@@ -244,7 +244,7 @@ ul.nav-menu li a:hover {
 #title {
     background: url(/images/header.jpg) no-repeat;
     background-size: cover;
-    height: 250px;
+    height: 180px;
 }
 
 #title .inner {
