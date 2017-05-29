@@ -64,11 +64,72 @@
             $("#set_due_dialog").show();
         });
 
+        $.urlParam = function (name) {
+            var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+            if (results)
+                return results[1]
+            else
+                return 0;
+        }
+
+        var option_id;
+
+        switch ($.urlParam('f')) {
+            case "nd":
+                option_id = 1;
+                break;
+
+            case "ur":
+                option_id = 2;
+                break;
+
+            case "du":
+                option_id = 3;
+                break;
+
+            case "ov":
+                option_id = 4;
+                break;
+
+            case "dw":
+                option_id = 5;
+                break;
+
+            case "ex":
+                option_id = 6;
+                break;
+
+            case "ap":
+                option_id = 7;
+                break;
+
+            case "rq":
+                option_id = 8;
+                break;
+
+            default:
+                option_id = 0;
+                break;
+        }
+
+        $($("#options").children()[option_id]).attr("selected", true)
+
     });
 
     function formValid() {
             alert("Invalid duedate YYYY/MM/DD!");
     }
+
+    $(function () {
+        // bind change event to select
+        $('#options').on('change', function (event) {
+            var url = $(this).val(); // get selected value
+            if (url) { // require a URL
+                window.location = url; // redirect
+            }
+            return false;
+        });
+    });
 
 </script>
 <style>
@@ -122,7 +183,7 @@ background-color: white;
             <h2><a style="color:white" href="sap_main.aspx">SAP COO Project Tracking Tool</a>
             <br />
             <% Dim f = Request.Querystring("f")%>
-            <a class="afilter <%=iif(f="","sel","") %>" href="sap_main.aspx">All</a>
+            <!--<a class="afilter <%=iif(f="","sel","") %>" href="sap_main.aspx">All</a>
             <a class="afilter <%=iif(f="nd","sel","") %>" href="sap_main.aspx?f=nd">Need data</a>
             <a class="afilter <%=IIf(f = "ur", "sel", "") %>" href="sap_main.aspx?f=ur">Unsassigned</a>
             <a class="afilter <%=IIf(f = "du", "sel", "") %>" href="sap_main.aspx?f=du">Mult Owner</a>
@@ -130,7 +191,7 @@ background-color: white;
             <a class="afilter <%=IIf(f = "dw", "sel", "") %>" href="sap_main.aspx?f=dw">This Week DD</a>
             <a class="afilter <%=iif(f="ex","sel","") %>" href="sap_main.aspx?f=ex">Extension Pend</a>
             <a class="afilter <%=IIf(f = "ap", "sel", "") %>" href="sap_main.aspx?f=ap">Accept Pend (OW)</a>
-            <a class="afilter <%=IIf(f = "rq", "sel", "") %>" href="sap_main.aspx?f=rq">Accept Pend(RQ)</a>           
+            <a class="afilter <%=IIf(f = "rq", "sel", "") %>" href="sap_main.aspx?f=rq">Accept Pend(RQ)</a>        -->   
 
             </h2>
         </div><!-- .inner -->
@@ -141,7 +202,7 @@ background-color: white;
         ============================= -->
     <div id="content">
         <div class="inner">
-            <p class="subtitle">Welcome to the COO Project Tracking Tool</p>
+            <p class="subtitle">Welcome to the SAP COO Project Tracking Tool</p>
                 <span class="text">A solution developed for the benefit of improving our collaboration as a team. This tool provides us with the opportunity to simplify the way we process our many action items with increased accuracy, predictability, full transparency and visibility.  All the elements in one single place [project, owner, objective, and due date] and the workflow streamlined to make our interaction significantly more efficient.   
                 </br>
                 </br>
@@ -152,6 +213,20 @@ background-color: white;
         <div class="inner">
             <span class="projects">Latest Projects</span>
             <hr class="separator" />
+        </div>
+
+        <div class="inner">
+            <select id="options" style="background: #ddd; width: 200px;  border: 0;  padding: 15px;  margin: 0 0 16px 0;  outline: none;  overflow: auto;  resize: none;  font-size: 12px;  color: #555;  font-family: Arial, Helvetica, sans-serif;  -moz-border-radius: 5px;  -webkit-border-radius: 5px;  -khtml-border-radius: 5px;  border-radius: 5px;">
+                <option label="All" value="sap_main.aspx"></option>
+                <option label="Need data" value="sap_main.aspx?f=nd"></option>
+                <option label="Unassigned" value="sap_main.aspx?f=ur"></option>
+                <option label="Mult owner" value="sap_main.aspx?f=du"></option>
+                <option label="OverDue" value="sap_main.aspx?f=ov"></option>
+                <option label="This Week DD" value="sap_main.aspx?f=dw"></option>
+                <option label="Extension Pend" value="sap_main.aspx?f=ex"></option>
+                <option label="Accept Pend (OW)" value="sap_main.aspx?f=ap"></option>
+                <option label="Accept Pend(RQ)" value="sap_main.aspx?f=rq"></option>
+            </select>
         </div>
         
         <div class="inner">
