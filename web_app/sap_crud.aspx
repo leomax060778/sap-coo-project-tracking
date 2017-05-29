@@ -99,11 +99,15 @@
     <div id="content">
         <div class="inner">
             <p class="subtitle">Welcome to the SAP COO Project Tracking Tool</p>
-            <!--<span class="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</span>-->
+                <span class="text">A solution developed for the benefit of improving our collaboration as a team. This tool provides us with the opportunity to simplify the way we process our many action items with increased accuracy, predictability, full transparency and visibility.  All the elements in one single place [project, owner, objective, and due date] and the workflow streamlined to make our interaction significantly more efficient.   
+                </br>
+                </br>
+                Please, see below what it is in your portfolio of actions today:
+            </span>
         </div>
         
         <div class="inner">
-            <span class="projects">Latest Projects</span>
+            <span class="projects">Users</span>
             <hr class="separator" />
         </div>
         
