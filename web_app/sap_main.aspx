@@ -186,7 +186,7 @@ background-color: white;
             <!--<a class="afilter <%=iif(f="","sel","") %>" href="sap_main.aspx">All</a>
             <a class="afilter <%=iif(f="nd","sel","") %>" href="sap_main.aspx?f=nd">Need data</a>
             <a class="afilter <%=IIf(f = "ur", "sel", "") %>" href="sap_main.aspx?f=ur">Unsassigned</a>
-            <a class="afilter <%=IIf(f = "du", "sel", "") %>" href="sap_main.aspx?f=du">Mult Owner</a>
+            <a class="afilter <%=IIf(f = "du", "sel", "") %>" href="sap_main.aspx?f=du">Multiple Owner</a>
             <a class="afilter <%=IIf(f = "ov", "sel", "") %>" href="sap_main.aspx?f=ov">OverDue</a>
             <a class="afilter <%=IIf(f = "dw", "sel", "") %>" href="sap_main.aspx?f=dw">This Week DD</a>
             <a class="afilter <%=iif(f="ex","sel","") %>" href="sap_main.aspx?f=ex">Extension Pend</a>
@@ -220,12 +220,12 @@ background-color: white;
                 <option label="All" value="sap_main.aspx"></option>
                 <option label="Need data" value="sap_main.aspx?f=nd"></option>
                 <option label="Unassigned" value="sap_main.aspx?f=ur"></option>
-                <option label="Mult owner" value="sap_main.aspx?f=du"></option>
+                <option label="Multiple owner" value="sap_main.aspx?f=du"></option>
                 <option label="OverDue" value="sap_main.aspx?f=ov"></option>
                 <option label="This Week DD" value="sap_main.aspx?f=dw"></option>
-                <option label="Extension Pend" value="sap_main.aspx?f=ex"></option>
-                <option label="Accept Pend (OW)" value="sap_main.aspx?f=ap"></option>
-                <option label="Accept Pend(RQ)" value="sap_main.aspx?f=rq"></option>
+                <option label="Extension Pending" value="sap_main.aspx?f=ex"></option>
+                <option label="Accept Pending (OW)" value="sap_main.aspx?f=ap"></option>
+                <option label="Accept Pending(RQ)" value="sap_main.aspx?f=rq"></option>
             </select>
         </div>
         
