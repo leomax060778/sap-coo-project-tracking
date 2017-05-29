@@ -248,8 +248,8 @@ Partial Class Default2
                 'extra_where = "(status='PD' OR status='CR') AND ai_count > 1"
                 'extra_subq = ", (SELECT count(*) FROM actionitems WHERE requests.id = actionitems.request_id) AS ai_count"
                 '2017-04-28
-                extra_where = "(status <> 'DL' AND status <> 'PD')"
-                extra_subq = ", (SELECT count(*) FROM actionitems WHERE requests.id = actionitems.request_id AND actionitems.status <> 'DL' AND actionitems.status <> 'PD' AND actionitems.owner IS NOT null GROUP BY actionitems.owner HAVING count(*) > 1) AS ai_count"
+                extra_where = "(status <> 'DL' AND status <> 'PD') AND ai_count > 1"
+                extra_subq = ", (SELECT COUNT(distinct actionitems.owner) FROM actionitems WHERE requests.id = actionitems.request_id AND actionitems.status <> 'DL' AND actionitems.status <> 'PD' AND actionitems.owner IS NOT null GROUP BY actionitems.request_id HAVING COUNT(distinct actionitems.owner) > 1 ) AS ai_count"
 
             Case "ex"
                 'extra_subq = ", (SELECT count(*) FROM actionitems WHERE requests.id = actionitems.request_id and actionitems.status='NE') AS ai_count"
@@ -273,8 +273,8 @@ Partial Class Default2
 
             Case "ov"
                 '2017-04-28
-                extra_where = "(status <> 'DL' OR status <> 'PD')"
-                extra_subq = ", (SELECT count(*) FROM actionitems WHERE requests.id = actionitems.request_id AND actionitems.status <> 'DL' AND actionitems.status <> 'PD' AND (DATEDIFF(day, TODAY(), actionitems.due)) < 0 AND actionitems.owner IS NOT null) AS ai_count"
+                extra_where = "(status <> 'DL' OR status <> 'PD') AND ai_count >= 1"
+                extra_subq = ", (SELECT COUNT(distinct actionitems.id) FROM actionitems WHERE requests.id = actionitems.request_id AND (actionitems.status <> 'DL' AND actionitems.status <> 'PD') AND (DATEDIFF(day, TODAY(), actionitems.due)) < 0 AND actionitems.owner IS NOT null) AS ai_count"
 
         End Select
 
