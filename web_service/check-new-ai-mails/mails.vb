@@ -300,7 +300,21 @@ Public Class MailTemplate
 
             Next
 
-            'force to purgue the inbox
+            'clean old seen messages
+            If (inbox.Search(Search.SearchQuery.Seen).Count > 0) Then
+
+                For Each uid As UniqueId In inbox.Search(Search.SearchQuery.Seen)
+                    Dim email = inbox.GetMessage(uid) ' Download and parse each message
+                    log("Delete old seen message:" & email.Subject)
+                    log("EntryID: " & email.MessageId)
+
+                    inbox.SetFlags(uid, MessageFlags.Deleted, True, Nothing)
+
+                Next
+            End If
+
+
+            'force to purgue the inbox for all messages marked for deletion
             inbox.Expunge()
 
         End Using
