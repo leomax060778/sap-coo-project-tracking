@@ -151,6 +151,11 @@ p {
     height: 3px;
 }
 
+.inner.dropdown {
+    padding-top: 5px !important;
+    margin-bottom: -25px;
+}
+
 /*===================================
 ============== Header ===============
 ===================================*/
@@ -203,6 +208,13 @@ ul.nav-menu li {
 ul.nav-menu li.right {
     float: right;
 } 
+
+ul.nav-menu li.right.non-clickeable {
+    color: #ffffff;
+    display: inline-block;
+    margin: 0 10px;
+    font-family: 'Conv_BentonSans-Bold', Sans-Serif;
+}
 
 ul.nav-menu li:before {
   font-family: 'fontello';

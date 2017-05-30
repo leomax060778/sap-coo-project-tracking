@@ -91,7 +91,7 @@
                 <li><a href="#">archive</a></li>
                 <li><a href="#">support</a></li>
                 <li><a href="./sap_crud.aspx">users</a></li>
-        	    <li class="right"><a href="./sap_owner.aspx"><asp:Literal ID="current_user" runat="server"></asp:Literal></a></li>
+        	    <li class="right non-clickeable"><asp:Literal ID="current_user" runat="server"></asp:Literal></li>
             </ul><!-- .nav-menu-->
 
         </div><!-- .inner -->

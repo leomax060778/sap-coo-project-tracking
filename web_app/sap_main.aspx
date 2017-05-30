@@ -167,7 +167,7 @@ background-color: white;
                 <li><a href="./sap_archive.aspx">archive</a></li>
                 <li><a href="#">support</a></li>
                 <li><a href="./sap_crud.aspx">users</a></li>
-                <li class="right"><a href="./sap_owner.aspx"><asp:Literal ID="current_user" runat="server"></asp:Literal></a></li>
+                <li class="right non-clickeable"><asp:Literal ID="current_user" runat="server"></asp:Literal></li>
             </ul><!-- .nav-menu-->
 
         </div><!-- .inner -->
@@ -186,7 +186,7 @@ background-color: white;
             <!--<a class="afilter <%=iif(f="","sel","") %>" href="sap_main.aspx">All</a>
             <a class="afilter <%=iif(f="nd","sel","") %>" href="sap_main.aspx?f=nd">Need data</a>
             <a class="afilter <%=IIf(f = "ur", "sel", "") %>" href="sap_main.aspx?f=ur">Unsassigned</a>
-            <a class="afilter <%=IIf(f = "du", "sel", "") %>" href="sap_main.aspx?f=du">Multiple Owner</a>
+            <a class="afilter <%=IIf(f = "du", "sel", "") %>" href="sap_main.aspx?f=du">Mult Owner</a>
             <a class="afilter <%=IIf(f = "ov", "sel", "") %>" href="sap_main.aspx?f=ov">OverDue</a>
             <a class="afilter <%=IIf(f = "dw", "sel", "") %>" href="sap_main.aspx?f=dw">This Week DD</a>
             <a class="afilter <%=iif(f="ex","sel","") %>" href="sap_main.aspx?f=ex">Extension Pend</a>
@@ -215,17 +215,17 @@ background-color: white;
             <hr class="separator" />
         </div>
 
-        <div class="inner">
+        <div class="inner dropdown">
             <select id="options" style="background: #ddd; width: 200px;  border: 0;  padding: 15px;  margin: 0 0 16px 0;  outline: none;  overflow: auto;  resize: none;  font-size: 12px;  color: #555;  font-family: Arial, Helvetica, sans-serif;  -moz-border-radius: 5px;  -webkit-border-radius: 5px;  -khtml-border-radius: 5px;  border-radius: 5px;">
                 <option label="All" value="sap_main.aspx"></option>
                 <option label="Need data" value="sap_main.aspx?f=nd"></option>
                 <option label="Unassigned" value="sap_main.aspx?f=ur"></option>
-                <option label="Multiple owner" value="sap_main.aspx?f=du"></option>
+                <option label="Mult owner" value="sap_main.aspx?f=du"></option>
                 <option label="OverDue" value="sap_main.aspx?f=ov"></option>
                 <option label="This Week DD" value="sap_main.aspx?f=dw"></option>
-                <option label="Extension Pending" value="sap_main.aspx?f=ex"></option>
-                <option label="Accept Pending (OW)" value="sap_main.aspx?f=ap"></option>
-                <option label="Accept Pending(RQ)" value="sap_main.aspx?f=rq"></option>
+                <option label="Extension Pend" value="sap_main.aspx?f=ex"></option>
+                <option label="Accept Pend (OW)" value="sap_main.aspx?f=ap"></option>
+                <option label="Accept Pend(RQ)" value="sap_main.aspx?f=rq"></option>
             </select>
         </div>
         

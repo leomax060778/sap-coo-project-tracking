@@ -75,7 +75,7 @@
                 <li><a href="./sap_archive.aspx">archive</a></li>
                 <li><a href="#">support</a></li>
                 <li><a href="./sap_crud.aspx">users</a></li>
-                <li class="right"><a href="./sap_owner.aspx"><asp:Literal ID="current_user" runat="server"></asp:Literal></a></li>
+                <li class="right non-clickeable"><asp:Literal ID="current_user" runat="server"></asp:Literal></li>
             </ul><!-- .nav-menu-->
 
         </div><!-- .inner -->
@@ -87,8 +87,10 @@
         ============================= -->
     <div id="title" class="theme-default">
         <div class="inner">
-            <h4>Dashboard</h4>
-            <h2><asp:Literal ID="req_id" runat="server"></asp:Literal></h2>
+            <h2 style="display: none"><asp:Literal ID="req_id" runat="server"></asp:Literal></h2>
+            <h4>&nbsp;</h4>
+            <h2><a style="color:white" href="sap_owner.aspx">SAP COO Project Tracking Tool</a>
+            <br />
         </div><!-- .inner -->
     </div><!-- #title -->
     <!-- End Title -->
@@ -98,7 +100,11 @@
     <div id="content">
         <div class="inner">
             <p class="subtitle">Welcome to the SAP COO Project Tracking Tool</p>
-            <!--<span class="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</span>-->
+                <span class="text">A solution developed for the benefit of improving our collaboration as a team. This tool provides us with the opportunity to simplify the way we process our many action items with increased accuracy, predictability, full transparency and visibility.  All the elements in one single place [project, owner, objective, and due date] and the workflow streamlined to make our interaction significantly more efficient.   
+                </br>
+                </br>
+                Please, see below what it is in your portfolio of actions today:
+            </span>
         </div>
         
         <div class="inner">
@@ -108,9 +114,9 @@
 
         <div class="inner">
             <table id="ai_list" cellpadding="10" cellspacing="0" runat="server">
-                <tr>
-                    <th class="ai-id">AI#</th>
-                    <th class="ai-desc">Description</th>
+                <tr class="req-titles">
+                    <th class="ai-id">Request Number</th>
+                    <th class="ai-other">Description</th>
                     <th class="ai-other">Created</th>
                     <th class="ai-other">Due Date</th>
                     <th class="ai-other">Status</th>
