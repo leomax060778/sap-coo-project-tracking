@@ -114,7 +114,7 @@
 
             <!-- Nav Menu -->
             <ul class="nav-menu right">
-                <li class="current"><a href="#">home</a></li>
+                <li class="current"><a href="./sap_main.aspx">home</a></li>
                 <li><a href="./sap_main.aspx">requests</a></li>
                 <li><a href="#">archive</a></li>
                 <li><a href="#">support</a></li>
