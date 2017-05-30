@@ -63,8 +63,8 @@ img {
 	}
 
 a, a:link, a:active, a:visited, a:hover {
-	text-decoration: none;
-	outline: none;
+	text-decoration: none !important;
+	outline: none !important;
 	}
 
 ul {
@@ -871,14 +871,22 @@ color: #fff;
 /*border-bottom: 2px solid #FD8413;*/
 display: inline-block;
 margin-right: 1px;
-
+text-decoration: none;
 }
 
 #ai_list tr.PD {
 	color: black;
 }
+#ai_list tr input {
+background: #008FD3;
+margin: 5px;
+border-radius: initial;
+line-height: 1.4em;
+text-align: center;
+font-family: 'Conv_BentonSans-Bold', Sans-Serif;
+font-size: initial;
+}
 #ai_list tr input.accept {
-background-color: rgb(63, 221, 63);
 float: left;
 }
 

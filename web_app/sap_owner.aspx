@@ -120,7 +120,7 @@
                     <th class="ai-other">Created</th>
                     <th class="ai-other">Due Date</th>
                     <th class="ai-other">Status</th>
-                    <th class="ai-actions" style="width:170px;">Action</th>
+                    <th class="ai-actions" style="width:220px;">Action</th>
                 </tr>
             </table>
             <div align="center"><br><br><h2 style="color: #CCCCCC;"><asp:Literal ID="empty_inbox" runat="server"></asp:Literal></h2></div>
