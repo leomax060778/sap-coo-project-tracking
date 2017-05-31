@@ -212,8 +212,8 @@ jQuery(function () {
                     </tbody>
                 </table>
                 <div class="height: 50px;" style="/* float: right; */">
+                    <input type="button" name="btnCancel" value="Cancel" onclick="$('.modal_dialog').hide();" id="btnCancel" class="submitbtn" style="float: right;margin-left: 10px;"/>
                     <input type="submit" name="btnSave" value="Save" onclick="return formValid();" id="btnSave" class="submitbtn" style="float: right;"/>
-                    <a href="#" onclick="$('.modal_dialog').hide();" style="float: right;padding: 10px;">Cancel</a>
                 </div>
                 </form>
             </div>
