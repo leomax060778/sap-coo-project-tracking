@@ -214,15 +214,17 @@ ul.nav-menu li.right.non-clickeable {
     display: inline-block;
     margin: 0 10px;
     font-family: 'Conv_BentonSans-Bold', Sans-Serif;
+    padding: 5px 0 0 25px;
+    background: url(/images/user.png) no-repeat top left;
 }
 
 ul.nav-menu li:before {
   font-family: 'fontello';
-	content: "\e804";
+	/*content: "\e804";*/
 	}
 
 ul.nav-menu li:first-child:before {
-	content: "\e804";
+	/*content: "\e804";*/
 	color: #FDB813;
 	}
 
