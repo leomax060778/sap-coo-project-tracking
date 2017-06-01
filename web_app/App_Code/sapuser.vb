@@ -9,8 +9,9 @@ Public Class SapUser
         Dim ru As String = System.Web.HttpContext.Current.User.Identity.Name
         If ru = "" Then
             ru = System.Environment.UserName
-            '"I828136"
-            ru = "c5246787"
+            '"I828136 - Nico Morales - Requestor" 
+            'I821137 - Martin Whitehead - Admin"
+            ru = "C5246787"
         Else
             ru = Mid(ru, InStr(ru, "\") + 1)
         End If
