@@ -8,6 +8,7 @@ Imports System.Security.Cryptography.X509Certificates
 Imports MailKit
 Imports MailKit.Security
 Imports System.Text.RegularExpressions
+Imports System.Collections.Generic
 
 
 'Highligth COLOR
@@ -197,12 +198,22 @@ Public Class MailTemplate
             message.WriteTo(mailFile)
         End If
 
-        If Not String.IsNullOrEmpty(JoinMailNames(message.To)) Then
-            ownersList.AddRange(users.getOwnersEmailFromRecipient(JoinMailNames(message.To)))
+        If message.To.Count > 0 Then
+            Dim emailNameList As List(Of String) = GetMailNames(message.To)
+            For Each emailName As String In emailNameList
+                If Not String.IsNullOrEmpty(emailName) Then
+                    ownersList.AddRange(users.getOwnersEmailFromRecipient(emailName))
+                End If
+            Next
         End If
 
-        If Not String.IsNullOrEmpty(JoinMailNames(message.Cc)) Then
-            ownersList.AddRange(users.getOwnersEmailFromRecipient(JoinMailNames(message.Cc)))
+        If message.Cc.Count > 0 Then
+            Dim emailNameList As List(Of String) = GetMailNames(message.Cc)
+            For Each emailName As String In emailNameList
+                If Not String.IsNullOrEmpty(emailName) Then
+                    ownersList.AddRange(users.getOwnersEmailFromRecipient(emailName))
+                End If
+            Next
         End If
 
         Dim result As New Dictionary(Of String, String)
@@ -232,8 +243,11 @@ Public Class MailTemplate
         'ADD EACH OWNER: own1, own2, own3...
         Dim j As Integer = 1
         For Each mailOwn In ownersList
-            result.Add("own" + j.ToString, mailOwn)
-            j = j + 1
+            'Filter email system from owners list
+            If (Not isMailToSystem(mailOwn) And Not String.IsNullOrEmpty(mailOwn)) Then
+                result.Add("own" + j.ToString, mailOwn)
+                j = j + 1
+            End If
         Next
 
         Return result
@@ -280,13 +294,12 @@ Public Class MailTemplate
             log("Number of messages is: " & inbox.Count)
             log("Number of unseen messages is: " & inbox.Search(Search.SearchQuery.NotSeen).Count)
             log("Starting process to download and parse each message")
+            log("last email processed as date: " & dbDate.Date)
 
             For Each uid As UniqueId In inbox.Search(Search.SearchQuery.NotSeen)
                 Dim email = inbox.GetMessage(uid) ' Download and parse each message
 
                 log("email date: " & email.Date.Date)
-                log("last email processed as date: " & dbDate.Date)
-
                 If email.Date.Date >= dbDate.Date Then
                     lastMails.Add(email)
                     log("Adding:" & email.Subject)
@@ -302,17 +315,14 @@ Public Class MailTemplate
 
             'clean old seen messages
             If (inbox.Search(Search.SearchQuery.Seen).Count > 0) Then
-
                 For Each uid As UniqueId In inbox.Search(Search.SearchQuery.Seen)
                     Dim email = inbox.GetMessage(uid) ' Download and parse each message
-                    log("Delete old seen message:" & email.Subject)
-                    log("EntryID: " & email.MessageId)
-
-                    inbox.SetFlags(uid, MessageFlags.Deleted, True, Nothing)
-
+                    If (email IsNot Nothing) Then
+                        log("Marked email for deletion with EntryID: " & email.MessageId & email.Subject)
+                        inbox.SetFlags(uid, MessageFlags.Deleted, True, Nothing)
+                    End If
                 Next
             End If
-
 
             'force to purgue the inbox for all messages marked for deletion
             inbox.Expunge()
@@ -323,7 +333,6 @@ Public Class MailTemplate
 
         'CREATE TEXT FILE
         Dim sb As New StringBuilder()
-        'Dim PR_SMTP_ADDRESS As String = "http://schemas.microsoft.com/mapi/proptag/0x39FE001E"
 
         sb.AppendLine("<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>")
         sb.AppendLine("<html xmlns='http://www.w3.org/1999/xhtml'>")
@@ -334,13 +343,6 @@ Public Class MailTemplate
 
             log("Processing: " & message.Subject)
             log("To:" & JoinMailNames(message.To) & " CC:" & JoinMailNames(message.Cc) & " BCC:" & JoinMailNames(message.Bcc))
-
-            'log("TESTING EMAIL PROCESSING")
-            'log("JOIN ADDRESSES: " & JoinAddresses(message.To))
-            'log("EXTOSMTP: " & exToSMTP(JoinAddresses(message.To)))
-            'log("ISMAILTOSYSTEM: " & isMailToSystem(exToSMTP(JoinAddresses(message.To))).ToString)
-            'log("EMAIL SENDER: " & JoinAddresses(message.From))
-            'log("END TESTING EMAIL PROCESSING")
 
             If isMailToSystem(exToSMTP(JoinMailNames(message.To))) Then
 
@@ -448,8 +450,8 @@ Public Class MailTemplate
                 mailTemplate = ".\email-templates\SAP Email H - Admin New Request.html"
                 mailSubject = "New RQ created"
             Case "OR"
-                mailTemplate = ".\email-templates\SAP Email L - Owner Report.html"
-                mailSubject = "AI Report"
+                mailTemplate = ".\email-templates\SAP Email N - Owner Report.html"
+                mailSubject = "Your WIP Action Items"
             Case Else
                 'ERROR / HALT DO NOTHING
         End Select
@@ -615,8 +617,6 @@ Public Class MailTemplate
         Catch ex As Exception
             log("Error when processing email - Unhandled Exception: " + ex.Message)
             log("Error when processing email - Unhandled Exception: " + ex.StackTrace)
-            'Console.WriteLine("Error when processing email: " & ex.Message)
-            'Console.WriteLine("Error when processing email: " & ex.StackTrace)
         End Try
 
         dbread.Close()
@@ -665,7 +665,7 @@ Public Class MailTemplate
                 mail_dict.Add("mail", "DL") 'AI CREATED
                 mail_dict.Add("to", users.getMailById(dbread.GetString(6)))
                 mail_dict.Add("{ai_id}", dbread.GetInt64(0).ToString)
-				mail_dict.Add("{ai_owner}", users.getNameById(dbread.GetString(6)))
+                mail_dict.Add("{ai_owner}", users.getNameById(dbread.GetString(6)))
                 mail_dict.Add("{description}", dbread.GetString(2)) 'MAIL SUBJECT / AI DESCRIPTION
                 mail_dict.Add("{duedate}", Now.Date.ToString("dd/MMM/yyyy") & " (Today)")
                 mail_dict.Add("{delivery_link}", syscfg.getSystemUrl + "sap_dlvr.aspx?id=" + eLink.enLink(dbread.GetInt64(0).ToString))
@@ -760,7 +760,7 @@ Public Class MailTemplate
             End If
             If (TypeOf address Is MimeKit.MailboxAddress) Then
                 Dim email As MimeKit.MailboxAddress = CType(address, MimeKit.MailboxAddress)
-                builder.AppendFormat("{0}", email.Address)
+                builder.AppendFormat("{0}; ", email.Address)
             End If
         Next
         Return builder.ToString()
@@ -769,6 +769,10 @@ Public Class MailTemplate
 
     Private Function JoinMailNames(ByVal addresses As MimeKit.InternetAddressList) As String
         Dim builder As New StringBuilder
+        Dim index As New Integer
+
+        'Set index to 1
+        index = 1
 
         For Each address As MimeKit.InternetAddress In addresses
             If (TypeOf address Is MimeKit.GroupAddress) Then
@@ -779,9 +783,33 @@ Public Class MailTemplate
                 Dim email As MimeKit.MailboxAddress = CType(address, MimeKit.MailboxAddress)
                 'builder.AppendFormat("{0} <{1}>, ", email.Name, email.Address)
                 builder.AppendFormat("{0}", email.Name)
+
+                If (index < addresses.Count) Then
+                    builder.Append(";")
+                End If
             End If
+            index = index + 1
         Next
         Return builder.ToString()
+    End Function
+
+    Private Function GetMailNames(ByVal addresses As MimeKit.InternetAddressList) As List(Of String)
+        Dim mailNamesList As New List(Of String)
+        Dim builder As New StringBuilder
+
+        For Each address As MimeKit.InternetAddress In addresses
+            If (TypeOf address Is MimeKit.GroupAddress) Then
+                Dim group As MimeKit.GroupAddress = CType(address, MimeKit.GroupAddress)
+                builder.AppendFormat("{0}: {1};, ", group.Name, JoinMailNames(group.Members))
+                mailNamesList.Add(builder.ToString)
+                builder.Clear()
+            End If
+            If (TypeOf address Is MimeKit.MailboxAddress) Then
+                Dim email As MimeKit.MailboxAddress = CType(address, MimeKit.MailboxAddress)
+                mailNamesList.Add(email.Name)
+            End If
+        Next
+        Return mailNamesList
     End Function
 
     Function CleanInput(strIn As String) As String

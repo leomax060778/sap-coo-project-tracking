@@ -1,9 +1,5 @@
 ﻿Imports System.IO
 Imports System.Data.OleDb
-'Imports ClassSapMailSend.SapMailSender
-
-'Highligth COLOR
-'#FFFC6E
 
 Public Class MailTemplate
 
@@ -154,63 +150,6 @@ Public Class MailTemplate
         dbcomm.ExecuteScalar()
 
         dbconn.Close()
-
-        'Dim myOwnSMTP As New ClassSapMailSend.SapMailSender
-
-        'Dim olApp As New Outlook.Application
-        'Dim objNS As Outlook.NameSpace
-        'Dim olFolder As Outlook.MAPIFolder
-        'Dim newMailItem As Outlook.MailItem
-
-        'objNS = olApp.GetNamespace("MAPI")
-        'objNS.Logon("Outlook")
-        'olFolder = objNS.GetDefaultFolder(FolderType:=Outlook.OlDefaultFolders.olFolderInbox)
-
-        'newMailItem = olApp.CreateItem(Outlook.OlItemType.olMailItem)
-        'newMailItem.Subject = subject
-        'newMailItem.Body = body
-        'newMailItem.Recipients.Add("saptasks@outlook.com")
-
-        'If newMailItem.Recipients.ResolveAll() Then
-        '   newMailItem.Send()
-        'Else
-        '   MsgBox("ERROR al resolver los recipientes!!!")
-        'End If
-
-        'objNS.Logoff()
-
-        'Dim iMsg as Object
-        'iMsg = CreateObject(CDO.Message) 
-
-
-        'Dim syscfg As New SysConfig
-        'Dim newMailItem As New MailMessage
-        'Dim SmtpServer As New SmtpClient("10.15.18.9")
-
-        'newMailItem.To.Add(recepientEmail)
-        'newMailItem.To.Add("hernan.saptasks@outlook.com")
-        'newMailItem.Subject = subject
-        'newMailItem.IsBodyHtml = True
-        'newMailItem.Body = body
-        'newMailItem.ReplyTo = New MailAddress(syscfg.getSystemAdminMail)
-        'newMailItem.From = New MailAddress(syscfg.getSystemMail)
-
-
-        'Dim objSmtpClient As New SmtpClient
-        'objSmtpClient.DeliveryMethod = SmtpDeliveryMethod.Network
-        'objSmtpClient.Host = "10.21.40.83"
-        'objSmtpClient.Port = 25
-        'objSmtpClient.UseDefaultCredentials = True
-        'objSmtpClient.EnableSsl = True
-        'Dim credential As New System.Net.NetworkCredential(syscfg.getSystemMail, "America1")
-        'objSmtpClient.Credentials = credential
-
-        'objSmtpClient.Send(newMailItem)
-
-
-        'SmtpServer.UseDefaultCredentials = True
-        'SmtpServer.Send(newMailItem)
-
 
     End Sub
 
