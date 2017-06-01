@@ -1,9 +1,4 @@
-﻿Imports Microsoft.VisualBasic
-
-Imports System
-Imports System.Text
-Imports System.Data.OleDb
-Imports System.IO
+﻿Imports System.Data.OleDb
 
 Public Class SapActions
 
@@ -101,6 +96,10 @@ Public Class SapActions
         Dim eLink As New Linker
         Dim newLog As New LogSAPTareas
 
+        'ID LAST REQUEST CREATED
+        Dim req_id As Long
+        Dim ai_id As Long
+
         dbconn = New OleDbConnection(syscfg.getConnection)
         dbconn.Open()
 
@@ -111,8 +110,6 @@ Public Class SapActions
         Dim mailID As String = sourceMail("id")
         Dim mailRaw As String = sourceMail("raw")
         Dim requestorID As String = users.getIdByMail(mailFrom)
-
-        'syscfg.logData(mailDate)
 
         Dim auxMailDate As Date = Date.Parse(mailDate)
         mailDate = auxMailDate.ToString("yyyy-MM-dd hh:mm:ss")
@@ -136,44 +133,23 @@ Public Class SapActions
         If dueIndex <> -1 Then
             For Each dueLine In dueStringArray
 
-                'File.AppendAllText(".\log.txt", "[" + Now.ToString("yyyy.MM.dd hh:mm:ss") + "]" + dueLine)
-
-                If dueLine.IndexOf("due") <> -1 Or dueLine.IndexOf("dd") <> -1 Then
-
-                    'File.AppendAllText(".\log.txt", "[" + Now.ToString("yyyy.MM.dd hh:mm:ss") + "]" + "Length > 4")
+                If dueLine.IndexOf("due date") <> -1 Or dueLine.IndexOf("due") <> -1 Or dueLine.IndexOf("dd") <> -1 Then
 
                     dueLine = dueLine.Replace("due", "").Trim
                     dueLine = dueLine.Replace("dd", "").Trim
                     dueLine = dueLine.Replace("date", "").Trim
                     dueLine = dueLine.Replace(":", "").Trim
 
-                    'File.AppendAllText(".\log.txt", "[" + Now.ToString("yyyy.MM.dd hh:mm:ss") + "]" + dueLine)
-
                     parseResult = Date.TryParseExact(dueLine, dateFormats, New System.Globalization.CultureInfo("en-US"), System.Globalization.DateTimeStyles.None, posDueDate)
 
-                    'File.AppendAllText(".\log.txt", "[" + Now.ToString("yyyy.MM.dd hh:mm:ss") + "]" + parseResult.ToString)
+                    'if parsing due date is true, then exit loop
+                    If parseResult Then
+                        Exit For
+                    End If
 
                 End If
             Next
         End If
-
-        'FIND DUE DATE
-
-        'If dueIndex <> -1 Then
-        '    syscfg.logData("index due:" + dueIndex.ToString)
-        '    crlfIndex = dueString.IndexOf(vbCrLf, dueIndex + 4)
-        '    syscfg.logData("index crlf:" + crlfIndex.ToString)
-        '    If crlfIndex - dueIndex >= 8 Then
-        '        dueString = dueString.Substring(dueIndex + 4, crlfIndex - dueIndex).Trim()
-        '        parseResult = Date.TryParseExact(dueString, dateFormats, New System.Globalization.CultureInfo("es-ES"), System.Globalization.DateTimeStyles.None, posDueDate)
-        '    End If
-        'End If
-
-        'MsgBox(mailFrom & " - " & mailSubject & " - dueIndex: " & dueIndex.ToString)
-
-        'ID LAST REQUEST CREATED
-        Dim req_id As Long
-        Dim ai_id As Long
 
         'CREATE REQUEST
         'IF THE MAIL HAS AT LEAST ONE OWNER THEN SET STATUS TO IN PROGRESS
@@ -242,7 +218,7 @@ Public Class SapActions
             mail_dict.Add("{ai_owner}", users.getNameById(ownerID))
             mail_dict.Add("{app_link}", syscfg.getSystemUrl)
             mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the report")
-			mail_dict.Add("{ai_link}", syscfg.getSystemUrl + "sap_ai_view.aspx?id=" + ai_id.ToString)
+            mail_dict.Add("{ai_link}", syscfg.getSystemUrl + "sap_ai_view.aspx?id=" + ai_id.ToString)
 
             'DO NOT SEND BECAUSE THE AI DOES NOT HAVE DUE DATE TO ACCEPT
             If parseResult Then
@@ -273,11 +249,11 @@ Public Class SapActions
         mail_dict.Add("mail", "NR") 'NEW REQUEST
         mail_dict.Add("to", syscfg.getSystemAdminMail)
         mail_dict.Add("{rq_id}", req_id.ToString)
-        mail_dict.Add("{rq_link}", "http://rtm-bmo.bue.sap.corp:8888/sap_req.aspx?id=" & req_id.ToString.Trim())
+        mail_dict.Add("{rq_link}", syscfg.getSystemUrl & "sap_req.aspx?id=" & req_id.ToString.Trim())
         mail_dict.Add("{description}", "<b>" + mailSubject + "</b><br>" + mailBody) 'MAIL SUBJECT / AI DESCRIPTION
         mail_dict.Add("{owners}", ownersMailStr)
         mail_dict.Add("{app_link}", syscfg.getSystemUrl)
-		mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the report")
+        mail_dict.Add("{contact_mail_link}", "mailto: " & users.getAdminMail & "?subject=Questions about the report")
 
         'SEND TO MULTIPLE REQUESTORS
         For Each adminMail In syscfg.getSystemAdminMail.Split(";")
@@ -400,33 +376,66 @@ Public Class SapActions
 
         Select Case filter
 
-            Case "ur"
-                extra_where = "((status = 'CR' OR status = 'ND' OR status = 'PD') AND ai_count = 0) OR ((status='PD' OR status='ND') AND due IS null)"
-                extra_subq = ", (SELECT count(*) FROM actionitems WHERE requests.id = actionitems.request_id) AS ai_count"
+            'Case "ur"
+            '    extra_where = "((status = 'CR' OR status = 'ND' OR status = 'PD') AND ai_count = 0) OR ((status='PD' OR status='ND') AND due IS null)"
+            '    extra_subq = ", (SELECT count(*) FROM actionitems WHERE requests.id = actionitems.request_id) AS ai_count"
+
+            'Case "nd"
+            '    extra_where = "((status = 'ND' AND ai_count > 0) OR od_count > 0)"
+            '    extra_subq = ", (SELECT count(*) FROM actionitems WHERE requests.id = actionitems.request_id) AS ai_count, (SELECT count(*) FROM actionitems WHERE requests.id = actionitems.request_id and actionitems.due > requests.due and actionitems.status<>'DL' ) AS od_count"
+
+            'Case "ap"
+            '    extra_where = "(status = 'CR' OR status = 'IP') AND ai_count > 0"
+            '    extra_subq = ", (SELECT count(*) FROM actionitems WHERE requests.id = actionitems.request_id and actionitems.status<>'IP' and actionitems.status<>'NE') AS ai_count"
+
+            'Case "du"
+            '    extra_where = "(status='PD' OR status='CR') AND ai_count > 1"
+            '    extra_subq = ", (SELECT count(*) FROM actionitems WHERE requests.id = actionitems.request_id) AS ai_count"
+
+            'Case "ex"
+            '    extra_subq = ", (SELECT count(*) FROM actionitems WHERE requests.id = actionitems.request_id and actionitems.status='NE') AS ai_count"
+            '    extra_where = "status = 'EX' OR ai_count > 0"
+
+            'Case "dl"
+            '    extra_where = "status = 'DL'"
+
+            'Case "od"
+            '    Dim hoy As String = Now.ToString("yyyy-MM-dd")
+            '    extra_subq = ", (SELECT count(*) FROM actionitems WHERE requests.id = actionitems.request_id and actionitems.due > '" & hoy & "' ) AS od_count"
+            '    extra_where = "status = 'IP' OR status = 'CR' OR od_count > 1"
+
 
             Case "nd"
-                extra_where = "((status = 'ND' AND ai_count > 0) OR od_count > 0)"
-                extra_subq = ", (SELECT count(*) FROM actionitems WHERE requests.id = actionitems.request_id) AS ai_count, (SELECT count(*) FROM actionitems WHERE requests.id = actionitems.request_id and actionitems.due > requests.due and actionitems.status<>'DL' ) AS od_count"
+                extra_where = "(status = 'ND')"
+                extra_subq = ", (SELECT count(*) FROM actionitems WHERE requests.id = actionitems.request_id AND actionitems.status = 'ND') AS ai_count"
 
             Case "ap"
-                extra_where = "(status = 'CR' OR status = 'IP') AND ai_count > 0"
-                extra_subq = ", (SELECT count(*) FROM actionitems WHERE requests.id = actionitems.request_id and actionitems.status<>'IP' and actionitems.status<>'NE') AS ai_count"
+                extra_where = "(status = 'PD')"
+                extra_subq = ", (SELECT count(*) FROM actionitems WHERE requests.id = actionitems.request_id AND actionitems.status = 'PD' AND actionitems.owner IS NOT null) AS ai_count"
+
+            Case "rq"
+                extra_where = "(status = 'DL')"
+                extra_subq = ", (SELECT count(*) FROM actionitems WHERE requests.id = actionitems.request_id AND actionitems.status = 'DL') AS ai_count"
 
             Case "du"
-                extra_where = "(status='PD' OR status='CR') AND ai_count > 1"
-                extra_subq = ", (SELECT count(*) FROM actionitems WHERE requests.id = actionitems.request_id) AS ai_count"
+                extra_where = "(status <> 'DL' AND status <> 'PD') AND ai_count > 1"
+                extra_subq = ", (SELECT COUNT(distinct actionitems.owner) FROM actionitems WHERE requests.id = actionitems.request_id AND actionitems.status <> 'DL' AND actionitems.status <> 'PD' AND actionitems.owner IS NOT null GROUP BY actionitems.request_id HAVING COUNT(distinct actionitems.owner) > 1 ) AS ai_count"
 
             Case "ex"
-                extra_subq = ", (SELECT count(*) FROM actionitems WHERE requests.id = actionitems.request_id and actionitems.status='NE') AS ai_count"
-                extra_where = "status = 'EX' OR ai_count > 0"
+                extra_where = "(status = 'EX')"
+                extra_subq = ", (SELECT count(*) FROM actionitems WHERE requests.id = actionitems.request_id AND actionitems.status = 'EX') AS ai_count"
 
-            Case "dl"
-                extra_where = "status = 'DL'"
+            Case "pr"
+                extra_where = "(status = 'DL')"
+                extra_subq = ", (SELECT count(*) FROM actionitems WHERE requests.id = actionitems.request_id AND actionitems.status = 'DL') AS ai_count"
 
-            Case "od"
-                Dim hoy As String = Now.ToString("yyyy-MM-dd")
-                extra_subq = ", (SELECT count(*) FROM actionitems WHERE requests.id = actionitems.request_id and actionitems.due > '" & hoy & "' ) AS od_count"
-                extra_where = "status = 'IP' OR status = 'CR' OR od_count > 1"
+            Case "dw"
+                extra_where = "((status <> 'DL' OR status <> 'PD') AND due IS NOT null AND DATEDIFF(day, due, TODAY()) < 7)"
+                extra_subq = ", (SELECT count(*) FROM actionitems WHERE requests.id = actionitems.request_id AND (actionitems.status <> 'DL' OR actionitems.status <> 'PD') AND (DATEDIFF(day, actionitems.due, TODAY())) < 7 AND actionitems.owner IS NOT null) AS ai_count"
+
+            Case "ov"
+                extra_where = "(status <> 'DL' OR status <> 'PD') AND ai_count >= 1"
+                extra_subq = ", (SELECT COUNT(distinct actionitems.id) FROM actionitems WHERE requests.id = actionitems.request_id AND (actionitems.status <> 'DL' AND actionitems.status <> 'PD') AND (DATEDIFF(day, TODAY(), actionitems.due)) < 0 AND actionitems.owner IS NOT null) AS ai_count"
 
         End Select
 
@@ -633,8 +642,8 @@ Public Class SapActions
                 mail_dict.Add("{date}", DateTime.Now.ToString("MM/dd/yyyy"))
                 mail_dict.Add("{data}", report(interval))
                 mail_dict.Add("{app_link}", syscfg.getSystemUrl)
-				mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the report")
-				
+                mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the report")
+
                 newMail.SendNotificationMail(mail_dict)
 
                 mail_dict.Clear()
@@ -668,7 +677,7 @@ Public Class SapActions
                 mail_dict.Add("{date}", DateTime.Now.ToString("MM/dd/yyyy"))
                 mail_dict.Add("{data}", report)
                 mail_dict.Add("{app_link}", syscfg.getSystemUrl)
-				mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the report")
+                mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the report")
 
                 newMail.SendNotificationMail(mail_dict)
 

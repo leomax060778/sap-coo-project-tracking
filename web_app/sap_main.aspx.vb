@@ -279,12 +279,9 @@ Partial Class Default2
         End Select
 
         '############ROWS#ITERATION#############
-        'SELECT requests.id, count(actionitems.request_id) FROM requests left join actionitems on requests.id = actionitems.request_id GROUP BY requests.id
-
-        'sql_req = "SELECT *, (SELECT count(*) FROM actionitems WHERE requests.id = actionitems.request_id) AS ai_count FROM requests WHERE " & extra_where & " ORDER BY id DESC"
         sql_req = "SELECT * " & extra_subq & " FROM requests WHERE " & extra_where & " ORDER BY id DESC"
 
-        log("Filter: " + filter + " SQL: " + sql_req)
+        'log("Filter: " + filter + " SQL: " + sql_req)
         'response.write(sql_req)
         dbcomm_req = New OleDbCommand(sql_req, dbconn)
         'dbcomm_ais = New OleDbCommand(sql_ais, dbconn)
