@@ -218,14 +218,14 @@ background-color: white;
         <div class="inner dropdown">
             <select id="options" style="background: #ddd; width: 200px;  border: 0;  padding: 15px;  margin: 0 0 16px 0;  outline: none;  overflow: auto;  resize: none;  font-size: 12px;  color: #555;  font-family: Arial, Helvetica, sans-serif;  -moz-border-radius: 5px;  -webkit-border-radius: 5px;  -khtml-border-radius: 5px;  border-radius: 5px;">
                 <option label="All" value="sap_main.aspx"></option>
-                <option label="Need data" value="sap_main.aspx?f=nd"></option>
+                <option label="Need Data" value="sap_main.aspx?f=nd"></option>
                 <option label="Unassigned" value="sap_main.aspx?f=ur"></option>
-                <option label="Mult owner" value="sap_main.aspx?f=du"></option>
+                <option label="Multiple Owner" value="sap_main.aspx?f=du"></option>
                 <option label="OverDue" value="sap_main.aspx?f=ov"></option>
                 <option label="This Week DD" value="sap_main.aspx?f=dw"></option>
-                <option label="Extension Pend" value="sap_main.aspx?f=ex"></option>
-                <option label="Accept Pend (OW)" value="sap_main.aspx?f=ap"></option>
-                <option label="Accept Pend(RQ)" value="sap_main.aspx?f=rq"></option>
+                <option label="Extension Pending" value="sap_main.aspx?f=ex"></option>
+                <option label="Acceptance Pending (OW)" value="sap_main.aspx?f=ap"></option>
+                <option label="Acceptance Pending (RQ)" value="sap_main.aspx?f=rq"></option>
             </select>
         </div>
         

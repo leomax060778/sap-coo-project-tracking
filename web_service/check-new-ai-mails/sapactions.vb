@@ -1,4 +1,5 @@
 ﻿Imports System.Data.OleDb
+Imports System.Text
 
 Public Class SapActions
 
@@ -475,43 +476,77 @@ Public Class SapActions
     Public Function adminPending() As String
 
         Dim todayList As String = ""
-
         Dim count As Integer
+        Dim syscfg As New SysConfig
 
-        count = ais_sum_filter("ur")
-        If count > 0 Then
-            todayList = todayList & "<tr><td colspan='4'>" & count & " Action Items with Unassigned Request <a href='http://rtm-bmo.bue.sap.corp:8888/sap_main.aspx?f=ur'>View Items</a></td></tr>"
-        End If
+        'Building Owner
+        'Count Acceptance Pending RQ
+        count = ais_sum_filter("rq")
+        todayList = todayList & "<tr>
+                                    <td style='width: 80px;border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Owner</td> 
+                                    <td style='width: 200px;border-radius: 0 0 0 5px;text-align: left; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'><a href='" & syscfg.getSystemUrl & "sap_main.aspx?f=rq'>Acceptance Pending (RQ)</a></td>
+                                    <td style='width: 80px;border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif;'>" & count & "</td>
+                                    <td style='width: 330px;border-radius: 0 0 0 5px;text-align: left; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Ask the owner to accept it</td>
+                                </tr>"
+        'Count overdue items
+        count = ais_sum_filter("ov")
+        todayList = todayList & "<tr>
+                                    <td style='width: 80px;border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'></td> 
+                                    <td style='width: 200px;border-radius: 0 0 0 5px;text-align: left; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'><a href='" & syscfg.getSystemUrl & "sap_main.aspx?f=ov'>Overdue</a></td>
+                                    <td style='width: 80px;border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif;'>" & count & "</td>
+                                    <td style='width: 330px;border-radius: 0 0 0 5px;text-align: left; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Get feedback about the Status, brief the Requestor and update the information in the system</td>
+                                </tr>"
 
-        count = ais_sum_filter("nd")
-        If count > 0 Then
-            todayList = todayList & "<tr><td colspan='4'>" & count & " Action Items Needing Data <a href='http://rtm-bmo.bue.sap.corp:8888/sap_main.aspx?f=nd'>View Items</a></td></tr>"
-        End If
-
-        count = ais_sum_filter("du")
-        If count > 0 Then
-            todayList = todayList & "<tr><td colspan='4'>" & count & " Action Items with Multiple Owners <a href='http://rtm-bmo.bue.sap.corp:8888/sap_main.aspx?f=du'>View Items</a></td></tr>"
-        End If
-
+        ''Building Requestor
+        'Count Acceptance Pending OW
         count = ais_sum_filter("ap")
-        If count > 0 Then
-            todayList = todayList & "<tr><td colspan='4'>" & count & " Action Items waiting for Accept/Reject <a href='http://rtm-bmo.bue.sap.corp:8888/sap_main.aspx?f=ap'>View Items</a></td></tr>"
-        End If
-
+        todayList = todayList & "<tr>
+                                    <td style='width: 80px;border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Requestor</td> 
+                                    <td style='width: 200px;border-radius: 0 0 0 5px;text-align: left; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'><a href='" & syscfg.getSystemUrl & "sap_main.aspx?f=ap'>Acceptance Pending (OW)</a></td>
+                                    <td style='width: 80px;border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif;'>" & count & "</td>
+                                    <td style='width: 330px;border-radius: 0 0 0 5px;text-align: left; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Get feedback and accept/reject the request in the system</td>
+                                </tr>"
+        'Count extension pending items
         count = ais_sum_filter("ex")
-        If count > 0 Then
-            todayList = todayList & "<tr><td colspan='4'>" & count & " Action Item Extensions waiting for Accept/Reject <a href='http://rtm-bmo.bue.sap.corp:8888/sap_main.aspx?f=ex'>View Items</a></td></tr>"
-        End If
-
-        count = ais_sum_filter("od")
-        If count > 0 Then
-            todayList = todayList & "<tr><td colspan='4'>" & count & " Action Items Due this week <a href='http://rtm-bmo.bue.sap.corp:8888/sap_main.aspx?f=od'>View Items</a></td></tr>"
-        End If
-
-        count = ais_sum_filter("dl")
-        If count > 0 Then
-            todayList = todayList & "<tr><td colspan='4'>" & count & " Action Items Delivered waiting for Accept/Reject <a href='http://rtm-bmo.bue.sap.corp:8888/sap_main.aspx?f=dl'>View Items</a></td></tr>"
-        End If
+        todayList = todayList & "<tr>
+                                    <td style='width: 80px;border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'></td> 
+                                    <td style='width: 200px;border-radius: 0 0 0 5px;text-align: left; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'><a href='" & syscfg.getSystemUrl & "sap_main.aspx?f=ex'>Extension Pending</a></td>
+                                    <td style='width: 80px;border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif;'>" & count & "</td>
+                                    <td style='width: 330px;border-radius: 0 0 0 5px;text-align: left; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Get feedback and accept/reject the request in the system</td>
+                                </tr>"
+        'Count unassigned items
+        count = ais_sum_filter("ur")
+        todayList = todayList & "<tr>
+                                    <td style='width: 80px;border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'></td> 
+                                    <td style='width: 200px;border-radius: 0 0 0 5px;text-align: left; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'><a href='" & syscfg.getSystemUrl & "sap_main.aspx?f=ur'>Unassigned</a></td>
+                                    <td style='width: 80px;border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif;'>" & count & "</td>
+                                    <td style='width: 330px;border-radius: 0 0 0 5px;text-align: left; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Ask about the owner of the request and update the info in the system</td>
+                                </tr>"
+        'Count need data items
+        count = ais_sum_filter("nd")
+        todayList = todayList & "<tr>
+                                    <td style='width: 80px;border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'></td> 
+                                    <td style='width: 200px;border-radius: 0 0 0 5px;text-align: left; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'><a href='" & syscfg.getSystemUrl & "sap_main.aspx?f=nd'>Need Data</a></td>
+                                    <td style='width: 80px;border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif;'>" & count & "</td>
+                                    <td style='width: 330px;border-radius: 0 0 0 5px;text-align: left; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Ask about the missing info and update it in the system</td>
+                                </tr>"
+        ''Building Admin
+        'Count this week items
+        count = ais_sum_filter("dw")
+        todayList = todayList & "<tr>
+                                    <td style='width: 80px;border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Admin</td> 
+                                    <td style='width: 200px;border-radius: 0 0 0 5px;text-align: left; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'><a href='" & syscfg.getSystemUrl & "sap_main.aspx?f=dw'> This Week DD</a></td>
+                                    <td style='width: 80px;border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif;'>" & count & "</td>
+                                    <td style='width: 330px;border-radius: 0 0 0 5px;text-align: left; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Be on top of this week deliverables</td>
+                                </tr>"
+        'Count multiple owners items
+        count = ais_sum_filter("du")
+        todayList = todayList & "<tr>
+                                    <td style='width: 80px;border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'></td> 
+                                    <td style='width: 200px;border-radius: 0 0 0 5px;text-align: left; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'><a href='" & syscfg.getSystemUrl & "sap_main.aspx?f=du'> Multiple Owner</a></td>
+                                    <td style='width: 80px;border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif;'>" & count & "</td>
+                                    <td style='width: 330px;border-radius: 0 0 0 5px;text-align: left; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>This are more complex projects, you might want to monitor closelly to make sure that everything goes as expected</td>
+                                </tr>"
 
         Return todayList
 
@@ -523,6 +558,7 @@ Public Class SapActions
         Dim dbcomm_req As OleDbCommand
         Dim dbread_req As OleDbDataReader
         Dim sql_req As String
+        Dim sqlOwner As New StringBuilder
 
         Dim syscfg As New SysConfig
         Dim users As New SapUser
@@ -542,7 +578,16 @@ Public Class SapActions
         dbconn = New OleDbConnection(syscfg.getConnection)
         dbconn.Open()
 
-        sql_req = "SELECT * FROM actionitems WHERE owner='" & id & "' AND status <> 'CP' AND status <> 'XX' ORDER BY due DESC"
+        'sql_req = "SELECT * FROM actionitems WHERE owner='" & id & "' AND status <> 'CP' AND status <> 'XX'"
+
+        sqlOwner.Append("SELECT * FROM actionitems WHERE owner='" & id & "' AND status = 'PD' ")
+        sqlOwner.Append(" UNION ")
+        sqlOwner.Append("SELECT * FROM actionitems WHERE owner='" & id & "' AND status IN ('DL', 'NE', 'OD') ")
+        sqlOwner.Append(" UNION ")
+        sqlOwner.Append("SELECT * FROM actionitems WHERE owner='" & id & "' AND status = 'IP' ")
+        sqlOwner.Append("ORDER BY due ASC")
+        sql_req = sqlOwner.ToString
+
         dbcomm_req = New OleDbCommand(sql_req, dbconn)
         dbread_req = dbcomm_req.ExecuteReader()
         If dbread_req.HasRows Then
@@ -642,7 +687,7 @@ Public Class SapActions
                 mail_dict.Add("{date}", DateTime.Now.ToString("MM/dd/yyyy"))
                 mail_dict.Add("{data}", report(interval))
                 mail_dict.Add("{app_link}", syscfg.getSystemUrl)
-                mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the report")
+                mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the Owner report")
 
                 newMail.SendNotificationMail(mail_dict)
 
@@ -671,13 +716,13 @@ Public Class SapActions
             'IF THERE ARE ANY NEWS
             If Not String.IsNullOrEmpty(report) Then
 
-                mail_dict.Add("mail", "OR") 'OWNER REPORT
+                mail_dict.Add("mail", "AR") 'ADMIN REPORT
                 mail_dict.Add("to", users.getMailById(id))
                 mail_dict.Add("{time}", "Today")
                 mail_dict.Add("{date}", DateTime.Now.ToString("MM/dd/yyyy"))
                 mail_dict.Add("{data}", report)
                 mail_dict.Add("{app_link}", syscfg.getSystemUrl)
-                mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the report")
+                mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the Admin report")
 
                 newMail.SendNotificationMail(mail_dict)
 

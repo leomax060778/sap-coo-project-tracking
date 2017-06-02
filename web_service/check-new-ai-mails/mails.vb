@@ -452,6 +452,9 @@ Public Class MailTemplate
             Case "OR"
                 mailTemplate = ".\email-templates\SAP Email N - Owner Report.html"
                 mailSubject = "Your WIP Action Items"
+            Case "AR"
+                mailTemplate = ".\email-templates\SAP Email O - Admin Report.html"
+                mailSubject = "COO Project Tracking - Admin Report"
             Case Else
                 'ERROR / HALT DO NOTHING
         End Select
