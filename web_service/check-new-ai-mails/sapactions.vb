@@ -473,7 +473,7 @@ Public Class SapActions
 
     End Function
 
-    Public Function adminPending() As String
+    Public Function getDataAdminReport() As String
 
         Dim todayList As String = ""
         Dim count As Integer
@@ -552,7 +552,7 @@ Public Class SapActions
 
     End Function
 
-    Public Function ownerActivityList(ByVal id As String) As Dictionary(Of String, String)
+    Public Function getDataOwnerReport(ByVal id As String) As Dictionary(Of String, String)
         Dim result As New Dictionary(Of String, String)
         Dim dbconn As OleDbConnection
         Dim dbcomm_req As OleDbCommand
@@ -676,7 +676,7 @@ Public Class SapActions
 
         For Each id In users.getOwnersID("")
 
-            report = ownerActivityList(id)
+            report = getDataOwnerReport(id)
 
             'IF THERE ARE ANY NEWS
             If Not String.IsNullOrEmpty(report(interval)) Then
@@ -705,7 +705,7 @@ Public Class SapActions
         Dim mail_dict As New Dictionary(Of String, String)
         Dim report As String
 
-        report = adminPending()
+        report = getDataAdminReport()
 
         If report = "" Then
             report = "No action is required"
