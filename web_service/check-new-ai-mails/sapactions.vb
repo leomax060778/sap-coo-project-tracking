@@ -376,36 +376,6 @@ Public Class SapActions
         Dim extra_subq As String = ""
 
         Select Case filter
-
-            'Case "ur"
-            '    extra_where = "((status = 'CR' OR status = 'ND' OR status = 'PD') AND ai_count = 0) OR ((status='PD' OR status='ND') AND due IS null)"
-            '    extra_subq = ", (SELECT count(*) FROM actionitems WHERE requests.id = actionitems.request_id) AS ai_count"
-
-            'Case "nd"
-            '    extra_where = "((status = 'ND' AND ai_count > 0) OR od_count > 0)"
-            '    extra_subq = ", (SELECT count(*) FROM actionitems WHERE requests.id = actionitems.request_id) AS ai_count, (SELECT count(*) FROM actionitems WHERE requests.id = actionitems.request_id and actionitems.due > requests.due and actionitems.status<>'DL' ) AS od_count"
-
-            'Case "ap"
-            '    extra_where = "(status = 'CR' OR status = 'IP') AND ai_count > 0"
-            '    extra_subq = ", (SELECT count(*) FROM actionitems WHERE requests.id = actionitems.request_id and actionitems.status<>'IP' and actionitems.status<>'NE') AS ai_count"
-
-            'Case "du"
-            '    extra_where = "(status='PD' OR status='CR') AND ai_count > 1"
-            '    extra_subq = ", (SELECT count(*) FROM actionitems WHERE requests.id = actionitems.request_id) AS ai_count"
-
-            'Case "ex"
-            '    extra_subq = ", (SELECT count(*) FROM actionitems WHERE requests.id = actionitems.request_id and actionitems.status='NE') AS ai_count"
-            '    extra_where = "status = 'EX' OR ai_count > 0"
-
-            'Case "dl"
-            '    extra_where = "status = 'DL'"
-
-            'Case "od"
-            '    Dim hoy As String = Now.ToString("yyyy-MM-dd")
-            '    extra_subq = ", (SELECT count(*) FROM actionitems WHERE requests.id = actionitems.request_id and actionitems.due > '" & hoy & "' ) AS od_count"
-            '    extra_where = "status = 'IP' OR status = 'CR' OR od_count > 1"
-
-
             Case "nd"
                 extra_where = "(status = 'ND')"
                 extra_subq = ", (SELECT count(*) FROM actionitems WHERE requests.id = actionitems.request_id AND actionitems.status = 'ND') AS ai_count"
@@ -609,39 +579,109 @@ Public Class SapActions
                 aiID = dbread_req.GetInt64(0)
                 aiDesc = dbread_req.GetString(2)
 
-                newLine = Environment.NewLine & "<tr><td> <a href='http://rtm-bmo.bue.sap.corp:8888/sap_ai_view.aspx?id=" & aiID.ToString & "'>#" & aiID.ToString & "</a></td><td>"
+                'newLine = Environment.NewLine & "<tr><td> <a href='" & syscfg.getSystemUrl & "sap_ai_view.aspx?id=" & aiID.ToString & "'>#" & aiID.ToString & "</a></td><td>"
 
                 Select Case aiStatus
 
-                    Case "OD"
-                        newLine = newLine + "OVERDUE " & daysDiffStr & " days</td><td>" & aiDesc & "</td><td>" & dueStr & "</td></tr>"
+                    Case "PD"
+                        newLine = Environment.NewLine & "<tr>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Pending</td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'> <a href='" & syscfg.getSystemUrl & "'sap_ai_view.aspx?id=" & aiID.ToString & "'>#" & aiID.ToString & "</a></td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: left; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>New Action Item</td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: left; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & aiDesc & "</td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & dueStr & "</td>
+                                                       </tr>"
+
                         todayList = todayList + newLine
                         weekList = weekList + newLine
 
-                    Case "PD"
-                        newLine = newLine + "NEW AI - " & aiDesc & "</td><td>" & dueStr & "</td></tr>"
+                    Case "DL"
+                        newLine = Environment.NewLine & "<tr>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Delivered</td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'> <a href='" & syscfg.getSystemUrl & "'sap_ai_view.aspx?id=" & aiID.ToString & "'>#" & aiID.ToString & "</a></td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: left; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Already delivered</td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: left; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & aiDesc & "</td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & dueStr & "</td>
+                                                       </tr>"
                         todayList = todayList + newLine
                         weekList = weekList + newLine
+
 
                     Case "NE"
-                        newLine = newLine + "EXTENSION - " & aiDesc & "</td><td>" & dueStr & "</td></tr>"
+                        newLine = Environment.NewLine & "<tr>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Need Extension</td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'> <a href='" & syscfg.getSystemUrl & "'sap_ai_view.aspx?id=" & aiID.ToString & "'>#" & aiID.ToString & "</a></td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: left; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Extension required</td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: left; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & aiDesc & "</td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & dueStr & "</td>
+                                                       </tr>"
+                        todayList = todayList + newLine
+                        weekList = weekList + newLine
+
+                    Case "OD"
+                        newLine = Environment.NewLine & "<tr>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Overdue</td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'> <a href='" & syscfg.getSystemUrl & "'sap_ai_view.aspx?id=" & aiID.ToString & "'>#" & aiID.ToString & "</a></td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: left; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Overdue " & daysDiffStr & " day</td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: left; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & aiDesc & "</td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & dueStr & "</td>
+                                                       </tr>"
+                        todayList = todayList + newLine
+                        weekList = weekList + newLine
+
+                    Case "IP"
+                        newLine = Environment.NewLine & "<tr>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>In Progress</td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'> <a href='" & syscfg.getSystemUrl & "'sap_ai_view.aspx?id=" & aiID.ToString & "'>#" & aiID.ToString & "</a></td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: left; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>AI in Progress</td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: left; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & aiDesc & "</td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & dueStr & "</td>
+                                                       </tr>"
                         todayList = todayList + newLine
                         weekList = weekList + newLine
 
                     Case Else
                         Select Case daysDiffStr
                             Case "0"
-                                newLine = newLine + "DELIVERY TODAY - " & aiDesc & "</td><td>" & dueStr & "</td></tr>"
+                                newLine = Environment.NewLine &
+                                                        "<tr>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>-</td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'> <a href='" & syscfg.getSystemUrl & "'sap_ai_view.aspx?id=" & aiID.ToString & "'>#" & aiID.ToString & "</a></td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: left; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Delivery Today</td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: left; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & aiDesc & "</td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & dueStr & "</td>
+                                                       </tr>"
                                 todayList = todayList + newLine
                             Case "2"
-                                newLine = newLine + "CONFIRM TODAY - " & aiDesc & "</td><td>" & dueStr & "</td></tr>"
+                                newLine = Environment.NewLine &
+                                                    "<tr>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>-</td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'> <a href='" & syscfg.getSystemUrl & "'sap_ai_view.aspx?id=" & aiID.ToString & "'>#" & aiID.ToString & "</a></td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: left; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Confirm Today</td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: left; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & aiDesc & "</td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & dueStr & "</td>
+                                                       </tr>"
                                 todayList = todayList + newLine
                             Case Else
                                 If daysDiff < 6 Then
-                                    newLine = newLine + "DELIVERY THIS WEEK - " & aiDesc & "</td><td>" & dueStr & "</td></tr>"
+                                    newLine = Environment.NewLine &
+                                                    "<tr>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>-</td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'> <a href='" & syscfg.getSystemUrl & "'sap_ai_view.aspx?id=" & aiID.ToString & "'>#" & aiID.ToString & "</a></td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: left; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Delivery this week</td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: left; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & aiDesc & "</td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & dueStr & "</td>
+                                                       </tr>"
                                     weekList = weekList + newLine
                                 Else
-                                    newLine = newLine + "DELIVERY AFTER NEXT WEEK - " & aiDesc & "</td><td>" & dueStr & "</td></tr>"
+                                    newLine = Environment.NewLine &
+                                                    "<tr>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>-</td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'> <a href='" & syscfg.getSystemUrl & "'sap_ai_view.aspx?id=" & aiID.ToString & "'>#" & aiID.ToString & "</a></td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: left; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Delivery after this week</td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: left; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & aiDesc & "</td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & dueStr & "</td>
+                                                       </tr>"
                                     weekList = weekList + newLine
                                 End If
                         End Select

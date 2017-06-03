@@ -32,7 +32,7 @@ Module Module1
         'sapMails.emailPass = "R6bRaY83"
         'sapMails.emailAddressFrom = "lhildt@folderit.net"
 
-        'sapMails.currentEnv = "testing"
+        sapMails.currentEnv = "testing"
         sapMails.imapServer = "mail.folderit.net"
         sapMails.imapPort = 143
         sapMails.isSSL = False
@@ -54,6 +54,12 @@ Module Module1
         Try
 
             log("step #2: Checking emails")
+
+            'Only for testing
+            'actions.sendOwnerReport("this week")
+            'actions.sendOwnerReport("today")
+            'actions.sendAdminReport()
+            'End testing
 
             sapMails.CheckMail()
 
