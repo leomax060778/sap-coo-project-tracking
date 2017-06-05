@@ -77,7 +77,7 @@
 
 	<!-- Title
 		============================= -->
-	<div id="title" class="theme-default">
+	<div id="title" class="theme-default" style="margin-top: -1em">
         <div class="inner">
             <h4>AI# <asp:Literal ID="label_ai_id" runat="server"></asp:Literal></h4>
             <h2>AI Completion</h2>
@@ -108,7 +108,7 @@
                         <td><asp:Literal ID="ai_tbl_status" runat="server"></asp:Literal></td>
                     </tr>
                     <tr>
-                        <td colspan="6">
+                        <td colspan="6" style="background: white;">
                             Describe completion status here:<br />
                             <textarea rows="4" cols="50" id="reason" name="reason" runat="server"></textarea>
                         </td>
@@ -137,7 +137,7 @@
                         </td>
                     </tr>
 					
-                    <tr><td colspan="6" class="submitform"><asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="SEND TO REQUESTOR FOR APPROVAL" /><br /></td></tr>
+                    <tr><td colspan="6" class="submitform" style="background: white;"><asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="SEND TO REQUESTOR FOR APPROVAL" /><br /></td></tr>
              </table>
             </form>
         </div><!-- .inner -->

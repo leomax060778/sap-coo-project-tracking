@@ -84,11 +84,7 @@
 
             <!-- Nav Menu -->
             <ul class="nav-menu right">
-                <li class="current"><a href="#">home</a></li>
-                <li><a href="#">requests</a></li>
-                <li><a href="#">archive</a></li>
-                <li><a href="#">support</a></li>
-                <li><a href="#">users</a></li>
+                <li class="current"><a href="./sap_main.aspx">home</a></li>
             </ul><!-- .nav-menu-->
 
         </div><!-- .inner -->
@@ -133,7 +129,7 @@
 
             <!-- <h4 class="subtitle">Action Item</h4> -->
 
-            <table id="ai_list" cellpadding="10" cellspacing="0" style="margin-top: 20px;">
+            <table id="ai_list" class="white-table" cellpadding="10" cellspacing="0" style="margin-top: 20px;">
 <!--                 <tr class="ai-maintitle">
                     <th class="add-ai"><a href="#" title="Add new AI">+</a></th>
                     <th colspan="5"><h4>Action Items</h4></th>
@@ -155,13 +151,13 @@
                     <td><asp:Literal ID="ai_tbl_status" runat="server"></asp:Literal></td>
                 </tr>
                 <tr>
-                    <td colspan="4">
+                    <td colspan="4" style="background: white">
                         Enter reason here:<br>
                         <textarea rows="4" cols="50" name="reason" id="reason" runat="server"></textarea>
                     </td>
-                    <td colspan="2">
+                    <td colspan="2" style="background: white">
                         New Due Date:<br>
-                        <input type="text" name="duedate" id="duedate"  class="datetimepicker" style="height: 42px" runat="server"/>
+                        <input type="text" name="duedate" id="duedate"  class="datetimepicker" style="height: 42px; background-color: lightgray" runat="server"/>
                         <input type="hidden" name="form_ai_id" id="form_ai_id" runat="server"/>
                     </td>
                 </tr>

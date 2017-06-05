@@ -830,6 +830,10 @@ cursor: pointer;
 	background: #CCCCCC;
 }
 
+.white-table tr td {
+    background: white !important;
+}
+
 #ai_list tr:last-child td:first-child {
 	-webkit-border-radius: 0 0 0 5px;
 	-moz-border-radius: 0 0 0 5px;
@@ -887,6 +891,9 @@ line-height: 1.4em;
 text-align: center;
 font-family: 'Conv_BentonSans-Bold', Sans-Serif;
 font-size: initial;
+}
+#ai_list tr input[type="file"] {
+    background: white;
 }
 #ai_list tr input.accept {
 float: left;

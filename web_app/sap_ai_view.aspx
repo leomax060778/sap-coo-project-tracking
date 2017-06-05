@@ -86,7 +86,7 @@
 
     <!-- Title
         ============================= -->
-    <div id="title" class="theme-default">
+    <div id="title" class="theme-default" style="margin-top: -1em;">
         <div class="inner">
             <h4>AI# <asp:Literal ID="ai_id" runat="server"></asp:Literal></h4>
             <h2>Action Item Detail</h2>
@@ -98,7 +98,7 @@
         ============================= -->
     <div id="content">
         <div class="inner">
-        <ul>
+        <ul style="display: none">
                 <!-- Short Description -->
                 <li class="description" style="width: 70%;"><h4><asp:Literal ID="req_description" runat="server"></asp:Literal> <a href="#" id="download_link" title="View mail..." runat="server">Show E-mail Documentation</a></h4></li>
                 <li>
@@ -142,8 +142,10 @@
                         <td style="text-align: left;">
 
                         </td>
-                        <td colspan="2" style="text-align: right;">
-                            <a href="#" name="link_ai_id" id="link_ai_id" runat="server" style="padding: 20px;">Return</a>
+                        <td colspan="2" style="text-align: right; padding-bottom: 1em;">
+                            <a href="#" name="link_ai_id" id="link_ai_id" runat="server" style="padding: 20px;">
+                                <input type="button" name="btnReturn" value="Return" class="submitbtn"/>
+                            </a>
                         </td>
                     </tr>
                 </tbody>
