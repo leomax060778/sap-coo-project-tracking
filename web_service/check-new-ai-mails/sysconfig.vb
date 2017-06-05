@@ -171,17 +171,17 @@ Public Class SysConfig
     Public Function getConnection() As String
         Dim result As String
         'TESTING CONNECTION
-        result = "Provider=SAOLEDB;UID=root;PWD=root;Server=sap-ais-2;DBN=sap-ais-2;ASTART=No;host=localhost:2638"
+        'result = "Provider=SAOLEDB;UID=root;PWD=root;Server=sap-ais-2;DBN=sap-ais-2;ASTART=No;host=localhost:2638"
 
         'PRODUCTION
-        'result = "Provider=SAOLEDB;UID=root;PWD=root;Server=sap-ais-2;DBN=sap-ais-2;ASTART=No;host=arbuesql01.phl.sap.corp:2638"
+        result = "Provider=SAOLEDB;UID=root;PWD=root;Server=sap-ais-2;DBN=sap-ais-2;ASTART=No;host=arbuesql01.phl.sap.corp:2638"
 
         Return result
     End Function
 
     Public Function getSystemMail() As String
         'email account for testing
-        'Return "lhildt@folderit.net"
+        'Return "support_planningtool@folderit.net"
 
         'new email account defined for the tool
         Return "sap_marketing_in_action@sap.com"

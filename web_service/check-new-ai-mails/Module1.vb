@@ -32,24 +32,24 @@ Module Module1
         'sapMails.emailPass = "R6bRaY83"
         'sapMails.emailAddressFrom = "lhildt@folderit.net"
 
-        sapMails.currentEnv = "testing"
-        sapMails.imapServer = "mail.folderit.net"
-        sapMails.imapPort = 143
-        sapMails.isSSL = False
-        sapMails.hostSMTP = "mail.folderit.net"
-        sapMails.emailUser = "support_planningtool@folderit.net"
-        sapMails.emailPass = "support2016"
-        sapMails.emailAddressFrom = "support_planningtool@folderit.net"
+        'sapMails.currentEnv = "testing"
+        'sapMails.imapServer = "mail.folderit.net"
+        'sapMails.imapPort = 143
+        'sapMails.isSSL = False
+        'sapMails.hostSMTP = "mail.folderit.net"
+        'sapMails.emailUser = "support_planningtool@folderit.net"
+        'sapMails.emailPass = "support2016"
+        'sapMails.emailAddressFrom = "support_planningtool@folderit.net"
 
         'Production
-        'sapMails.currentEnv = "testing"
-        'sapMails.imapServer = "imap.global.corp.sap"
-        'sapMails.imapPort = 993
-        'sapMails.isSSL = True
-        'sapMails.hostSMTP = "mail.sap.corp"
-        'sapMails.emailUser = "asa1_sap_mktg_in_ac@global.corp.sap\sap_marketing_in_action"
-        'sapMails.emailPass = "BAoR}:qKQSkzSBO'#4pQ"
-        'sapMails.emailAddressFrom = "sap_marketing_in_action@sap.com"
+        sapMails.currentEnv = "testing"
+        sapMails.imapServer = "imap.global.corp.sap"
+        sapMails.imapPort = 993
+        sapMails.isSSL = True
+        sapMails.hostSMTP = "mail.sap.corp"
+        sapMails.emailUser = "asa1_sap_mktg_in_ac@global.corp.sap\sap_marketing_in_action"
+        sapMails.emailPass = "BAoR}:qKQSkzSBO'#4pQ"
+        sapMails.emailAddressFrom = "sap_marketing_in_action@sap.com"
 
         Try
 

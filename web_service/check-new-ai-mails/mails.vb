@@ -346,7 +346,7 @@ Public Class MailTemplate
 
             If isMailToSystem(exToSMTP(JoinMailNames(message.To))) Then
 
-                If users.isRequestor(ResolveDisplayNameToSMTP(JoinMailNames(message.From))) Then
+                If users.isRequestor(JoinMailboxes(message.From)) Then
 
                     'IF MAIL ITEM ID IS NOT IN THE DB
                     If Not actions.requestMailProcessed(message.MessageId) Then
@@ -572,7 +572,7 @@ Public Class MailTemplate
                                     e_mail = New MailMessage()
                                     e_mail.From = New System.Net.Mail.MailAddress(emailAddressFrom)
                                     e_mail.To.Add(CleanInput(dbread.GetString(1)))
-                                    e_mail.Subject = CleanInput(dbread.GetString(2))
+                                    e_mail.Subject = dbread.GetString(2)
                                     e_mail.IsBodyHtml = True
                                     e_mail.Body = HtmlDecode(dbread.GetString(3))
                                     Smtp_Server.Send(e_mail)
@@ -755,6 +755,10 @@ Public Class MailTemplate
 
     Private Function JoinMailboxes(ByVal mailboxes As MimeKit.InternetAddressList) As String
         Dim builder As New StringBuilder
+        Dim index As New Integer
+
+        'Set index to 1
+        index = 1
 
         For Each address As MimeKit.InternetAddress In mailboxes
             If (TypeOf address Is MimeKit.GroupAddress) Then
@@ -763,8 +767,13 @@ Public Class MailTemplate
             End If
             If (TypeOf address Is MimeKit.MailboxAddress) Then
                 Dim email As MimeKit.MailboxAddress = CType(address, MimeKit.MailboxAddress)
-                builder.AppendFormat("{0}; ", email.Address)
+                builder.AppendFormat("{0}", email.Address)
+
+                If (index < mailboxes.Count) Then
+                    builder.Append(";")
+                End If
             End If
+            index = index + 1
         Next
         Return builder.ToString()
 

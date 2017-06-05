@@ -56,11 +56,12 @@ jQuery(function () {
 
 <body>
     <form id="form1" runat="server">
-    <div style="padding: 20px;">
-    <h4>Reject Due Date</h4>
-    <textarea id="reason" name="reason" placeholder="Enter reason for rejection"></textarea>
-    <input type="submit" value="Save &amp; Close" style="display: block;">
-    </div>
+        <div style="padding: 20px;">
+            <h4>Reject Due Date</h4>
+            <textarea id="reason" name="reason" placeholder="Enter reason for rejection"></textarea>
+            <asp:Label ID="lblMessage" runat="server" class="elapsed" style="display:block;color:rgb(255, 75, 75);padding-bottom: 10px;border-bottom-width: 5px;"></asp:Label>
+            <input type="submit" value="Save &amp; Close" style="display: block;">
+        </div>
     </form>
 </body>
 </html>

@@ -79,14 +79,14 @@ Partial Class sap_reject_due
                 mail_dict.Add("mail", "ER") 'AI EXTENSION REJECTED
                 mail_dict.Add("to", users.getMailById(ai_owner))
                 mail_dict.Add("{ai_id}", ai_id.ToString)
-				mail_dict.Add("{ai_owner}", users.getNameById(ai_owner) & "(" & ai_owner & ")")
+                mail_dict.Add("{ai_owner}", users.getNameById(ai_owner) & "(" & ai_owner & ")")
                 mail_dict.Add("{requestor}", users.getMailById(requestor_id))
                 mail_dict.Add("{description}", ai_descr) 'MAIL SUBJECT / AI DESCRIPTION
                 mail_dict.Add("{duedate}", ai_duedate.ToString("dd-MM-yyyy"))
                 mail_dict.Add("{reason}", Request.Form("reason"))
-				mail_dict.Add("{requestor_name}", users.getNameById(requestor_id))
-				mail_dict.Add("{app_link}", syscfg.getSystemUrl)
-				mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the report")
+                mail_dict.Add("{requestor_name}", users.getNameById(requestor_id))
+                mail_dict.Add("{app_link}", syscfg.getSystemUrl)
+                mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the report")
 
                 newMail.SendNotificationMail(mail_dict)
 
@@ -109,14 +109,18 @@ Partial Class sap_reject_due
 
                 newLog.LogWrite(log_dict)
 
+                'Set message on label
+                lblMessage.Text = "Succesfully delivered your feedback"
+
                 Dim redirectTo As String
                 redirectTo = syscfg.getSystemUrl + "sap_main.aspx"
-                Response.Redirect(redirectTo, False)
+                Response.Redirect("./sap_main.aspx", False)
 
             End If
         Else
-
             'AI DOES NOT EXIST
+            'Set message on label
+            lblMessage.Text = "Action Item does not exist in the system. Please try again!"
 
         End If
 
