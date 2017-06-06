@@ -32,24 +32,24 @@ Module Module1
         'sapMails.emailPass = "R6bRaY83"
         'sapMails.emailAddressFrom = "lhildt@folderit.net"
 
-        'sapMails.currentEnv = "testing"
-        'sapMails.imapServer = "mail.folderit.net"
-        'sapMails.imapPort = 143
-        'sapMails.isSSL = False
-        'sapMails.hostSMTP = "mail.folderit.net"
-        'sapMails.emailUser = "support_planningtool@folderit.net"
-        'sapMails.emailPass = "support2016"
-        'sapMails.emailAddressFrom = "support_planningtool@folderit.net"
+        sapMails.currentEnv = "testing"
+        sapMails.imapServer = "mail.folderit.net"
+        sapMails.imapPort = 143
+        sapMails.isSSL = False
+        sapMails.hostSMTP = "mail.folderit.net"
+        sapMails.emailUser = "support_planningtool@folderit.net"
+        sapMails.emailPass = "support2016"
+        sapMails.emailAddressFrom = "support_planningtool@folderit.net"
 
         'Production
-        sapMails.currentEnv = "testing"
-        sapMails.imapServer = "imap.global.corp.sap"
-        sapMails.imapPort = 993
-        sapMails.isSSL = True
-        sapMails.hostSMTP = "mail.sap.corp"
-        sapMails.emailUser = "asa1_sap_mktg_in_ac@global.corp.sap\sap_marketing_in_action"
-        sapMails.emailPass = "BAoR}:qKQSkzSBO'#4pQ"
-        sapMails.emailAddressFrom = "sap_marketing_in_action@sap.com"
+        'sapMails.currentEnv = "production"
+        'sapMails.imapServer = "imap.global.corp.sap"
+        'sapMails.imapPort = 993
+        'sapMails.isSSL = True
+        'sapMails.hostSMTP = "mail.sap.corp"
+        'sapMails.emailUser = "asa1_sap_mktg_in_ac@global.corp.sap\sap_marketing_in_action"
+        'sapMails.emailPass = "BAoR}:qKQSkzSBO'#4pQ"
+        'sapMails.emailAddressFrom = "sap_marketing_in_action@sap.com"
 
         Try
 
@@ -73,23 +73,23 @@ Module Module1
 
             log("step #3-1: Checking Monday Report")
 
-            'MONDAY SEND WEEK REPORT
-            If Today.DayOfWeek = 1 And Not syscfg.hasSentReportToday() Then
+            'Monday - Send Weekly Owner Report
+            If Now.Hour >= 8 And Today.DayOfWeek = 1 And Not syscfg.hasSentReportToday() Then
                 actions.sendOwnerReport("this week")
             End If
 
-            log("step #3-2: Checking Daily Report")
+            log("step #3-2: Checking Daily Admin Report")
 
-            'DAILY REPORT FROM MONDAY TO FRIDAY
-            If Today.DayOfWeek <> 6 And Today.DayOfWeek <> 0 And Not syscfg.hasSentReportToday() Then
-                log("421")
-                log("step #3-2-1: Checking Daily Report - Today")
-                actions.sendOwnerReport("today")
+            'Daily Report from Monday to Friday
+            'Today.DayOfWeek <> 6 And Today.DayOfWeek <> 0 And Not syscfg.hasSentReportToday() Then
+            If Now.Hour >= 8 And Not syscfg.hasSentReportToday() Then
+                log("step #3-2-1: Sending Daily Admin Report")
+                'actions.sendOwnerReport("today")
                 actions.sendAdminReport()
                 syscfg.setSentReportToday()
             End If
 
-            log("step #3-3: Finish Checking Daily Report")
+            log("step #3-3: Finish Daily Admin Report")
 
             log("step #4: Checking Send emails process")
 

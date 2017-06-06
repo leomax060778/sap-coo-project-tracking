@@ -255,8 +255,8 @@ Partial Class Default2
                 'extra_subq = ", (SELECT count(*) FROM actionitems WHERE requests.id = actionitems.request_id and actionitems.status='NE') AS ai_count"
                 'extra_where = "status = 'EX' OR ai_count > 0"
                 '2017-04-28
-                extra_where = "(status = 'EX')"
-                extra_subq = ", (SELECT count(*) FROM actionitems WHERE requests.id = actionitems.request_id AND actionitems.status = 'EX') AS ai_count"
+                extra_where = "(status = 'NE') OR (ai_count > 0) "
+                extra_subq = ", (SELECT Count(*) FROM actionitems WHERE requests.id = actionitems.request_id AND actionitems.status = 'NE') AS ai_count"
 
             Case "pr"
                 'extra_where = "(status <> 'CP') AND ai_count > 0"
@@ -268,8 +268,8 @@ Partial Class Default2
             Case "dw"
                 '2017-04-28
                 'AND id IN (SELECT request_id FROM actionitems WHERE (actionitems.status <> 'DL' OR actionitems.status <> 'PD') AND DATEDIFF(day, actionitems.due, TODAY()) < 7 AND actionitems.owner IS NOT null)
-                extra_where = "((status <> 'DL' OR status <> 'PD') AND due IS NOT null AND DATEDIFF(day, due, TODAY()) < 7)"
-                extra_subq = ", (SELECT count(*) FROM actionitems WHERE requests.id = actionitems.request_id AND (actionitems.status <> 'DL' OR actionitems.status <> 'PD') AND (DATEDIFF(day, actionitems.due, TODAY())) < 7 AND actionitems.owner IS NOT null) AS ai_count"
+                extra_where = "((status <> 'DL' OR status <> 'PD') AND due IS NOT null AND DATEDIFF(day, TODAY(), due) >= 0)"
+                extra_subq = ", (SELECT count(*) FROM actionitems WHERE requests.id = actionitems.request_id AND (actionitems.status <> 'DL' OR actionitems.status <> 'PD') AND (DATEDIFF(day, actionitems.due, TODAY())) >= 0 AND actionitems.owner IS NOT null) AS ai_count"
 
             Case "ov"
                 '2017-04-28
@@ -305,14 +305,12 @@ Partial Class Default2
                 Dim tRow As New HtmlTableRow
 
                 tRow.Attributes.Add("class", "req-edit")
-                '<td>134</td>
                 Dim tCell_id As New HtmlTableCell
                 Dim current_req_id As Long
                 current_req_id = Convert.ToInt64(dbread_req.GetValue(0)) '.ToString
                 tCell_id.InnerText = current_req_id
                 tRow.Cells.Add(tCell_id)
 
-                '<td class="ai-desc">We need a snack machine to be installed in the new office. I'll be back by 14/02/2015 and I need it ASAP. Please make sure that it has a variety of healthy snacks too. Thanks!</td>
                 Dim tCell_des As New HtmlTableCell
                 ai_desc = dbread_req.GetString(5)
                 If Len(ai_desc) > 85 Then
@@ -322,7 +320,6 @@ Partial Class Default2
                 tCell_des.Attributes.CssStyle.Add("text-align", "left")
                 tRow.Cells.Add(tCell_des)
 
-                '<td>Jan 25, 2015</td>
                 Dim req_created As Date
                 req_created = dbread_req.GetDateTime(2)
                 Dim tCell_ctd As New HtmlTableCell
@@ -352,12 +349,11 @@ Partial Class Default2
                 'req_duedate = 'actions.requestGetAIsLastDueDate(current_req_id)
                 Dim req_missing_days As Integer = 0
                 If req_duedate = Nothing Then
+                    Dim new_due_btn As New HtmlAnchor
+
                     req_missing_days = -1
                     req_duedate = Today()
-                    'tCell_due.InnerHtml = "<a href='#' id='myreq' class='new_due'>Set Due Date</a>"
-                    'tCell_due.Attributes.Add("class", "new_due")
-                    'tCell_due.Controls.Add(link_ext_btn)
-                    Dim new_due_btn As New HtmlAnchor
+
                     new_due_btn.InnerText = "Set Due Date"
                     new_due_btn.HRef = syscfg.getSystemUrl + "sap_req_edit.aspx?id=" + current_req_id.ToString
                     tCell_due.Controls.Add(new_due_btn)
@@ -365,7 +361,6 @@ Partial Class Default2
                     'req_duedate = dbread_req.GetDateTime(6)
                     req_missing_days = DateDiff(DateInterval.Day, Today.Date, req_duedate.Date)
                     tCell_due.InnerHtml = req_duedate.Date.ToString("dd/MMM/yyyy") + "<br><span class='elapsed' style='color:rgb(255, 75, 75)'>" + humanize_Fwd(req_missing_days) + "</span>"
-
                 End If
 
                 tRow.Cells.Add(tCell_due)
