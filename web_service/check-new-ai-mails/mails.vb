@@ -8,7 +8,6 @@ Imports System.Security.Cryptography.X509Certificates
 Imports MailKit
 Imports MailKit.Security
 Imports System.Text.RegularExpressions
-Imports System.Collections.Generic
 
 
 'Highligth COLOR

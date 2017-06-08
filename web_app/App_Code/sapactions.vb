@@ -373,9 +373,9 @@ Public Class SapActions
         Dim users As New SapUser
         Dim link As New Linker
         Dim dbconn As OleDbConnection
-        Dim dbcomm, dbcomm_req, dbcomm_ais As OleDbCommand
-        Dim dbread_req, dbread_ais As OleDbDataReader
-        Dim sql, sql_req, sql_ais As String
+        Dim dbcomm_req As OleDbCommand
+        Dim dbread_ais As OleDbDataReader
+        Dim sql_req As String
         Dim deliveryDate As String
         Dim fn As String = ""
 

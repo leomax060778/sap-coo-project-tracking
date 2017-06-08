@@ -98,7 +98,17 @@
             return false;
         }
 
+        //validate the reason for delivered
+        var value = $("#status option:selected").val();
+        if (value === '') return;
+
+        if (value === 'DL' & reason == null || reason == "") {
+            alert("Reason is missing!");
+            return false;
+        }
+
     }
+
 </script>
 </head>
 <body>
@@ -162,6 +172,36 @@
                         </td>
                         <td><h4>Description</h4><textarea rows="4" cols="30" name="descr" id="descr" class="fw fs form-control" runat="server" ></textarea></td>
                     </tr>
+                    <tr id="reasonRow">
+                        <td colspan="6">
+                            <h4>Describe completion status here:</h4>
+                            <textarea rows="4" cols="50" id="reason" name="reason" disabled="disabled" class="form-control" runat="server" visible="True"></textarea>
+                        </td>
+                    </tr>
+                    <tr id="files">
+                        <td colspan="6">
+                            <h4>Attach documents:</h4>
+                            <asp:FileUpload ID="FileUpload1" runat="server" Enabled="False" class="form-control" /><br />
+                            <asp:Label ID="Label1" runat="server"></asp:Label>
+							<div id="file2" style="display:none">
+							<asp:FileUpload ID="FileUpload2" runat="server" class="form-control" /><br />
+                            <asp:Label ID="Label2" runat="server"></asp:Label>
+							</div>
+							<div id="file3" style="display:none">
+							<asp:FileUpload ID="FileUpload3" runat="server" class="form-control"/><br />
+                            <asp:Label ID="Label3" runat="server"></asp:Label>
+							</div>
+							<div id="file4" style="display:none">
+							<asp:FileUpload ID="FileUpload4" runat="server" class="form-control"/><br />
+                            <asp:Label ID="Label4" runat="server"></asp:Label>
+							</div>
+							<div id="file5" style="display:none">
+							<asp:FileUpload ID="FileUpload5" runat="server" class="form-control"/><br />
+                            <asp:Label ID="Label5" runat="server"></asp:Label>
+							</div>
+                        </td>
+                    </tr>
+                    </div>
                     <tr>
 						<td style="text-align: left;">
 							<a runat="server" onclick="return confirm('Clicking ACCEPT you will DELETE this Action Item. Are you sure?');" class="trash" href="#" id="link_del_ai" name="link_del_ai" style="float: left;">
@@ -199,6 +239,79 @@
 
     <a href="" class="go-top">Top</a>
     </div>
+      <script type="text/javascript">
 
+          $(document).ready(function() {
+              //dom is ready
+          });
+
+		$("#FileUpload1").on("change",function(){
+			$("div#file2").toggle($("#FileUpload1").val() != "");
+			if(!$("div#file2").is("visible")) {
+				$("#FileUpload2").val("")
+			}
+		});
+		$("#FileUpload2").on("change",function(){
+			$("div#file3").toggle($("#FileUpload2").val() != "");
+			if(!$("div#file3").is("visible")) {
+				$("#FileUpload3").val("")
+			}
+		});
+		$("#FileUpload3").on("change",function(){
+			$("div#file4").toggle($("#FileUpload3").val() != "");
+			if(!$("div#file4").is("visible")) {
+				$("#FileUpload4").val("")
+			}
+		});
+		$("#FileUpload4").on("change",function(){
+			$("div#file5").toggle($("#FileUpload4").val() != "");
+			if(!$("div#file5").is("visible")) {
+				$("#FileUpload5").val("")
+			}
+		});
+		$("#FileUpload5").on("change",function(){
+			$("div#file5").toggle($("#FileUpload5").val() != "");
+		});
+
+		$("#status").change(function(){
+		    var value = $("#status option:selected").val();
+		    if (value === '') return;
+
+		    if (value !== 'DL') {
+		        $("#reason").val("");
+		        $("#FileUpload1").val("");
+		        $("#FileUpload2").val("");
+		        $("#FileUpload3").val("");
+		        $("#FileUpload4").val("");
+		        $("#FileUpload5").val("");
+
+		        $("#reason").attr('disabled', 'disabled')
+		        $("#FileUpload1").attr('disabled', 'disabled');
+		        $("#FileUpload2").attr('disabled', 'disabled');
+		        $("#FileUpload3").attr('disabled', 'disabled');
+		        $("#FileUpload4").attr('disabled', 'disabled');
+		        $("#FileUpload5").attr('disabled', 'disabled');
+
+		        $("div#file2").hide();
+		        $("div#file3").hide();
+		        $("div#file4").hide();
+		        $("div#file5").hide();
+
+		        $('#reasonRow').hide()
+		        $('#files').hide()
+		    }
+		    else {
+		        $("#reason").removeAttr('disabled');
+		        $("#FileUpload1").removeAttr('disabled');
+		        $("#FileUpload2").removeAttr('disabled');
+		        $("#FileUpload3").removeAttr('disabled');
+		        $("#FileUpload4").removeAttr('disabled');
+		        $("#FileUpload5").removeAttr('disabled');
+
+		        $('#reasonRow').show()
+		        $('#files').show()
+		    }
+		});
+    </script>
 </body>
 </html>
