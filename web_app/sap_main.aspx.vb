@@ -231,8 +231,8 @@ Partial Class Default2
                 extra_subq = ", (SELECT count(*) FROM actionitems WHERE requests.id = actionitems.request_id AND actionitems.status = 'PD' AND actionitems.owner IS NOT null) AS ai_count"
 
             Case "rq"
-                extra_where = "(status = 'PD' AND ai_count > 0)"
-                extra_subq = ", (SELECT count(*) FROM actionitems WHERE requests.id = actionitems.request_id AND actionitems.status = 'DL' AND sent_confirm = 1) AS ai_count"
+                extra_where = "(status IN('CR', 'PD') AND ai_count > 0)"
+                extra_subq = ", (SELECT count(*) FROM actionitems WHERE requests.id = actionitems.request_id AND actionitems.status = 'DL' AND delivery_date IS NOT NULL) AS ai_count"
 
             Case "du"
                 extra_where = "(status <> 'DL' AND status <> 'PD') AND ai_count > 0"
@@ -247,7 +247,7 @@ Partial Class Default2
                 extra_subq = ", (SELECT count(*) FROM actionitems WHERE requests.id = actionitems.request_id AND actionitems.status = 'DL') AS ai_count"
 
             Case "dw"
-                extra_where = "((status <> 'DL' OR status <> 'PD') AND due IS NOT null AND DATEDIFF(day, TODAY(), due) >= 0)"
+                extra_where = "((status <> 'DL' OR status <> 'PD') AND due IS NOT null AND DATEDIFF(day, TODAY(), due) >= 0 AND DATEDIFF(day, TODAY(), due) <= 7)"
                 extra_subq = ", (SELECT count(*) FROM actionitems WHERE requests.id = actionitems.request_id AND (actionitems.status <> 'DL' OR actionitems.status <> 'PD') AND (DATEDIFF(day, actionitems.due, TODAY())) >= 0 AND actionitems.owner IS NOT null) AS ai_count"
 
             Case "ov"
