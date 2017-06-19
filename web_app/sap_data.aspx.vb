@@ -58,6 +58,16 @@ Partial Class Default2
             dbcomm_req = New OleDbCommand(sql_req, dbconn)
             dbcomm_req.ExecuteNonQuery()
 
+            'Update a Lumira Request
+            Dim lumiraReport As New LumiraReports
+            Dim lumira_request As New Dictionary(Of String, String)
+
+            lumira_request.Add("req_id", req_id)
+            lumira_request.Add("need_data", 1)
+
+            lumiraReport.LogRequestReport(req_id, lumira_request)
+            'End update Lumira Request
+
             '////////////////////////////////////////////////////////////
             'CREATE EMAIL AND SEND TO REQUESTOR
             '////////////////////////////////////////////////////////////

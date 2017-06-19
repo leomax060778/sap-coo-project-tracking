@@ -76,14 +76,14 @@ Public Class SysConfig
     End Function
 
     Public Function getSystemMail() As String
-        'Return "sap_marketing_in_action@sap.com"
-        Return "lhildt@folderit.net"
+        Return "sap_marketing_in_action@sap.com"
+        'Return "lhildt@folderit.net"
     End Function
 
     Public Function getSystemAdminMail() As String
-        Return "lhildt@folderit.net"
+        'Return "lhildt@folderit.net"
 
-        'Return "a.eyzaguirre@sap.com"
+        Return "a.eyzaguirre@sap.com"
     End Function
 
     Public Function getSystemUrl() As String
@@ -96,8 +96,8 @@ Public Class SysConfig
             Case "Administrator"
                 result = "http://localhost:64601/"
             Case Else
-                result = "http://localhost:3231/web_app/"
-                'result = "http://rtm-bmo.bue.sap.corp:8888/"
+                'result = "http://localhost:3542/"
+                result = "http://rtm-bmo.bue.sap.corp:8888/"
         End Select
         Return result
     End Function

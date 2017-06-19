@@ -58,29 +58,9 @@ Partial Class sap_accept_new_due
             dbcomm = New OleDbCommand(sql, dbconn)
             dbcomm.ExecuteScalar()
 
-            '////////////////////////////////////////////////////////////
-            'CREATE EMAIL AND SEND TO OWNER
-            '////////////////////////////////////////////////////////////
-            'Dim newMail As New MailTemplate
-
-            'Dim mail_dict As New Dictionary(Of String, String)
-            'mail_dict.Add("mail", "EA") 'AI EXTENSION APPROVED
-            'mail_dict.Add("to", users.getMailById(ai_owner))
-            'mail_dict.Add("{ai_id}", ai_id.ToString)
-            'mail_dict.Add("{description}", ai_descr) 'MAIL SUBJECT / AI DESCRIPTION
-            'mail_dict.Add("{duedate}", ai_extension.ToString)
-
-            'newMail.SendNotificationMail(mail_dict)
-
-            '////////////////////////////////////////////////////////////
-            'INSERT LOG HERE
-            '////////////////////////////////////////////////////////////
-
-            'EVENT: AI_EXTENSION [R5]
-
             Dim newLog As New LogSAPTareas
-
             Dim log_dict As New Dictionary(Of String, String)
+
             log_dict.Add("ai_id", ai_id.ToString)
             log_dict.Add("request_id", dbread_ais.GetInt64(1).ToString)
             log_dict.Add("admin_id", users.getId)
@@ -92,14 +72,6 @@ Partial Class sap_accept_new_due
             log_dict.Add("detail", "New due date accepted")
 
             newLog.LogWrite(log_dict)
-
-            '#####TODO###################
-            '#####TODO###################
-            '#####TODO###################
-            'Response.Write("Extension ACCEPTED")
-            '#####TODO###################
-            '#####TODO###################
-            '#####TODO###################
 
         Else
 

@@ -47,11 +47,8 @@ Partial Class Default2
         Else
 
             Dim dbconn As OleDbConnection
-            Dim dbcomm, dbcomm_req, dbcomm_ais As OleDbCommand
-            Dim dbread_ais As OleDbDataReader
-            Dim sql, sql_req, sql_ais As String
-            Dim ai_new_status, ai_current_status As String
-
+            Dim dbcomm_req As OleDbCommand
+            Dim sql_req As String
             Dim rq_id As String = CType(e.CommandArgument, String)
 
             '#####TODO:#CHECK#IF#DB#EXIST###########

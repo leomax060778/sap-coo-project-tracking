@@ -92,9 +92,8 @@ Public Class SapActions
         'CHECK IF DB EXISTS
         '#####TODO###################
         Dim dbconn As OleDbConnection
-        Dim dbcomm, dbcomm_ais As OleDbCommand
-        Dim dbread_ais As OleDbDataReader
-        Dim sql, sql_ais As String
+        Dim dbcomm As OleDbCommand
+        Dim sql As String
 
         Dim syscfg As New SysConfig
         Dim users As New SapUser
@@ -487,6 +486,17 @@ Public Class SapActions
             log_dict.Add("detail", fn)
 
             newLog.LogWrite(log_dict)
+
+            'Update a Lumira AI
+            Dim lumiraReport As New LumiraReports
+            Dim lumira_ai As New Dictionary(Of String, String)
+
+            lumira_ai.Add("ai_id", ai_id)
+            lumira_ai.Add("req_id", request)
+            lumira_ai.Add("delivered", Date.Now.ToString("yyyy/MM/dd HH:mm:ss"))
+
+            lumiraReport.LogActionItemReport(ai_id, lumira_ai)
+            'End update Lumira AI
 
         End If
 

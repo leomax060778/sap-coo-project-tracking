@@ -26,11 +26,8 @@ Partial Class _Default
             Response.Redirect(syscfg.getSystemUrl + "sap_main.aspx", False)
         Else
             Dim dbconn As OleDbConnection
-            Dim dbcomm, dbcomm_req, dbcomm_ais As OleDbCommand
-            Dim dbread_ais As OleDbDataReader
-            Dim sql, sql_req, sql_ais As String
-            Dim ai_new_status, ai_current_status As String
-
+            Dim dbcomm_req As OleDbCommand
+            Dim sql_req As String
             Dim rq_id As String = CType(e.CommandArgument, String)
 
             '#####TODO:#CHECK#IF#DB#EXIST###########
@@ -40,15 +37,10 @@ Partial Class _Default
 
             'LOG INFORMATION
             Dim log_rq_id As String = rq_id
-            Dim log_event As String
-            Dim log_detail As String = "Some detail here..."
             Dim log_owner As String = "Current USER here..."
-            Dim log_prev_value As String
-            Dim log_new_value As String
             Dim log_record As Boolean = False
 
             If e.CommandName = "X" Then
-
                 'CHANGE AIS STATUS TO CANCELED
                 sql_req = "UPDATE actionitems SET status='XX' WHERE id=" + rq_id
                 dbcomm_req = New OleDbCommand(sql_req, dbconn)
@@ -185,18 +177,37 @@ Partial Class _Default
             dbcomm.CommandText = "SELECT @@IDENTITY"
             ai_id = dbcomm.ExecuteScalar()
 
+            'Create a Lumira AI
+            Dim lumira_ai As New Dictionary(Of String, String)
+            Dim lumiraReport As New LumiraReports
+
+            lumira_ai.Add("ai_id", ai_id)
+            lumira_ai.Add("req_id", http_req_id)
+            lumira_ai.Add("owner", http_req_form_owner)
+            lumira_ai.Add("description", http_req_form_descr.Replace("'", "&#39;"))
+            lumira_ai.Add("due", http_req_form_duedate)
+            lumira_ai.Add("original_due", http_req_form_duedate)
+            lumira_ai.Add("created", Date.Now.ToString("yyyy/MM/dd HH:mm:ss"))
+
+            lumiraReport.LogActionItemReport(ai_id, lumira_ai)
+            'End create Lumira AI
+
             'IF THE RQ DUE DATE IS UNSET THEN SET IT TO THE AI DUE DATE
             'AND CHANGE REQUEST STATUS TO CREATED
+            Dim lumira_request As New Dictionary(Of String, String)
+
             If actions.requestIsUnset(http_req_id) Then
                 sql_req = "UPDATE requests SET status='CR', due='" + http_req_form_duedate + "' WHERE id=" + request_id.ToString
+
+                'add for Lumira Report
+
+                lumira_request.Add("req_id", request_id.ToString)
+                lumira_request.Add("due", http_req_form_duedate)
             Else
                 sql_req = "UPDATE requests SET status='CR' WHERE id=" + request_id.ToString
             End If
+            lumiraReport.LogRequestReport(request_id, lumira_request)
             dbcomm_req = New OleDbCommand(sql_req, dbconn)
-            'bdbcomm_req.ExecuteNonQuery()
-
-            'NEED ENCRYPTION HERE
-            'Dim link As New Linker
 
             '////////////////////////////////////////////////////////////
             'CREATE EMAIL AND SEND TO OWNER

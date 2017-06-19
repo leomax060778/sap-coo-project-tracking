@@ -166,6 +166,19 @@ Partial Class _Default
             dbcomm_req.ExecuteNonQuery()
             Response.Redirect(syscfg.getSystemUrl + "sap_owner.aspx", False)
 
+            'Update Lumira AI
+            Dim lumiraReport As New LumiraReports
+            Dim lumira_ai As New Dictionary(Of String, String)
+
+            If ai_new_status = "IP" Then
+                lumira_ai.Add("ai_id", ai_id)
+                lumira_ai.Add("req_id", req_id)
+                lumira_ai.Add("in_progress", Date.Now.ToString("yyyy/MM/dd HH:mm:ss"))
+                lumiraReport.LogActionItemReport(ai_id, lumira_ai)
+            End If
+
+            'End Lumira AI
+
             If log_record Then
 
                 Dim newLog As New LogSAPTareas

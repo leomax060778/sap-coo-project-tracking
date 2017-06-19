@@ -89,7 +89,6 @@ Public Class SapActions
         '#####TODO###################
         Dim dbconn As OleDbConnection
         Dim dbcomm As OleDbCommand
-        'Dim dbread_ais As OleDbDataReader
         Dim sql As String
 
         Dim syscfg As New SysConfig
@@ -184,6 +183,24 @@ Public Class SapActions
         dbcomm.CommandText = "SELECT @@IDENTITY"
         req_id = dbcomm.ExecuteScalar()
 
+        'Create a Lumira Request
+        Dim lumiraReport As New LumiraReports
+        Dim lumira_request As New Dictionary(Of String, String)
+
+        lumira_request.Add("req_id", req_id)
+        lumira_request.Add("requestor", requestorID)
+        lumira_request.Add("requested", mailDate)
+        lumira_request.Add("subject", mailSubject)
+        lumira_request.Add("need_data", 0)
+        lumira_request.Add("created", Date.Now.ToString("yyyy/MM/dd HH:mm:ss"))
+
+        If reqStatus = "CR" Then
+            lumira_request.Add("due", posDueDate.ToString("yyyy/MM/dd HH:mm:ss"))
+        End If
+
+        lumiraReport.LogRequestReport(req_id, lumira_request)
+        'End create Lumira Request
+
         'CREATE AN AI FOR EACH OWNER AND SEND AN EMAIL
         'EACH OWNER IS APPENDED IN THE DICTIONARY AS OWN1, OWN2, OWN3...
         Dim i As Integer
@@ -226,8 +243,8 @@ Public Class SapActions
                 newMail.SendNotificationMail(mail_dict)
             End If
 
-            log_dict.Add("request_id", req_id.ToString)
-            log_dict.Add("ai_id", ai_id.ToString)
+            log_dict.Add("request_id", req_id)
+            log_dict.Add("ai_id", ai_id)
             log_dict.Add("requestor_id", requestorID)
             log_dict.Add("admin_id", "system")
             log_dict.Add("owner_id", ownerID)
@@ -236,10 +253,26 @@ Public Class SapActions
 
             newLog.LogWrite(log_dict)
 
+            'Create a Lumira AI
+            Dim lumira_ai As New Dictionary(Of String, String)
+
+            lumira_ai.Add("ai_id", ai_id)
+            lumira_ai.Add("req_id", req_id)
+            lumira_ai.Add("owner", ownerID)
+            lumira_ai.Add("description", mailSubject)
+            lumira_ai.Add("created", Date.Now.ToString("yyyy/MM/dd HH:mm:ss"))
+
+            If reqStatus = "CR" Then
+                lumira_ai.Add("due", posDueDate.ToString("yyyy/MM/dd HH:mm:ss"))
+            End If
+
+            lumiraReport.LogActionItemReport(ai_id, lumira_ai)
+            'End create Lumira AI
+
             mail_dict.Clear()
             log_dict.Clear()
 
-            ownersMailStr = ownersMailStr + users.getNameByMail(sourceMail(owner)) + "<br>"
+            ownersMailStr = ownersMailStr + users.getNameById(ownerID) + "<br>"
         Next
 
         '////////////////////////////////////////////////////////////
@@ -256,13 +289,15 @@ Public Class SapActions
         mail_dict.Add("{app_link}", syscfg.getSystemUrl)
         mail_dict.Add("{contact_mail_link}", "mailto: " & users.getAdminMail & "?subject=Questions about the report")
 
-        'SEND TO MULTIPLE REQUESTORS
-        For Each adminMail In syscfg.getSystemAdminMail.Split(";")
-            If Not String.IsNullOrEmpty(adminMail) Then
-                mail_dict("to") = adminMail
-                newMail.SendNotificationMail(mail_dict)
-            End If
-        Next
+        newMail.SendNotificationMail(mail_dict)
+
+        'SEND TO MULTIPLE REQUESTORS - DISABLED 2017-06-14
+        'For Each adminMail In syscfg.getSystemAdminMail.Split(";")
+        '    If Not String.IsNullOrEmpty(adminMail) Then
+        '        mail_dict("to") = adminMail
+        '        newMail.SendNotificationMail(mail_dict)
+        '    End If
+        'Next
 
         '////////////////////////////////////////////////////////////
         'INSERT LOG HERE

@@ -151,7 +151,7 @@ jQuery(function () {
         </div>
         
         <div class="inner">
-            <!--<ul>
+            <ul>
                 <li class="description" style="width: 70%;"><h4><asp:Literal ID="req_description" runat="server"></asp:Literal> <a href="#" id="download_link" title="View mail..." runat="server">Show E-mail Documentation</a></h4></li>
                 <li>
                     <div class="created" title="25/01/2015" id="req_created">
@@ -170,7 +170,7 @@ jQuery(function () {
                     </div>
                 </li>
             </ul>
-            <p></p>-->
+            <p></p>
             <table id="ai_list" cellpadding="10" cellspacing="0" runat="server">
                 <tr class="ai-maintitle">
                     <th class="add-ai"><a href="#" id="NAI" title="Add new AI" style="text-decoration: none;color:white;padding-top:5px">+</a></th>

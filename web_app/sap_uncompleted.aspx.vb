@@ -1,9 +1,4 @@
 ﻿Imports System.Data.OleDb
-Imports System
-Imports System.Collections.Generic
-Imports Linker
-Imports LogSAPTareas
-Imports MailTemplate
 
 Partial Class _Default
     Inherits System.Web.UI.Page
@@ -52,8 +47,6 @@ Partial Class _Default
         If dbread_ais.HasRows Then
 
             If Request.ServerVariables("REQUEST_METHOD") = "POST" Then
-
-
                 dbread_ais.Read()
 
                 'DUEDATE EXTENSION
@@ -62,6 +55,16 @@ Partial Class _Default
                 dbcomm.ExecuteScalar()
 
                 actions.requestSetStatus(dbread_ais.GetInt64(1), "", "IP")
+
+                'Create a Lumira AI
+                Dim lumira_ai As New Dictionary(Of String, String)
+                Dim lumiraReport As New LumiraReports
+
+                lumira_ai.Add("ai_id", ai_id)
+                lumira_ai.Add("in_progress", Date.Now.ToString("yyyy/MM/dd HH:mm:ss"))
+
+                lumiraReport.LogActionItemReport(ai_id, lumira_ai)
+                'End create Lumira AI
 
                 '////////////////////////////////////////////////////////////
                 'CREATE EMAIL AND SEND TO OWNER
@@ -78,14 +81,14 @@ Partial Class _Default
                 mail_dict.Add("mail", "AU") 'AI EXTENSION REJECTED
                 mail_dict.Add("to", users.getMailById(owner_id))
                 mail_dict.Add("{ai_id}", ai_id.ToString)
-				mail_dict.Add("{ai_owner}", users.getNameById(owner_id) & "(" & owner_id & ")")
+                mail_dict.Add("{ai_owner}", users.getNameById(owner_id) & "(" & owner_id & ")")
                 mail_dict.Add("{description}", description) 'MAIL SUBJECT / AI DESCRIPTION
                 mail_dict.Add("{duedate}", duedate)
                 mail_dict.Add("{reason}", Request.Form("reason"))
-				mail_dict.Add("{requestor_name}", users.getNameById(requestor_id))
-				mail_dict.Add("{app_link}", syscfg.getSystemUrl)
-				mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the report")
-				
+                mail_dict.Add("{requestor_name}", users.getNameById(requestor_id))
+                mail_dict.Add("{app_link}", syscfg.getSystemUrl)
+                mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the report")
+
                 newMail.SendNotificationMail(mail_dict)
 
                 mail_dict("to") = users.getAdminMail()

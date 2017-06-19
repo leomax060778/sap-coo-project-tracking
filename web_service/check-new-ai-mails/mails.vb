@@ -230,11 +230,6 @@ Public Class MailTemplate
 
         If message.Body IsNot Nothing Then log("Message body is not null")
         result.Add("body", messageBody)
-
-        '#####################################
-        '#####################################
-        '#####################################
-
         result.Add("date", message.Date.Date)
         result.Add("id", message.MessageId)
         result.Add("raw", Encoding.ASCII.GetString(Encoding.UTF8.GetBytes(message.HtmlBody)).Replace("'", "''"))
@@ -343,26 +338,55 @@ Public Class MailTemplate
             log("Processing: " & message.Subject)
             log("To:" & JoinMailNames(message.To) & " CC:" & JoinMailNames(message.Cc) & " BCC:" & JoinMailNames(message.Bcc))
 
-            If isMailToSystem(exToSMTP(JoinMailNames(message.To))) Then
+            'If isMailToSystem(exToSMTP(JoinMailNames(message.To))) Then
 
-                If users.isRequestor(JoinMailboxes(message.From)) Then
+            '    If users.isRequestor(JoinMailboxes(message.From)) Then
 
-                    'IF MAIL ITEM ID IS NOT IN THE DB
-                    If Not actions.requestMailProcessed(message.MessageId) Then
+            '        'IF MAIL ITEM ID IS NOT IN THE DB
+            '        If Not actions.requestMailProcessed(message.MessageId) Then
 
-                        log("Creating Request: " & message.Subject)
+            '            log("Creating Request: " & message.Subject)
 
-                        'dictMail CONVERTS THE MAIL INTO DICTIONARY OF STRINGS
-                        'CREATE THE REQUEST INTO THE DATABASE
-                        actions.createNewRequest(dictMail(message))
+            '            'dictMail CONVERTS THE MAIL INTO DICTIONARY OF STRINGS
+            '            'CREATE THE REQUEST INTO THE DATABASE
+            '            actions.createNewRequest(dictMail(message))
 
-                    End If
+            '        End If
 
-                End If
-
-            End If
+            '    End If
 
             'End If
+
+            'Rewrite business rule to create the request
+
+            Dim addressesFrom As String = JoinMailboxes(message.From)
+            Dim addresses As String = addressesFrom
+            addresses = addresses & JoinMailboxes(message.Cc)
+
+            Dim addressesList = addresses.Split(New Char() {";"c})
+
+            If isMailToSystem(exToSMTP(JoinMailNames(message.To))) Then
+                'Validate if address is a REQUESTOR
+                Dim address As String
+                For Each address In addressesList
+                    If address.Length > 0 Then
+                        If users.isRequestor(addressesFrom) Then
+                            'IF MAIL ITEM ID IS NOT IN THE DB
+                            If Not actions.requestMailProcessed(message.MessageId) Then
+                                log("Creating Request: " & message.Subject)
+
+                                'dictMail CONVERTS THE MAIL INTO DICTIONARY OF STRINGS
+                                'CREATE THE REQUEST INTO THE DATABASE
+                                actions.createNewRequest(dictMail(message))
+
+                            End If
+                            'break current loop
+                            Exit For
+                        End If
+                    End If
+                Next
+            End If
+
             Dim messageDate As Date = message.Date.Date
             log("message Date: " & messageDate.ToString("MM/dd/yyyy HH:mm"))
             log("last checked email Date: " & dbDate.ToString("MM/dd/yyyy HH:mm"))
@@ -393,7 +417,7 @@ Public Class MailTemplate
         Return body
     End Function
 
-    Private Sub SendHtmlFormattedEmail(ByVal recipientEmail As String, ByVal subject As String, ByVal body As String)
+    Private Sub SendHtmlFormattedEmail(ByVal recipientEmail As String, ByVal subject As String, ByVal body As String, ByVal ai_Id As String)
         Dim dbconn As OleDbConnection
         Dim dbcomm As OleDbCommand
         Dim sql As String
@@ -406,7 +430,13 @@ Public Class MailTemplate
         dbconn = New OleDbConnection(syscfg.getConnection)
         dbconn.Open()
 
-        sql = "INSERT INTO send (recipients, subject, body) VALUES ('" + recipientEmail + "', '" + subject.Replace("&#34;", """").Replace("'", "&#39;") + "', '" + body.Replace("&#34;", """").Replace("'", "&#39;") + "')"
+        If (String.IsNullOrEmpty(ai_Id)) Then
+            sql = "INSERT INTO send (recipients, subject, body) VALUES ('" + recipientEmail + "', '" + subject.Replace("&#34;", """").Replace("'", "&#39;") + "', '" + body.Replace("&#34;", """").Replace("'", "&#39;") + "')"
+        Else
+            sql = "INSERT INTO send (recipients, subject, body, ai_id) VALUES ('" + recipientEmail + "', '" + subject.Replace("&#34;", """").Replace("'", "&#39;") + "', '" + body.Replace("&#34;", """").Replace("'", "&#39;") + "', " + ai_Id + ")"
+        End If
+
+        'sql = "INSERT INTO send (recipients, subject, body, ai_id) VALUES ('" + recipientEmail + "', '" + subject.Replace("&#34;", """").Replace("'", "&#39;") + "', '" + body.Replace("&#34;", """").Replace("'", "&#39;") + "', " + ai_Id + ")"
         dbcomm = New OleDbCommand(sql, dbconn)
         dbcomm.ExecuteNonQuery()
         dbcomm.CommandText = "SELECT @@IDENTITY"
@@ -421,6 +451,11 @@ Public Class MailTemplate
         Dim mailSubject As String = ""
         Dim mailBody As String = ""
         Dim mailRecepient As String = mailData("to")
+        Dim ai_Id As String = ""
+
+        If mailData.ContainsKey("{ai_id}") AndAlso Not String.IsNullOrEmpty(mailData("{ai_id}")) Then
+            ai_Id = mailData("{ai_id}")
+        End If
 
         'SELECT MAIL TEMPLATE
         Select Case mailData("mail")
@@ -462,7 +497,7 @@ Public Class MailTemplate
 
         mailBody = PopulateBody(reader, mailData)
 
-        SendHtmlFormattedEmail(mailRecepient, mailSubject, mailBody)
+        SendHtmlFormattedEmail(mailRecepient, mailSubject, mailBody, ai_Id)
 
     End Sub
 

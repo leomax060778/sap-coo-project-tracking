@@ -70,6 +70,16 @@ Partial Class sap_reject_due
                 dbcomm = New OleDbCommand(sql, dbconn)
                 dbcomm.ExecuteScalar()
 
+                'Create a Lumira AI
+                Dim lumira_ai As New Dictionary(Of String, String)
+                Dim lumiraReport As New LumiraReports
+
+                lumira_ai.Add("ai_id", ai_id)
+                lumira_ai.Add("in_progress", Date.Now.ToString("yyyy/MM/dd HH:mm:ss"))
+
+                lumiraReport.LogActionItemReport(ai_id, lumira_ai)
+                'End create Lumira AI
+
                 '////////////////////////////////////////////////////////////
                 'CREATE EMAIL AND SEND TO OWNER
                 '////////////////////////////////////////////////////////////

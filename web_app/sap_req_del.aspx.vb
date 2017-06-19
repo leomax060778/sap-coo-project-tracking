@@ -23,23 +23,17 @@ Partial Class sap_req_del
         If Not String.IsNullOrEmpty(http_req_id) And Integer.TryParse(http_req_id, request_id) And ro <> "OW" Then
 
             Dim dbconn As OleDbConnection
-            Dim dbcomm, dbcomm_req, dbcomm_ais As OleDbCommand
-            Dim dbread_ais As OleDbDataReader
-            Dim sql, sql_req, sql_ais As String
-            Dim ai_new_status, ai_current_status As String
+            Dim dbcomm_req As OleDbCommand
+            Dim sql_req As String
 
             '#####TODO:#CHECK#IF#DB#EXIST###########
-
             dbconn = New OleDbConnection(syscfg.getConnection)
             dbconn.Open()
 
             'LOG INFORMATION
             Dim log_rq_id As String = http_req_id
-            Dim log_event As String
             Dim log_detail As String = "Some detail here..."
             Dim log_owner As String = "Current USER here..."
-            Dim log_prev_value As String
-            Dim log_new_value As String
             Dim log_record As Boolean = False
 
             'CHANGE REQUEST STATUS TO CANCELED

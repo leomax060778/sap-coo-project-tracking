@@ -99,7 +99,9 @@ Partial Class Default2
                 If ai_old_status <> "CF" And ai_old_status <> "DL" And ai_old_status <> "NE" And ai_missing_days > 0 And ai_old_due < ai_new_due Then
                     'DUEDATE EXTENSION
                     'sql = "UPDATE actionitems SET extension='" + http_req_form_duedate + "', ext_desc='" + http_req_form_reason + "', status='NE' WHERE id =" + http_req_form_ai_id
-                    sql = "UPDATE actionitems SET extension='" + ai_new_due.Year.ToString + "-" + ai_new_due.Month.ToString + "-" + ai_new_due.Day.ToString + "', ext_desc='" + http_req_form_reason + "', status='NE' WHERE id =" + http_req_form_ai_id
+                    Dim extensionDate As String = ai_new_due.Year.ToString + "-" + ai_new_due.Month.ToString + "-" + ai_new_due.Day.ToString
+
+                    sql = "UPDATE actionitems SET extension='" + extensionDate + "', ext_desc='" + http_req_form_reason + "', status='NE' WHERE id =" + http_req_form_ai_id
                     dbcomm = New OleDbCommand(sql, dbconn)
                     dbcomm.ExecuteScalar()
 
@@ -132,6 +134,21 @@ Partial Class Default2
                     '////////////////////////////////////////////////////////////
                     'INSERT LOG HERE
                     '////////////////////////////////////////////////////////////
+
+                    'Update a Lumira AI
+                    Dim lumiraReport As New LumiraReports
+                    Dim lumira_ai As New Dictionary(Of String, String)
+
+                    lumira_ai.Add("ai_id", http_req_form_ai_id)
+                    lumira_ai.Add("req_id", request_id)
+                    lumira_ai.Add("extension", Date.Now.ToString("yyyy/MM/dd HH:mm:ss"))
+
+                    'lumira_ai.Add("original_due", ai_old_due.ToString())
+                    'Date.ParseExact(ai_old_due, "yyyy/MM/dd", New CultureInfo("en-US")))
+                    lumira_ai.Add("due", extensionDate)
+
+                    lumiraReport.LogActionItemReport(http_req_form_ai_id, lumira_ai)
+                    'End update Lumira AI
 
                     'EVENT: AI_EXTENSION [R5]
 

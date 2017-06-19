@@ -1,9 +1,4 @@
 ﻿Imports System.Data.OleDb
-Imports System
-Imports System.Collections.Generic
-Imports Linker
-Imports LogSAPTareas
-Imports MailTemplate
 
 Partial Class sap_accept_due
     Inherits System.Web.UI.Page
@@ -84,7 +79,7 @@ Partial Class sap_accept_due
             mail_dict.Add("{ai_id}", ai_id.ToString)
             mail_dict.Add("{description}", ai_descr) 'MAIL SUBJECT / AI DESCRIPTION
             mail_dict.Add("{duedate}", ai_extension.ToString)
-			mail_dict.Add("{ai_owner}", users.getNameById(ai_owner))
+            mail_dict.Add("{ai_owner}", users.getNameById(ai_owner))
             mail_dict.Add("{app_link}", syscfg.getSystemUrl)
             mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the report")
 
@@ -97,8 +92,8 @@ Partial Class sap_accept_due
             'EVENT: AI_EXTENSION [R5]
 
             Dim newLog As New LogSAPTareas
-
             Dim log_dict As New Dictionary(Of String, String)
+
             log_dict.Add("ai_id", ai_id.ToString)
             log_dict.Add("request_id", request_id.ToString)
             log_dict.Add("admin_id", users.getId)
@@ -110,14 +105,6 @@ Partial Class sap_accept_due
             log_dict.Add("detail", "Extension approved")
 
             newLog.LogWrite(log_dict)
-
-            '#####TODO###################
-            '#####TODO###################
-            '#####TODO###################
-            'Response.Write("Extension ACCEPTED")
-            '#####TODO###################
-            '#####TODO###################
-            '#####TODO###################
 
         Else
 

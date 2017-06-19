@@ -1,12 +1,5 @@
 ﻿Imports System.Data.OleDb
-Imports System
-Imports System.Web
-Imports System.Web.UI
-Imports System.Web.UI.WebControls
 Imports System.Web.HttpUtility
-Imports System.Collections.Generic
-Imports SysConfig
-Imports SapActions
 'Imports MailTemplate
 
 Partial Class _Default
@@ -79,12 +72,11 @@ Partial Class _Default
         Else
 
             Dim dbconn As OleDbConnection
-            Dim dbcomm, dbcomm_req, dbcomm_ais As OleDbCommand
-            Dim dbread_req, dbread_ais As OleDbDataReader
-            Dim sql, sql_req, sql_ais As String
+            Dim dbcomm_req As OleDbCommand
+            Dim dbread_req As OleDbDataReader
+            Dim sql_req As String
 
             '#####TODO:#CHECK#IF#DB#EXIST###########
-
             dbconn = New OleDbConnection(syscfg.getConnection)
             dbconn.Open()
 
@@ -114,6 +106,10 @@ Partial Class _Default
                 Dim due_updated As Boolean = False
                 Dim info_updated As Boolean = False
 
+                'Create a Lumira Request
+                Dim lumiraReport As New LumiraReports
+                Dim lumira_request As New Dictionary(Of String, String)
+
                 'GET DB ACTUAL DATA
                 sql_req = "SELECT * FROM requests WHERE id=" + request_id.ToString
                 dbcomm_req = New OleDbCommand(sql_req, dbconn)
@@ -128,6 +124,7 @@ Partial Class _Default
                             changes = changes + ", "
                         End If
                         changes = changes + "subject='" + http_req_form_subj.Replace("&#34;", """").Replace("'", "&#39;") + "'"
+                        lumira_request.Add("subject", http_req_form_subj.Replace("&#34;", """").Replace("'", "&#39;"))
                         info_updated = True
                     End If
 
@@ -147,13 +144,13 @@ Partial Class _Default
                     End If
 
                     Dim duereqdate As Date = Date.ParseExact(http_req_form_duedate.Replace(" ", ""), "dd/MMM/yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo, Globalization.DateTimeStyles.None)
-                    'Date("#" & http_req_form_duedate.Replace(" ", "") & "#")
-                    'Dim duereq() As String = http_req_form_duedate.Split("-")
+
                     If duedb.Year <> duereqdate.Year Or duedb.Month <> duereqdate.Month Or duedb.Day <> duereqdate.Day Then
                         If Not String.IsNullOrEmpty(changes) Then
                             changes = changes + ", "
                         End If
                         changes = changes + "due='" + duereqdate.Year.ToString + "-" + duereqdate.Month.ToString + "-" + duereqdate.Day.ToString + "'"
+                        lumira_request.Add("due", duereqdate.ToString("yyyy/MM/dd HH:mm:ss"))
                         due_updated = True
                     End If
 
@@ -167,57 +164,12 @@ Partial Class _Default
                         'AND MUST UPDATE ALL THE AI WITH DUE DATE GREATER THAN UPDATE
                         'AND SEND NOTIFICATION TO ALL THE OWNERS
                         If due_updated Then
-
                             actions.requestSetStatus(request_id.ToString, "PD", "CR")
-
-                            'GET DB ACTUAL DATA
-                            'sql_ais = "UPDATE actionitems SET due='" + duereqdate.Year.ToString + "-" + duereqdate.Month.ToString + "-" + duereqdate.Day.ToString + "' WHERE request_id=" + request_id.ToString + " AND due > '" + duereqdate.Year.ToString + "-" + duereqdate.Month.ToString + "-" + duereqdate.Day.ToString + "'"
-                            'dbcomm_ais = New OleDbCommand(sql_ais, dbconn)
-                            'dbcomm_ais.ExecuteNonQuery()
+                            lumira_request.Add("created", Date.UtcNow.ToString("yyyy/MM/dd HH:mm:ss"))
                         End If
 
-                        '###########################################################
-                        '#TODO NOTIFY EVERYONE
-                        '#TODO CREATE LOG
-                        '###########################################################
-
-                        'IF THE RQ DUE DATE IS UNSET THEN SET IT TO THE AI DUE DATE
-                        'AND CHANGE REQUEST STATUS TO CREATED
-                        'If actions.requestIsUnset(http_req_id) Then
-                        '    sql_req = "UPDATE requests SET status='CR', due='" + http_req_form_duedate + "' WHERE id=" + request_id.ToString
-                        'Else
-                        '    sql_req = "UPDATE requests SET status='CR' WHERE id=" + request_id.ToString
-                        'End If
-                        'dbcomm_req = New OleDbCommand(sql_req, dbconn)
-                        'dbcomm_req.ExecuteNonQuery()
-
-                        'NEED ENCRYPTION HERE
-                        'Dim link As New Linker
-
-                        '////////////////////////////////////////////////////////////
-                        'CREATE EMAIL AND SEND TO OWNER
-                        '////////////////////////////////////////////////////////////
-                        'Dim newMail As New MailTemplate
-
-                        'Dim mail_dict As New Dictionary(Of String, String)
-                        'mail_dict.Add("mail", "CR") 'NEW AI CREATED
-                        'mail_dict.Add("to", "ezequielrosa@gmail.com")
-                        'mail_dict.Add("{ai_id}", ai_id.ToString)
-                        'mail_dict.Add("{description}", http_req_form_descr) 'MAIL SUBJECT / AI DESCRIPTION
-                        'mail_dict.Add("{duedate}", http_req_form_duedate)
-                        'mail_dict.Add("{accept_link}", syscfg.getSystemUrl + "sap_accept_due.aspx?id=" + link.enLink(ai_id.ToString))
-                        'mail_dict.Add("{extension_link}", syscfg.getSystemUrl + "sap_ext.aspx?id=" + link.enLink(ai_id.ToString))
-
-                        'newMail.SendNotificationMail(mail_dict)
-
-                        '////////////////////////////////////////////////////////////
-                        'INSERT LOG HERE
-                        '////////////////////////////////////////////////////////////
-                        'ai_id, request_id, owner_id, requestor_id, admin_id, event, prev_value, new_value, detail
-
-                        'EVENT: AI_CREATED [R1]
-
                         Dim newLog As New LogSAPTareas
+                        Dim log_dict As New Dictionary(Of String, String)
 
                         changes = ""
 
@@ -229,13 +181,14 @@ Partial Class _Default
                             changes = changes + "Due Date changed"
                         End If
 
-                        Dim log_dict As New Dictionary(Of String, String)
-                        'log_dict.Add("ai_id", ai_id.ToString)
+                        'Add log entries to dictionary
                         log_dict.Add("request_id", request_id.ToString)
                         log_dict.Add("admin_id", su.getId)
-                        'log_dict.Add("owner_id", "OWNER_ID")
                         log_dict.Add("event", "RQ_UPDATED")
                         log_dict.Add("detail", changes)
+
+                        'Insert entry for Lumira Request
+                        lumiraReport.LogRequestReport(request_id, lumira_request)
 
                         newLog.LogWrite(log_dict)
 
@@ -251,30 +204,19 @@ Partial Class _Default
             Dim extra As String = ""
 
             'ROWS ITERATION
-            sql_req = "SELECT * FROM requests WHERE id=" + request_id.ToString
-            'sql_ais = "SELECT * FROM actionitems WHERE request_id=" + request_id.ToString + extra
-
-            dbcomm_req = New OleDbCommand(sql_req, dbconn)
-            'dbcomm_ais = New OleDbCommand(sql_ais, dbconn)
-
-            'ROWS ITERATION
             '#####TODO:#CHECK#IF#REQUEST#EXIST######
+            sql_req = "SELECT * FROM requests WHERE id=" + request_id.ToString
+            dbcomm_req = New OleDbCommand(sql_req, dbconn)
             dbread_req = dbcomm_req.ExecuteReader()
+
             If dbread_req.HasRows Then
 
                 dbread_req.Read()
 
                 req_id.Text = req_id.Text + Convert.ToInt64(dbread_req.GetValue(0)).ToString
-                'ainumber.Text = "#" + req_id.Text
 
                 req_detail.Text = dbread_req.GetString(4).Replace("&#39;", "'")
                 subj.InnerText = req_detail.Text
-
-                'req_description.Text = dbread_req.GetString(5).Replace("&#39;", "'")
-
-                'If Len(req_description.Text) > 250 Then
-                '    req_description.Text = Mid(req_description.Text, 1, 250) & "..."
-                'End If
 
                 Dim mailHTML As String = dbread_req.GetString(3)
                 mail_detail.InnerHtml = HtmlDecode(mailHTML.Replace("&#34;", """").Replace("&#39;", "'"))
@@ -290,16 +232,15 @@ Partial Class _Default
                     req_duedate = dbread_req.GetDateTime(6)
                 End If
 
-                duedate.Value = req_duedate.ToString("dd/MMM/yyyy") 'req_duedate.Year.ToString + "-" + req_duedate.Month.ToString + "-" + req_duedate.Day.ToString
-
-				link_del_req.HRef = syscfg.getSystemUrl + "sap_req_del.aspx?id=" + Convert.ToInt64(dbread_req.GetValue(0)).ToString
+                duedate.Value = req_duedate.ToString("dd/MMM/yyyy")
+                link_del_req.HRef = syscfg.getSystemUrl + "sap_req_del.aspx?id=" + Convert.ToInt64(dbread_req.GetValue(0)).ToString
 
             End If
 
             dbread_req.Close()
             dbconn.Close()
 
-            End If
+        End If
 
     End Sub
 

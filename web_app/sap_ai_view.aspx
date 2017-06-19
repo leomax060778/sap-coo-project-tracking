@@ -98,7 +98,7 @@
         ============================= -->
     <div id="content">
         <div class="inner">
-        <ul style="display: none">
+        <ul>
                 <!-- Short Description -->
                 <li class="description" style="width: 70%;"><h4><asp:Literal ID="req_description" runat="server"></asp:Literal> <a href="#" id="download_link" title="View mail..." runat="server">Show E-mail Documentation</a></h4></li>
                 <li>

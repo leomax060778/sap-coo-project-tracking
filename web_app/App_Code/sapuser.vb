@@ -11,7 +11,8 @@ Public Class SapUser
             ru = System.Environment.UserName
             '"I828136 - Nico Morales - Requestor" 
             'I821137 - Martin Whitehead - Admin"
-            ru = "C5246787"
+            'I858826 - Eyzaguirre, Angiecarla
+            ru = "I828136"
         Else
             ru = Mid(ru, InStr(ru, "\") + 1)
         End If

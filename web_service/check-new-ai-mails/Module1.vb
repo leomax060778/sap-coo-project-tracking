@@ -53,6 +53,8 @@ Module Module1
 
         Try
 
+            log("connection in use: " + syscfg.getConnection())
+
             log("step #2: Checking emails")
 
             'Only for testing

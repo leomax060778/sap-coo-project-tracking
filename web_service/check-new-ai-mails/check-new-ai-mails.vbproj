@@ -164,6 +164,7 @@
     <Compile Include="human.vb" />
     <Compile Include="linker.vb" />
     <Compile Include="log.vb" />
+    <Compile Include="lumirareports.vb" />
     <Compile Include="mails.vb" />
     <Compile Include="MAPI.vb" />
     <Compile Include="Module1.vb" />

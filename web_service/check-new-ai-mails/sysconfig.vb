@@ -170,11 +170,12 @@ Public Class SysConfig
 
     Public Function getConnection() As String
         Dim result As String
-        'TESTING CONNECTION
-        'result = "Provider=SAOLEDB;UID=root;PWD=root;Server=sap-ais-2;DBN=sap-ais-2;ASTART=No;host=localhost:2638"
 
-        'PRODUCTION
-        result = "Provider=SAOLEDB;UID=root;PWD=root;Server=sap-ais-2;DBN=sap-ais-2;ASTART=No;host=arbuesql01.phl.sap.corp:2638"
+        'Production
+        result = "Provider=SAOLEDB;UID=root;PWD=root;Server=sap-ais-2;DBN=sap-ais-2;ASTART=No;host=arbuesql01.phl.sap.corp:2638;"
+
+        'Testing
+        'result = "Provider=SAOLEDB;UID=root;PWD=root;Server=sap-ais-2;DBN=sap-ais-2;ASTART=No;host=localhost:2638;"
 
         Return result
     End Function
@@ -212,6 +213,8 @@ Public Class SysConfig
     Public Function req_Str_Status(ByVal s As String) As String
         Dim result As String
         Select Case s
+            Case "IP"
+                result = "In Progress"
             Case "PD"
                 result = "Pending"
             Case "CR"
