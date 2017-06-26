@@ -229,10 +229,11 @@ Public Class SapActions
             mail_dict.Add("to", sourceMail(owner))
             mail_dict.Add("{ai_id}", ai_id.ToString)
             mail_dict.Add("{description}", "[" + mailSubject + "] " + mailBody) 'MAIL SUBJECT / AI DESCRIPTION
-            mail_dict.Add("{duedate}", "See description")
+            mail_dict.Add("{duedate}", posDueDate.ToString("yyyy/MM/dd"))
             mail_dict.Add("{accept_link}", syscfg.getSystemUrl + "sap_accept_new_due.aspx?id=" + eLink.enLink(ai_id.ToString))
             mail_dict.Add("{reject_link}", syscfg.getSystemUrl + "sap_reject_due.aspx?id=" + eLink.enLink(ai_id.ToString))
             mail_dict.Add("{extension_link}", syscfg.getSystemUrl + "sap_ext.aspx?id=" + eLink.enLink(ai_id.ToString))
+            mail_dict.Add("{need_information}", syscfg.getSystemUrl + "sap_data.aspx?id=" + eLink.enLink(ai_id.ToString))
             mail_dict.Add("{ai_owner}", users.getNameById(ownerID))
             mail_dict.Add("{app_link}", syscfg.getSystemUrl)
             mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the report")

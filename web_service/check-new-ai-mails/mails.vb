@@ -407,6 +407,8 @@ Public Class MailTemplate
     End Sub
 
     Private Function PopulateBody(ByRef reader As StreamReader, ByRef mailData As Dictionary(Of String, String)) As String
+        Dim sysconfig As New SysConfig
+        Dim urlHost As String = String.Empty
         Dim body As String = String.Empty
         body = reader.ReadToEnd
         For Each kvp As KeyValuePair(Of String, String) In mailData
@@ -414,6 +416,13 @@ Public Class MailTemplate
                 body = body.Replace(kvp.Key, kvp.Value)
             End If
         Next kvp
+
+        'Replace image headers
+        urlHost = sysconfig.getSystemUrl()
+        body = body.Replace("{sap_logo}", urlHost + "images/logo.png")
+        body = body.Replace("{sap_header}", urlHost + "images/header.jpg")
+
+        'Return replaced body
         Return body
     End Function
 
@@ -754,6 +763,7 @@ Public Class MailTemplate
                 mail_dict.Add("{duedate}", dueDate.ToString("dd/MMM/yyyy"))
                 mail_dict.Add("{confirm_link}", syscfg.getSystemUrl + "sap_confirm.aspx?id=" + eLink.enLink(dbread.GetInt64(0).ToString))
                 mail_dict.Add("{extension_link}", syscfg.getSystemUrl + "sap_ext.aspx?id=" + eLink.enLink(dbread.GetInt64(0).ToString))
+                mail_dict.Add("{need_information}", syscfg.getSystemUrl + "sap_data.aspx?id=" + eLink.enLink(dbread.GetInt64(0).ToString))
                 mail_dict.Add("{ai_owner}", users.getNameById(dbread.GetString(6)))
                 mail_dict.Add("{app_link}", syscfg.getSystemUrl)
                 mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the report")

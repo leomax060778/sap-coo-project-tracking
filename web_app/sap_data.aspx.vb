@@ -1,12 +1,4 @@
 ﻿Imports System.Data.OleDb
-Imports System
-Imports System.Web
-Imports System.Web.UI
-Imports System.Web.UI.WebControls
-Imports System.Collections.Generic
-Imports MailTemplate
-Imports LogSAPTareas
-Imports SapUser
 
 Partial Class Default2
     Inherits System.Web.UI.Page

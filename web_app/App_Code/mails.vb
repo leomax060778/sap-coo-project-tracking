@@ -117,6 +117,8 @@ Public Class MailTemplate
 
 
     Private Function PopulateBody(ByRef reader As StreamReader, ByRef mailData As Dictionary(Of String, String)) As String
+        Dim sysconfig As New SysConfig
+        Dim urlHost As String = String.Empty
         Dim body As String = String.Empty
         body = reader.ReadToEnd
         For Each kvp As KeyValuePair(Of String, String) In mailData
@@ -124,6 +126,13 @@ Public Class MailTemplate
                 body = body.Replace(kvp.Key, kvp.Value)
             End If
         Next kvp
+
+        'Replace image headers
+        urlHost = sysconfig.getSystemUrl()
+        body = body.Replace("{sap_logo}", urlHost + "images/logo.png")
+        body = body.Replace("{sap_header}", urlHost + "images/header.jpg")
+
+        'Return replaced body
         Return body
     End Function
 
