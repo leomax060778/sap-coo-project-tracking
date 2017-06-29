@@ -12,7 +12,7 @@ Public Class SapUser
             '"I828136 - Nico Morales - Requestor" 
             'I821137 - Martin Whitehead - Admin"
             'I858826 - Eyzaguirre, Angiecarla
-            ru = "I828136"
+            ru = "C5246787"
         Else
             ru = Mid(ru, InStr(ru, "\") + 1)
         End If
