@@ -83,6 +83,7 @@ Partial Class Default2
             mail_dict.Add("mail", "ND") 'REQ MORE INFORMATION NEEDED
             mail_dict.Add("to", http_req_mail)
             mail_dict.Add("{req_id}", http_req_form_id)
+            mail_dict.Add("{requestor_name}", users.getNameByMail(http_req_mail))
             mail_dict.Add("{name}", http_req_form_hd_name)
             mail_dict.Add("{hl_name}", http_req_form_name)
             mail_dict.Add("{description}", http_req_form_hd_descr) 'MAIL SUBJECT / AI DESCRIPTION

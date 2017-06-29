@@ -143,7 +143,7 @@ Public Class LumiraReports
             End If
 
             dbconn.Close()
-        Catch ex As Exception
+        Catch ex As System.Exception
 
         End Try
 
@@ -174,7 +174,7 @@ Public Class LumiraReports
             End If
 
             dbconn.Close()
-        Catch ex As Exception
+        Catch ex As System.Exception
 
         End Try
 
@@ -204,7 +204,7 @@ Public Class LumiraReports
             End If
 
             dbconn.Close()
-        Catch ex As Exception
+        Catch ex As System.Exception
 
         End Try
 

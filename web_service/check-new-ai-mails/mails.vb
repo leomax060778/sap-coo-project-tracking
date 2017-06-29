@@ -361,7 +361,7 @@ Public Class MailTemplate
 
             Dim addressesFrom As String = JoinMailboxes(message.From)
             Dim addresses As String = addressesFrom
-            addresses = addresses & JoinMailboxes(message.Cc)
+            addresses = addresses & ";" & JoinMailboxes(message.Cc)
 
             Dim addressesList = addresses.Split(New Char() {";"c})
 
@@ -419,8 +419,8 @@ Public Class MailTemplate
 
         'Replace image headers
         urlHost = sysconfig.getSystemUrl()
-        body = body.Replace("{sap_logo}", urlHost + "images/logo.png")
-        body = body.Replace("{sap_header}", urlHost + "images/header.jpg")
+        body = body.Replace("{sap_logo}", urlHost + "images/email-templates/logo.png")
+        body = body.Replace("{sap_header}", urlHost + "images/email-templates/header.jpg")
 
         'Return replaced body
         Return body
@@ -589,7 +589,7 @@ Public Class MailTemplate
                             'IS THE ONLY ONE SO CHECK FOR TIMESTAMP GREATER THAN xx MINUTES
                             checked = dbread.GetDateTime(4)
                             delta = DateDiff(DateInterval.Minute, checked, Now)
-                            If Math.Abs(delta) > waitaMinute Then
+                            If Math.Abs(delta) >= waitaMinute Then
 
                                 'HAS ID
                                 'IF FIND SOME WITH ID GREATER THEN
@@ -763,7 +763,7 @@ Public Class MailTemplate
                 mail_dict.Add("{duedate}", dueDate.ToString("dd/MMM/yyyy"))
                 mail_dict.Add("{confirm_link}", syscfg.getSystemUrl + "sap_confirm.aspx?id=" + eLink.enLink(dbread.GetInt64(0).ToString))
                 mail_dict.Add("{extension_link}", syscfg.getSystemUrl + "sap_ext.aspx?id=" + eLink.enLink(dbread.GetInt64(0).ToString))
-                mail_dict.Add("{need_information}", syscfg.getSystemUrl + "sap_data.aspx?id=" + eLink.enLink(dbread.GetInt64(0).ToString))
+                mail_dict.Add("{need_information}", syscfg.getSystemUrl + "sap_ai_data.aspx?id=" + eLink.enLink(dbread.GetInt64(0).ToString))
                 mail_dict.Add("{ai_owner}", users.getNameById(dbread.GetString(6)))
                 mail_dict.Add("{app_link}", syscfg.getSystemUrl)
                 mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the report")

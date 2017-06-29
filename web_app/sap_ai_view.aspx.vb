@@ -130,13 +130,8 @@ Partial Class _Default
             dbread_req = dbcomm_req.ExecuteReader()
             dbread_req.Read()
 
-
-
             ai_id.Text = ai_id.Text + Convert.ToInt64(dbread_ais.GetValue(0)).ToString
-            'ainumber.Text = req_id.Text
 
-            'req_detail.Text = dbread_req.GetString(4)
-            'subj.InnerText = req_detail.Text
             If Not dbread_req.IsDBNull(9) Then
                 download_link.HRef = "./downloadmail.ashx?mail=" + dbread_req.GetString(9) + ".eml"
             End If

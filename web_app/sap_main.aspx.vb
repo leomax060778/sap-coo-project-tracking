@@ -179,7 +179,7 @@ Partial Class Default2
                 mail_dict.Add("{accept_link}", syscfg.getSystemUrl + "sap_accept_new_due.aspx?id=" + link.enLink(ai_id.ToString))
 				mail_dict.Add("{reject_link}", syscfg.getSystemUrl + "sap_reject_due.aspx?id=" + link.enLink(ai_id.ToString))
                 mail_dict.Add("{extension_link}", syscfg.getSystemUrl + "sap_ext.aspx?id=" + link.enLink(ai_id.ToString))
-                mail_dict.Add("{need_information}", syscfg.getSystemUrl + "sap_data.aspx?id=" + link.enLink(ai_id.ToString))
+                mail_dict.Add("{need_information}", syscfg.getSystemUrl + "sap_ai_data.aspx?id=" + link.enLink(ai_id.ToString))
                 mail_dict.Add("{ai_owner}", users.getNameById(http_req_form_owner))
                 mail_dict.Add("{app_link}", syscfg.getSystemUrl)
 				mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the report")
@@ -221,7 +221,7 @@ Partial Class Default2
                 extra_subq = ", (SELECT count(*) FROM actionitems WHERE requests.id = actionitems.request_id) AS ai_count"
 
             Case "nd"
-                extra_where = "(status = 'ND')"
+                extra_where = "(status = 'ND' OR ai_count > 0)"
                 extra_subq = ", (SELECT count(*) FROM actionitems WHERE requests.id = actionitems.request_id AND actionitems.status = 'ND') AS ai_count"
 
             Case "ap"

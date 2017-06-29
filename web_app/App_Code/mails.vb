@@ -129,8 +129,8 @@ Public Class MailTemplate
 
         'Replace image headers
         urlHost = sysconfig.getSystemUrl()
-        body = body.Replace("{sap_logo}", urlHost + "images/logo.png")
-        body = body.Replace("{sap_header}", urlHost + "images/header.jpg")
+        body = body.Replace("{sap_logo}", urlHost + "images/email-templates/logo.png")
+        body = body.Replace("{sap_header}", urlHost + "images/email-templates/header.jpg")
 
         'Return replaced body
         Return body
