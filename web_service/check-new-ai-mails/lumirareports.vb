@@ -26,7 +26,7 @@ Public Class LumiraReports
             For Each kvp As KeyValuePair(Of String, String) In requestData
                 sql_fields = sql_fields + ", " + kvp.Key
                 If kvp.Key = "request_id" Then
-                    sql_values = sql_values + ", " + kvp.Value
+                    sql_values = sql_values + ", '" + kvp.Value + "'"
                 Else
                     sql_values = sql_values + ", '" + kvp.Value + "'"
                 End If
@@ -43,14 +43,14 @@ Public Class LumiraReports
             For Each kvp As KeyValuePair(Of String, String) In requestData
                 If kvp.Key <> "request_id" Then
                     If sql_fields.Length <= 0 Then
-                        sql_fields = kvp.Key + " = " + kvp.Value
+                        sql_fields = kvp.Key + " = '" + kvp.Value + "'"
                     Else
                         sql_fields = sql_fields + ", " + kvp.Key + " = '" + kvp.Value + "'"
                     End If
                 End If
             Next kvp
 
-            sql_fields = sql_fields.Remove(0, 2)
+            'sql_fields = sql_fields.Remove(0, 2)
             sqlQuery = "UPDATE lumira_requests SET " + sql_fields + " WHERE req_id =" + req_id
             dbcomm = New OleDbCommand(sqlQuery, dbconn)
             dbcomm.ExecuteNonQuery()
@@ -102,7 +102,7 @@ Public Class LumiraReports
         If action = "update" Then
             For Each kvp As KeyValuePair(Of String, String) In aiData
                 If sql_fields.Length <= 0 Then
-                    sql_fields = kvp.Key + " = " + kvp.Value
+                    sql_fields = kvp.Key + " = '" + kvp.Value + "'"
                 Else
                     sql_fields = sql_fields + ", " + kvp.Key + " = '" + kvp.Value + "'"
                 End If
