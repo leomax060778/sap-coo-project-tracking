@@ -160,13 +160,8 @@
     <Import Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="encrypt.vb" />
-    <Compile Include="human.vb" />
-    <Compile Include="linker.vb" />
-    <Compile Include="log.vb" />
     <Compile Include="lumirareports.vb" />
     <Compile Include="mails.vb" />
-    <Compile Include="MAPI.vb" />
     <Compile Include="Module1.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -184,7 +179,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="sapactions.vb" />
-    <Compile Include="sapuser.vb" />
     <Compile Include="sysconfig.vb" />
   </ItemGroup>
   <ItemGroup>
@@ -226,6 +220,12 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\common\commonLib.vbproj">
+      <Project>{a6459d5b-e24e-4b99-ab13-96d770923b73}</Project>
+      <Name>commonLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

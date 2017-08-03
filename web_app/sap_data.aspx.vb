@@ -91,6 +91,7 @@ Partial Class Default2
             mail_dict.Add("{duedate}", "Unset")
             mail_dict.Add("{hl_due}", http_req_form_duedate)
             mail_dict.Add("{detail}", http_req_form_detail)
+            mail_dict.Add("{app_link}", syscfg.getSystemUrl)
             'for each admin in users.admins
             mail_dict.Add("{reply_mail_link}", "mailto:" & users.getAdminMail & "?subject=RQ#" & http_req_form_id.Trim() & "%20-%20To%20process%20your%20request%20additional%20info%20is%20needed&body=Dear%20Admin%2C%0D%0A%0D%0AHere%20is%20the%20info%20required%3A%0D%0A%0D%0A" & urlBody)
             'next

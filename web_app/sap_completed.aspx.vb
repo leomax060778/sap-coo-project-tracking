@@ -1,4 +1,6 @@
 ﻿Imports System.Data.OleDb
+Imports common
+Imports commonLib
 
 Partial Class sap_completed
     Inherits System.Web.UI.Page
@@ -69,12 +71,12 @@ Partial Class sap_completed
             mail_dict.Add("mail", "AC") 'AI EXTENSION REJECTED
             mail_dict.Add("to", users.getMailById(owner_id))
             mail_dict.Add("{ai_id}", ai_id.ToString)
-			mail_dict.Add("{ai_owner}", users.getNameById(owner_id))
+            mail_dict.Add("{ai_owner}", users.getNameById(owner_id))
             mail_dict.Add("{description}", description) 'MAIL SUBJECT / AI DESCRIPTION
-			mail_dict.Add("{requestor_name}", users.getNameById(requestor_id))
-			mail_dict.Add("{app_link}", syscfg.getSystemUrl)
-			mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the report")
-					
+            mail_dict.Add("{requestor_name}", users.getNameById(requestor_id))
+            mail_dict.Add("{app_link}", syscfg.getSystemUrl)
+            mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the report")
+
 
             newMail.SendNotificationMail(mail_dict)
 

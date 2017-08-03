@@ -8,6 +8,8 @@ Imports System.Collections.Generic
 Imports SysConfig
 Imports SapActions
 Imports Linker
+Imports common
+Imports commonLib
 'Imports MailTemplate
 
 '#############################################################################################################
@@ -19,57 +21,6 @@ Imports Linker
 Partial Class _Default
     Inherits System.Web.UI.Page
 
-    Private Function HumanizeFwd(ByVal i As Integer) As String
-        Dim result As String
-        Select Case i
-            Case Is < 0
-                result = "OverDue"
-            Case 0
-                result = "Today"
-            Case 1
-                result = "Tomorrow"
-            Case Else
-                result = "within " & i.ToString & " days"
-        End Select
-        Return result
-    End Function
-
-    Private Function HumanizeBkw(ByVal i As Integer) As String
-        Dim result As String
-        Select Case i
-            Case Is < 0
-                result = "Error"
-            Case 0
-                result = "Today"
-            Case 1
-                result = "Yesterday"
-            Case Else
-                result = i.ToString & " days ago"
-        End Select
-        Return result
-    End Function
-
-    Private Function ai_Str_Status(ByVal s As String) As String
-        Dim result As String
-        Select Case s
-            Case "PD"
-                result = "Pending"
-            Case "IP"
-                result = "In Progress"
-            Case "NE"
-                result = "Extending"
-            Case "OD"
-                result = "Overdue"
-            Case "CF"
-                result = "Confirmed"
-            Case "DL"
-                result = "Delivered"
-            Case Else
-                result = "Unset"
-        End Select
-        Return result
-    End Function
-
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
         Dim syscfg As New SysConfig
@@ -79,13 +30,10 @@ Partial Class _Default
 
         Dim actions As New SapActions
         Dim link As New Linker
-
-        'current_user.Text = su.getName()
-
         Dim dbconn As OleDbConnection
-        Dim dbcomm, dbcomm_req, dbcomm_ais As OleDbCommand
+        Dim dbcomm_req, dbcomm_ais As OleDbCommand
         Dim dbread_req, dbread_ais As OleDbDataReader
-        Dim sql, sql_req, sql_ais As String
+        Dim sql_req, sql_ais As String
 
         dbconn = New OleDbConnection(syscfg.getConnection)
         dbconn.Open()
@@ -175,15 +123,15 @@ Partial Class _Default
             REM dbcomm_req = New OleDbCommand("SELECT * FROM requests WHERE id=" + dbread_ais.GetInt64(1).ToString, dbconn)
             REM dbread_req = dbcomm_req.ExecuteReader()
             REM If dbread_req.HasRows Then
-                REM dbread_req.Read()
+            REM dbread_req.Read()
 
-                REM If dbread_req.IsDBNull(6) Then
-                    REM max_date.Text = "false"
-                REM Else
-                    REM req_duedate = dbread_req.GetDateTime(6)
-                    REM max_date.Text = "'" + req_duedate.ToString("yyyy/MM/dd") + "'"
-                    REM request_due.Text = "Request Due: " + req_duedate.ToString("dd/MMM/yyyy")
-                REM End If
+            REM If dbread_req.IsDBNull(6) Then
+            REM max_date.Text = "false"
+            REM Else
+            REM req_duedate = dbread_req.GetDateTime(6)
+            REM max_date.Text = "'" + req_duedate.ToString("yyyy/MM/dd") + "'"
+            REM request_due.Text = "Request Due: " + req_duedate.ToString("dd/MMM/yyyy")
+            REM End If
             REM End If
 
         End If

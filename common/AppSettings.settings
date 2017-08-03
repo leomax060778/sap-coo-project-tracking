@@ -1,0 +1,33 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="" GeneratedClassName="AppSettings">
+  <Profiles />
+  <Settings>
+    <Setting Name="environment" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">production</Value>
+    </Setting>
+    <Setting Name="imapServer" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">imap.global.corp.sap</Value>
+    </Setting>
+    <Setting Name="imapPort" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">993</Value>
+    </Setting>
+    <Setting Name="isSSL" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="hostSMTP" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">mail.sap.corp</Value>
+    </Setting>
+    <Setting Name="emailUser" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">asa1_sap_mktg_in_ac@global.corp.sap\sap_marketing_in_action</Value>
+    </Setting>
+    <Setting Name="emailPass" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">BAoR}:qKQSkzSBO'#4pQ</Value>
+    </Setting>
+    <Setting Name="emailStorePath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">d:\webapps\test\mails\</Value>
+    </Setting>
+    <Setting Name="systemEmail" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">sap_marketing_in_action@sap.com</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

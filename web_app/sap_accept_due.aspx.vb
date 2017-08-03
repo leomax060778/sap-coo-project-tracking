@@ -1,4 +1,6 @@
 ﻿Imports System.Data.OleDb
+Imports common
+Imports commonLib
 
 Partial Class sap_accept_due
     Inherits System.Web.UI.Page
@@ -15,6 +17,7 @@ Partial Class sap_accept_due
         Dim syscfg As New SysConfig
         Dim users As New SapUser
         Dim actions As New SapActions
+        Dim utils As New Utils
 
         dbconn = New OleDbConnection(syscfg.getConnection)
         dbconn.Open()
@@ -78,10 +81,11 @@ Partial Class sap_accept_due
             mail_dict.Add("to", users.getMailById(ai_owner))
             mail_dict.Add("{ai_id}", ai_id.ToString)
             mail_dict.Add("{description}", ai_descr) 'MAIL SUBJECT / AI DESCRIPTION
-            mail_dict.Add("{duedate}", ai_extension.ToString)
+            mail_dict.Add("{duedate}", utils.formatDateToSTring(ai_extension))
             mail_dict.Add("{ai_owner}", users.getNameById(ai_owner))
             mail_dict.Add("{app_link}", syscfg.getSystemUrl)
             mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the report")
+            mail_dict.Add("{subject}", "Extension for AI#" & ai_id.ToString & " has been approved")
 
             newMail.SendNotificationMail(mail_dict)
 

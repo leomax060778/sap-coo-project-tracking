@@ -12,6 +12,8 @@ Imports SapUser
 'Imports System.Security.Cryptography
 Imports Linker
 Imports System.Globalization
+Imports common
+Imports commonLib
 
 Partial Class Default2
     Inherits System.Web.UI.Page
@@ -50,6 +52,7 @@ Partial Class Default2
         Dim syscfg As New SysConfig
         Dim users As New SapUser
         Dim actions As New SapActions
+        Dim utils As New Utils
 
         dbconn = New OleDbConnection(syscfg.getConnection)
         dbconn.Open()
@@ -119,15 +122,15 @@ Partial Class Default2
                     mail_dict.Add("{ai_id}", http_req_form_ai_id)
                     mail_dict.Add("{owner}", users.getNameById(ai_owner) & "(" & ai_owner & ")")
                     mail_dict.Add("{description}", ai_descr) 'MAIL SUBJECT / AI DESCRIPTION
-                    mail_dict.Add("{duedate}", ai_old_due)
+                    mail_dict.Add("{duedate}", utils.formatDateToSTring(ai_old_due))
                     mail_dict.Add("{extension}", http_req_form_duedate)
                     mail_dict.Add("{reason}", http_req_form_reason)
                     mail_dict.Add("{accept_link}", syscfg.getSystemUrl + "sap_accept_due.aspx?id=" + link.enLink(http_req_form_ai_id))
                     mail_dict.Add("{reject_link}", syscfg.getSystemUrl + "sap_reject_due.aspx?id=" + link.enLink(http_req_form_ai_id))
-					mail_dict.Add("{requestor_name}", users.getNameById(requestor_id))
-					mail_dict.Add("{app_link}", syscfg.getSystemUrl)
-					mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the report")
-					
+                    mail_dict.Add("{requestor_name}", users.getNameById(requestor_id))
+                    mail_dict.Add("{app_link}", syscfg.getSystemUrl)
+                    mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the report")
+
 
                     newMail.SendNotificationMail(mail_dict)
 
@@ -236,28 +239,28 @@ Partial Class Default2
             End If
             ai_tbl_due.Text = ai_duedate.Date.ToString("dd/MMM/yyyy")
 
-            ai_duedate = ai_duedate.addDays(1)
+            ai_duedate = ai_duedate.AddDays(1)
             'MIN_DATE MUST BE GREATER THAN ACTUAL DUEDATE
             '#######TODO#################################
             min_date.Text = "'" + ai_duedate.Year.ToString + "/" + ai_duedate.Month.ToString + "/" + ai_duedate.Day.ToString + "'"
             set_date.Text = min_date.Text
             'desc
             ai_tbl_status.Text = ai_Str_Status(dbread_ais.GetString(5))
-			
-			dbcomm_req = New OleDbCommand("SELECT * FROM requests WHERE id=" + dbread_ais.GetInt64(1).ToString, dbconn)
-			dbread_req = dbcomm_req.ExecuteReader()
-			Dim req_duedate As Date
-			If dbread_req.HasRows Then
-				dbread_req.Read()
-				
-				If dbread_req.IsDBNull(6) Then
-				'	max_date.Text = "false"
-				Else
-					req_duedate = dbread_req.GetDateTime(6)
-					'max_date.Text = "'" + req_duedate.ToString("yyyy/MM/dd") + "'"
-					'request_due.Text = "Request Due: " + req_duedate.ToString("dd/MMM/yyyy")
-				End If
-			End If
+
+            dbcomm_req = New OleDbCommand("SELECT * FROM requests WHERE id=" + dbread_ais.GetInt64(1).ToString, dbconn)
+            dbread_req = dbcomm_req.ExecuteReader()
+            Dim req_duedate As Date
+            If dbread_req.HasRows Then
+                dbread_req.Read()
+
+                If dbread_req.IsDBNull(6) Then
+                    '	max_date.Text = "false"
+                Else
+                    req_duedate = dbread_req.GetDateTime(6)
+                    'max_date.Text = "'" + req_duedate.ToString("yyyy/MM/dd") + "'"
+                    'request_due.Text = "Request Due: " + req_duedate.ToString("dd/MMM/yyyy")
+                End If
+            End If
 
         Else
 

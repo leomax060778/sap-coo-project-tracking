@@ -8,6 +8,8 @@ Imports System.Security.Cryptography.X509Certificates
 Imports MailKit
 Imports MailKit.Security
 Imports System.Text.RegularExpressions
+Imports common
+Imports commonLib
 
 
 'Highligth COLOR
@@ -17,6 +19,9 @@ Public Class MailTemplate
 
     Dim Smtp_Server As New SmtpClient
     Dim e_mail As New MailMessage
+    Dim systemConfig As New SystemConfiguration
+    Dim appConfiguration As New AppSettings
+    Dim utils As New Utils
 
     'DEFINE GLOBAL VARIABLES
     Public currentEnv As String = "production"
@@ -27,6 +32,7 @@ Public Class MailTemplate
     Public emailUser As String = "asa1_sap_mktg_in_ac@global.corp.sap\sap_marketing_in_action"
     Public emailPass As String = "BAoR}:qKQSkzSBO'#4pQ"
     Public emailAddressFrom As String = "sap_marketing_in_action@sap.com"
+    Dim syscfg As New SysConfig
 
     Function ResolveDisplayNameToSMTP(ByVal userName As String) As String 'ByRef session As Outlook.NameSpace,
         Dim users As New SapUser
@@ -192,7 +198,7 @@ Public Class MailTemplate
         Dim users As New SapUser
         Dim mailFile As String = ""
 
-        mailFile = "d:\webapps\test\mails\" & message.MessageId & ".eml"
+        mailFile = appConfiguration.emailStorePath & message.MessageId & ".eml"
         If Not File.Exists(mailFile) Then
             message.WriteTo(mailFile)
         End If
@@ -249,10 +255,10 @@ Public Class MailTemplate
     End Function
 
     Public Function isMailToSystem(ByVal mailList As String) As Boolean
-        Dim syscfg As New SysConfig
+        Dim syscfg As New SystemConfiguration
         Dim result As Boolean = False
 
-        Return mailList.IndexOf(syscfg.getSystemMail) >= 0
+        Return mailList.IndexOf(syscfg.getSystemEmail) >= 0
 
     End Function
 
@@ -262,7 +268,7 @@ Public Class MailTemplate
         Dim actions As New SapActions
         Dim dbDate As Date
         Dim log_dict As New Dictionary(Of String, String)
-        Dim newLog As New LogSAPTareas
+        Dim newLog As New Logging
         Dim lastMails As Collection = New Collection
         Dim c As Integer = 0
         Dim inbox As IMailFolder
@@ -312,7 +318,7 @@ Public Class MailTemplate
                 For Each uid As UniqueId In inbox.Search(Search.SearchQuery.Seen)
                     Dim email = inbox.GetMessage(uid) ' Download and parse each message
                     If (email IsNot Nothing) Then
-                        log("Marked email for deletion with EntryID: " & email.MessageId & email.Subject)
+                        log("Email marked or deletion with entryID: " & email.MessageId & email.Subject)
                         inbox.SetFlags(uid, MessageFlags.Deleted, True, Nothing)
                     End If
                 Next
@@ -434,9 +440,9 @@ Public Class MailTemplate
         Dim syscfg As New SysConfig
         Dim users As New SapUser
         Dim eLink As New Linker
-        Dim newLog As New LogSAPTareas
+        Dim newLog As New Logging
 
-        dbconn = New OleDbConnection(syscfg.getConnection)
+        dbconn = New OleDbConnection(systemConfig.getConnection)
         dbconn.Open()
 
         If (String.IsNullOrEmpty(ai_Id)) Then
@@ -502,6 +508,11 @@ Public Class MailTemplate
                 'ERROR / HALT DO NOTHING
         End Select
 
+        'When the subject is provided in the map
+        If mailData.ContainsKey("{subject}") AndAlso Not String.IsNullOrEmpty(mailData("{subject}")) Then
+            mailSubject = mailData("{subject}")
+        End If
+
         Dim reader As StreamReader = New StreamReader(mailTemplate)
 
         mailBody = PopulateBody(reader, mailData)
@@ -512,7 +523,7 @@ Public Class MailTemplate
 
     Sub sendAndDelete()
 
-        Dim waitaMinute As Integer = 1
+        Dim waitaMinute As Integer = 0
 
         Dim Smtp_Server As New SmtpClient
         Dim e_mail As New MailMessage()
@@ -525,7 +536,7 @@ Public Class MailTemplate
         Dim syscfg As New SysConfig
         Dim users As New SapUser
         Dim eLink As New Linker
-        Dim newLog As New LogSAPTareas
+        Dim newLog As New Logging
 
         Dim mailSubject As String
         Dim mailBody As String
@@ -535,7 +546,7 @@ Public Class MailTemplate
         Dim ndxStart, ndxEnd As Integer
         Dim aiIdStr As String
 
-        dbconn = New OleDbConnection(syscfg.getConnection())
+        dbconn = New OleDbConnection(systemConfig.getConnection())
         dbconn.Open()
 
         'CREATE CONNECTION TO SMTP SERVER
@@ -559,7 +570,7 @@ Public Class MailTemplate
                     mailSubject = dbread.GetString(2)
                     mailBody = dbread.GetString(3)
 
-                    log("sendAndDelete - Sending email with subject: " & mailSubject)
+                    log("sendAndDelete - Processing email with id#: " & dbread.GetInt64(0).ToString)
 
                     'WHEN IS A NEW AI THEN MUST WAIT
                     If mailSubject = "New AI" Then
@@ -686,17 +697,16 @@ Public Class MailTemplate
         Dim dbread As OleDbDataReader
         Dim sql As String
 
-        Dim syscfg As New SysConfig
         Dim users As New SapUser
         Dim eLink As New Linker
-        Dim newLog As New LogSAPTareas
+        Dim newLog As New Logging
         Dim actions As New SapActions
 
         Dim newMail As New MailTemplate
         Dim mail_dict As New Dictionary(Of String, String)
         Dim log_dict As New Dictionary(Of String, String)
 
-        dbconn = New OleDbConnection(syscfg.getConnection())
+        dbconn = New OleDbConnection(systemConfig.getConnection())
         dbconn.Open()
 
         'DUE DATE NOTIFICATIONS
@@ -713,12 +723,13 @@ Public Class MailTemplate
                 mail_dict.Add("{ai_id}", dbread.GetInt64(0).ToString)
                 mail_dict.Add("{ai_owner}", users.getNameById(dbread.GetString(6)))
                 mail_dict.Add("{description}", dbread.GetString(2)) 'MAIL SUBJECT / AI DESCRIPTION
-                mail_dict.Add("{duedate}", Now.Date.ToString("dd/MMM/yyyy") & " (Today)")
+                mail_dict.Add("{duedate}", utils.formatDateToSTring(Now.Date) & " (Today)")
                 mail_dict.Add("{delivery_link}", syscfg.getSystemUrl + "sap_dlvr.aspx?id=" + eLink.enLink(dbread.GetInt64(0).ToString))
                 mail_dict.Add("{requestor_name}", users.getNameById(dbread.GetString(6)))
                 mail_dict.Add("{app_link}", syscfg.getSystemUrl)
                 mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the report")
                 mail_dict.Add("{ai_link}", syscfg.getSystemUrl + "sap_ai_view.aspx?id=" + dbread.GetInt64(0).ToString)
+                mail_dict.Add("{subject}", "Your AI#" & dbread.GetInt64(0).ToString & " is Due Today")
 
                 newMail.SendNotificationMail(mail_dict)
 
@@ -768,6 +779,7 @@ Public Class MailTemplate
                 mail_dict.Add("{app_link}", syscfg.getSystemUrl)
                 mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the report")
                 mail_dict.Add("{ai_link}", syscfg.getSystemUrl + "sap_ai_view.aspx?id=" + dbread.GetInt64(0).ToString)
+                mail_dict.Add("{subject}", "AI#" & dbread.GetInt64(0).ToString & " Is Due in 2 Days")
 
                 newMail.SendNotificationMail(mail_dict)
 

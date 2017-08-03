@@ -1,4 +1,6 @@
 ﻿Imports System.Data.OleDb
+Imports common
+Imports commonLib
 
 Partial Class _Default
     Inherits System.Web.UI.Page
@@ -15,6 +17,7 @@ Partial Class _Default
         Dim syscfg As New SysConfig
         Dim users As New SapUser
         Dim actions As New SapActions
+        Dim utils As New Utils
 
         dbconn = New OleDbConnection(syscfg.getConnection)
         dbconn.Open()
@@ -75,7 +78,7 @@ Partial Class _Default
                 Dim request_id As Integer = dbread_ais.GetInt64(1)
                 Dim requestor_id As String = actions.getRequestorIdFromRequestId(request_id)
                 Dim description As String = dbread_ais.GetString(2)
-                Dim duedate As String = dbread_ais.GetDateTime(4).ToString("dd/MMM/yyyy")
+                Dim duedate As String = utils.formatDateToSTring(dbread_ais.GetDateTime(4))
 
                 Dim mail_dict As New Dictionary(Of String, String)
                 mail_dict.Add("mail", "AU") 'AI EXTENSION REJECTED
@@ -88,6 +91,7 @@ Partial Class _Default
                 mail_dict.Add("{requestor_name}", users.getNameById(requestor_id))
                 mail_dict.Add("{app_link}", syscfg.getSystemUrl)
                 mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the report")
+                mail_dict.Add("{subject}", "AI# " & ai_id.ToString & " Is Incomplete")
 
                 newMail.SendNotificationMail(mail_dict)
 

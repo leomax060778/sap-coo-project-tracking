@@ -1,0 +1,11 @@
+C:\SAP\source\sap-coo-project-tracking\common\bin\Debug\common.dll.config
+C:\SAP\source\sap-coo-project-tracking\common\bin\Debug\common.dll
+C:\SAP\source\sap-coo-project-tracking\common\bin\Debug\common.pdb
+C:\SAP\source\sap-coo-project-tracking\common\bin\Debug\common.xml
+C:\SAP\source\sap-coo-project-tracking\common\bin\Debug\Mail.dll
+C:\SAP\source\sap-coo-project-tracking\common\bin\Debug\Mail.xml
+C:\SAP\source\sap-coo-project-tracking\common\obj\Debug\common.Resources.resources
+C:\SAP\source\sap-coo-project-tracking\common\obj\Debug\common.vbproj.GenerateResource.Cache
+C:\SAP\source\sap-coo-project-tracking\common\obj\Debug\common.dll
+C:\SAP\source\sap-coo-project-tracking\common\obj\Debug\common.xml
+C:\SAP\source\sap-coo-project-tracking\common\obj\Debug\common.pdb

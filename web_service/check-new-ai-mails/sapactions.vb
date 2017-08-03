@@ -1,7 +1,12 @@
 ﻿Imports System.Data.OleDb
 Imports System.Text
+Imports common
+Imports commonLib
 
 Public Class SapActions
+
+    Dim systemConfig As New SystemConfiguration
+    Dim utils As New Utils
 
     Public Function getRequestorIdFromRequestId(ByVal req_id As Integer) As String
         Dim dbconn As OleDbConnection
@@ -10,10 +15,9 @@ Public Class SapActions
         Dim sql_req As String
         Dim result As String = Nothing
 
-        Dim syscfg As New SysConfig
         Dim user As New SapUser
 
-        dbconn = New OleDbConnection(syscfg.getConnection)
+        dbconn = New OleDbConnection(systemConfig.getConnection)
         dbconn.Open()
 
         'CHECK AI ACTUAL STATUS
@@ -41,7 +45,7 @@ Public Class SapActions
         Dim syscfg As New SysConfig
         Dim user As New SapUser
 
-        dbconn = New OleDbConnection(syscfg.getConnection)
+        dbconn = New OleDbConnection(systemConfig.getConnection)
         dbconn.Open()
 
         'CHECK AI ACTUAL STATUS
@@ -64,7 +68,7 @@ Public Class SapActions
         Dim syscfg As New SysConfig
         Dim user As New SapUser
 
-        dbconn = New OleDbConnection(syscfg.getConnection)
+        dbconn = New OleDbConnection(systemConfig.getConnection)
         dbconn.Open()
 
         'CHECK AI ACTUAL STATUS
@@ -94,13 +98,13 @@ Public Class SapActions
         Dim syscfg As New SysConfig
         Dim users As New SapUser
         Dim eLink As New Linker
-        Dim newLog As New LogSAPTareas
+        Dim newLog As New Logging
 
         'ID LAST REQUEST CREATED
         Dim req_id As Long
         Dim ai_id As Long
 
-        dbconn = New OleDbConnection(syscfg.getConnection)
+        dbconn = New OleDbConnection(systemConfig.getConnection)
         dbconn.Open()
 
         Dim mailFrom As String = sourceMail("from")
@@ -217,7 +221,8 @@ Public Class SapActions
             ownerID = users.getIdByMail(sourceMail(owner))
 
             'CREATE ACTION ITEM
-            sql = "INSERT INTO actionitems (request_id, description, owner, status" + dueSQLfield + ") VALUES (" + req_id.ToString + ", '" + mailSubject + "', '" + ownerID + "', 'PD'" + dueSQLdata + ");" '+ " / " + mailBody
+            sql = "INSERT INTO actionitems (request_id, description, owner, status" + dueSQLfield + ") VALUES (" + req_id.ToString + ", '" + mailSubject + " / " + mailBody + "', '" + ownerID + "', 'PD'" + dueSQLdata + ");"
+            '+ " / " + mailBody
 
             dbcomm = New OleDbCommand(sql, dbconn)
             dbcomm.ExecuteNonQuery()
@@ -229,7 +234,7 @@ Public Class SapActions
             mail_dict.Add("to", sourceMail(owner))
             mail_dict.Add("{ai_id}", ai_id.ToString)
             mail_dict.Add("{description}", "[" + mailSubject + "] " + mailBody) 'MAIL SUBJECT / AI DESCRIPTION
-            mail_dict.Add("{duedate}", posDueDate.ToString("dd/MMM/yyyy"))
+            mail_dict.Add("{duedate}", utils.formatDateToSTring(posDueDate))
             mail_dict.Add("{accept_link}", syscfg.getSystemUrl + "sap_accept_new_due.aspx?id=" + eLink.enLink(ai_id.ToString))
             mail_dict.Add("{reject_link}", syscfg.getSystemUrl + "sap_reject_due.aspx?id=" + eLink.enLink(ai_id.ToString))
             mail_dict.Add("{extension_link}", syscfg.getSystemUrl + "sap_ext.aspx?id=" + eLink.enLink(ai_id.ToString))
@@ -323,9 +328,7 @@ Public Class SapActions
         Dim dbread_req As OleDbDataReader
         Dim sql_req As String
 
-        Dim syscfg As New SysConfig
-
-        dbconn = New OleDbConnection(syscfg.getConnection)
+        dbconn = New OleDbConnection(systemConfig.getConnection)
         dbconn.Open()
 
         sql_req = "SELECT due FROM requests WHERE id=" & id
@@ -351,9 +354,7 @@ Public Class SapActions
         Dim dbread_req As OleDbDataReader
         Dim sql_req As String
 
-        Dim syscfg As New SysConfig
-
-        dbconn = New OleDbConnection(syscfg.getConnection)
+        dbconn = New OleDbConnection(systemConfig.getConnection)
         dbconn.Open()
 
         sql_req = "SELECT due FROM requests WHERE id=" & id
@@ -377,9 +378,7 @@ Public Class SapActions
         Dim dbread_req As OleDbDataReader
         Dim sql_req As String
 
-        Dim syscfg As New SysConfig
-
-        dbconn = New OleDbConnection(syscfg.getConnection)
+        dbconn = New OleDbConnection(systemConfig.getConnection)
         dbconn.Open()
 
         sql_req = "SELECT * FROM requests WHERE mail_id='" & id & "'"
@@ -405,7 +404,7 @@ Public Class SapActions
         Dim dbcomm As OleDbCommand
         Dim dbread As OleDbDataReader
 
-        dbconn = New OleDbConnection(syscfg.getConnection)
+        dbconn = New OleDbConnection(systemConfig.getConnection)
         dbconn.Open()
 
         Dim extra_where As String = "status <> 'CP' AND status <> 'XX'"
@@ -586,7 +585,7 @@ Public Class SapActions
         Dim aiDesc As String
         Dim newLine As String
 
-        dbconn = New OleDbConnection(syscfg.getConnection)
+        dbconn = New OleDbConnection(systemConfig.getConnection)
         dbconn.Open()
 
         'sql_req = "SELECT * FROM actionitems WHERE owner='" & id & "' AND status <> 'CP' AND status <> 'XX'"
@@ -765,10 +764,11 @@ Public Class SapActions
                 mail_dict.Add("mail", "OR") 'OWNER REPORT
                 mail_dict.Add("to", users.getMailById(id))
                 mail_dict.Add("{time}", interval)
-                mail_dict.Add("{date}", DateTime.Now.ToString("MM/dd/yyyy"))
+                mail_dict.Add("{date}", utils.formatDateToSTring(Now.Date))
                 mail_dict.Add("{data}", report(interval))
                 mail_dict.Add("{app_link}", syscfg.getSystemUrl)
                 mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the Owner report")
+                mail_dict.Add("{subject}", "Your Open Action Items")
 
                 newMail.SendNotificationMail(mail_dict)
 

@@ -1,8 +1,15 @@
-﻿Imports Microsoft.VisualBasic
-Imports System.Data.OleDb
-Imports System.Collections.Generic
+﻿Imports System.Data.OleDb
+Imports System.IO
 
-Public Class LogSAPTareas
+Public Class Logging
+
+    Public Sub log(ByVal s As String)
+        Dim strFile As String = "d:\webapps\test\log.txt"
+        Using sw As New StreamWriter(File.Open(strFile, FileMode.OpenOrCreate))
+            sw.WriteLine("[" + Now.ToString("yyyy.MM.dd hh:mm:ss") + "]" + s)
+            sw.Flush()
+        End Using
+    End Sub
 
     Public Sub LogWrite(ByRef eventData As Dictionary(Of String, String))
 
@@ -12,7 +19,7 @@ Public Class LogSAPTareas
         Dim sql_fields As String = ""
         Dim sql_values As String = ""
 
-        Dim syscfg As New SysConfig
+        Dim syscfg As New SystemConfiguration
 
         dbconn = New OleDbConnection(syscfg.getConnection)
         dbconn.Open()
@@ -38,9 +45,9 @@ Public Class LogSAPTareas
 
     Public Sub LogDescr(ByVal eventData As String)
         Dim log_dict As New Dictionary(Of String, String)
-        Dim newlog As New LogSAPTareas
+        Dim newlog As New Logging
         log_dict.Add("detail", eventData)
-        newLog.LogWrite(log_dict)
+        newlog.LogWrite(log_dict)
     End Sub
 
 End Class

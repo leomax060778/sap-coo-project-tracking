@@ -1,4 +1,6 @@
 ﻿Imports System.Data.OleDb
+Imports common
+Imports commonLib
 
 Partial Class sap_ai_data
     Inherits System.Web.UI.Page
@@ -15,16 +17,16 @@ Partial Class sap_ai_data
         Dim syscfg As New SysConfig
         Dim users As New SapUser
         Dim actions As New SapActions
-
-        dbconn = New OleDbConnection(syscfg.getConnection)
-        dbconn.Open()
+        Dim utils As New Utils
 
         Dim http_ai_id As String = Request("id")
         Dim req_id, ai_id As Integer
         Dim i As Integer
         Dim linked As New Linker
-
         Dim ai_duedate As New Date
+
+        dbconn = New OleDbConnection(syscfg.getConnection)
+        dbconn.Open()
 
         If String.IsNullOrEmpty(http_ai_id) Or Not Integer.TryParse(http_ai_id, i) Then
             Response.Redirect(".\sap_error.aspx", False)
@@ -107,10 +109,12 @@ Partial Class sap_ai_data
                 mail_dict.Add("{hl_name}", http_ai_form_name)
                 mail_dict.Add("{description}", http_ai_form_hd_descr) 'MAIL SUBJECT / AI DESCRIPTION
                 mail_dict.Add("{hl_descr}", http_ai_form_descr)
-                mail_dict.Add("{duedate}", http_ai_duedate)
+                mail_dict.Add("{duedate}", utils.formatDateToSTring(http_ai_duedate))
                 mail_dict.Add("{hl_due}", http_ai_form_duedate)
                 mail_dict.Add("{detail}", http_ai_form_detail)
-                mail_dict.Add("{reply_mail_link}", "mailto:" & users.getAdminMail & "?subject=AI#" & http_ai_form_id.Trim() & "%20-%20To%20process%20your%20request%20additional%20info%20is%20needed&body=Dear%20Admin%2C%0D%0A%0D%0AHere%20is%20the%20info%20required%3A%0D%0A%0D%0A" & urlBody)
+                mail_dict.Add("{reply_mail_link}", "mailto:" & users.getMailById(ai_owner) & "?subject=AI#" & http_ai_form_id.Trim() & "%20-%20To%20process%20your%20request%20additional%20info%20is%20needed&body=Dear%20Admin%2C%0D%0A%0D%0AHere%20is%20the%20info%20required%3A%0D%0A%0D%0A" & urlBody)
+                mail_dict.Add("{app_link}", syscfg.getSystemUrl)
+                mail_dict.Add("{subject}", users.getNameById(ai_owner) & " Is requesting information for AI #" & http_ai_form_id.Trim())
 
                 newMail.SendNotificationMail(mail_dict)
 

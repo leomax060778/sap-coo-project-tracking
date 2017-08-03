@@ -1,75 +1,17 @@
 ﻿Imports System.Data.OleDb
-Imports System
-Imports System.Web
-Imports System.Web.UI
-Imports System.Web.UI.WebControls
-Imports System.Collections.Generic
-Imports LogSAPTareas
-Imports MailTemplate
-Imports SysConfig
-Imports SapActions
 
 Partial Class _Default
     Inherits System.Web.UI.Page
 
-    Private Function humanize_Fwd(ByVal i As Integer) As String
-        Dim result As String
-        Select Case i
-            Case Is < 0
-                result = "Overdue"
-            Case 0
-                result = "Today"
-            Case 1
-                result = "Tomorrow"
-            Case Else
-                result = "within " + i.ToString + " days"
-        End Select
-        Return result
-    End Function
-
-    Private Function humanize_Bkw(ByVal i As Integer) As String
-        Dim result As String
-        Select Case i
-            Case Is < 0
-                result = "Error"
-            Case 0
-                result = "Today"
-            Case 1
-                result = "Yesterday"
-            Case Else
-                result = i.ToString + " days ago"
-        End Select
-        Return result
-    End Function
-
-    Private Function ai_Str_Status(ByVal s As String) As String
-        Dim result As String
-        Select Case s
-            Case "PD"
-                result = "Pending"
-            Case "IP"
-                result = "In Progress"
-            Case "NE"
-                result = "Extending"
-            Case "OD"
-                result = "Overdue"
-            Case "CF"
-                result = "Confirmed"
-            Case "DL"
-                result = "Delivered"
-            Case Else
-                result = "Unset"
-        End Select
-        Return result
-    End Function
+    Dim utils As New Utils
 
     Private Sub CommandBtn_Click(ByVal sender As Object, ByVal e As CommandEventArgs)
 
         Dim syscfg As New SysConfig
         Dim actions As New SapActions
 
-        Dim su as SapUser = new SapUser()
-        Dim ro As String = su.getrole()
+        Dim su As SapUser = New SapUser()
+        Dim ro As String = su.getRole()
 
         If ro <> "OW" And ro <> "AO" Then
             Response.Redirect(syscfg.getSystemUrl + "sap_main.aspx", False)
@@ -303,18 +245,18 @@ Partial Class _Default
 
                 '<td>Jan 25, 2015</td>
                 Dim tCell_ctd As New HtmlTableCell
-                tCell_ctd.InnerHtml = ai_created.Date.ToString("dd/MMM/yyyy") + "<br><span class='elapsed'>" + humanize_Bkw(ai_spent_days) + "</span>"
+                tCell_ctd.InnerHtml = ai_created.Date.ToString("dd/MMM/yyyy") + "<br><span class='elapsed'>" + utils.humanize_Bkw(ai_spent_days) + "</span>"
                 tRow.Cells.Add(tCell_ctd)
 
                 '<td>Feb 14, 2015</td>
                 Dim tCell_due As New HtmlTableCell
-                Dim resultHumanizeFwd As String = humanize_Fwd(ai_missing_days)
+                Dim resultHumanizeFwd As String = utils.humanize_Fwd(ai_missing_days)
 
                 If ai_has_duedate Then
-                    tCell_due.InnerHtml = ai_duedate.Date.ToString("dd/MMM/yyyy") + "<br><span class='elapsed'>" + humanize_Fwd(ai_missing_days) + "</span>"
+                    tCell_due.InnerHtml = ai_duedate.Date.ToString("dd/MMM/yyyy") + "<br><span class='elapsed'>" + utils.humanize_Fwd(ai_missing_days) + "</span>"
 
                     If resultHumanizeFwd = "Overdue" Then
-                        tCell_due.InnerHtml = ai_duedate.Date.ToString("dd/MMM/yyyy") + "<br><span class='elapsed' style='color:rgb(255, 75, 75)'>" + humanize_Fwd(ai_missing_days) + "</span>"
+                        tCell_due.InnerHtml = ai_duedate.Date.ToString("dd/MMM/yyyy") + "<br><span class='elapsed' style='color:rgb(255, 75, 75)'>" + utils.humanize_Fwd(ai_missing_days) + "</span>"
                     End If
                 Else
                     tCell_due.InnerHtml = "<b>Unset</b>"
@@ -326,7 +268,7 @@ Partial Class _Default
 
                 '<td>Status</td>
                 Dim tCell_sts As New HtmlTableCell
-                tCell_sts.InnerText = ai_Str_Status(ai_status)
+                tCell_sts.InnerText = utils.ai_Str_Status(ai_status)
                 If ai_missing_days < 3 And ai_status <> "DL" Then
                     'tCell_sts.Attributes.Add("class", "hot")
                 End If

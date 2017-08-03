@@ -1,4 +1,4 @@
-﻿<%@ Page Language="VB" AutoEventWireup="false" CodeFile="sap_req_edit.aspx.vb" Inherits="_Default" %>
+﻿<%@ Page Language="VB" ValidateRequest="false" AutoEventWireup="false" CodeFile="sap_req_edit.aspx.vb" Inherits="_Default" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 

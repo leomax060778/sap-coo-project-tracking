@@ -9,10 +9,14 @@ Imports SysConfig
 Imports SapActions
 Imports SapAnalytics
 Imports Linker
+Imports common
+Imports commonLib
 'Imports MailTemplate
 
 Partial Class _Default
     Inherits System.Web.UI.Page
+
+    Dim utils As New Utils
 
     Private Sub CommandBtn_Click(ByVal sender As Object, ByVal e As CommandEventArgs)
 
@@ -70,64 +74,9 @@ Partial Class _Default
 
     End Sub
 
-    Private Function HumanizeFwd(ByVal i As Integer) As String
-        Dim result As String
-        Select Case i
-            Case Is < 0
-                result = "OverDue"
-            Case 0
-                result = "Today"
-            Case 1
-                result = "Tomorrow"
-            Case Else
-                result = "within " & i.ToString & " days"
-        End Select
-        Return result
-    End Function
-
-    Private Function HumanizeBkw(ByVal i As Integer) As String
-        Dim result As String
-        Select Case i
-            Case Is < 0
-                result = "Error"
-            Case 0
-                result = "Today"
-            Case 1
-                result = "Yesterday"
-            Case Else
-                result = i.ToString & " days ago"
-        End Select
-        Return result
-    End Function
-
-    Private Function ai_Str_Status(ByVal s As String) As String
-        Dim result As String
-        Select Case s
-            Case "PD"
-                result = "Pending"
-            Case "IP"
-                result = "In Progress"
-            Case "NE"
-                result = "Extending"
-            Case "OD"
-                result = "Overdue"
-            Case "CF"
-                result = "Confirmed"
-            Case "DL"
-                result = "Delivered"
-            Case "CP"
-                result = "Completed"
-            Case "ND"
-                result = "Need Data"
-            Case Else
-                result = "Unset"
-        End Select
-        Return result
-    End Function
-
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
-        Dim su as SapUser = new SapUser()
+        Dim su As SapUser = New SapUser()
         Dim link As New Linker
 
         current_user.Text = su.getName()
@@ -224,7 +173,7 @@ Partial Class _Default
             mail_dict.Add("{description}", http_req_form_descr) 'MAIL SUBJECT / AI DESCRIPTION
             mail_dict.Add("{duedate}", http_req_form_duedate)
             mail_dict.Add("{accept_link}", syscfg.getSystemUrl + "sap_accept_new_due.aspx?id=" + link.enLink(ai_id.ToString))
-			mail_dict.Add("{reject_link}", syscfg.getSystemUrl + "sap_reject_due.aspx?id=" + link.enLink(ai_id.ToString))
+            mail_dict.Add("{reject_link}", syscfg.getSystemUrl + "sap_reject_due.aspx?id=" + link.enLink(ai_id.ToString))
             mail_dict.Add("{extension_link}", syscfg.getSystemUrl + "sap_ext.aspx?id=" + link.enLink(ai_id.ToString))
             mail_dict.Add("{need_information}", syscfg.getSystemUrl + "sap_ai_data.aspx?id=" + link.enLink(ai_id.ToString))
             mail_dict.Add("{requestor_name}", su.getNameById(http_req_form_owner))
@@ -260,17 +209,17 @@ Partial Class _Default
 
         Dim ro As String = su.getRole()
 
-		'### fabricamos lista de owners ###
-		Dim sql_owners As String
-		sql_owners = "SELECT * FROM users WHERE role='OW' OR role='AO'"
+        '### fabricamos lista de owners ###
+        Dim sql_owners As String
+        sql_owners = "SELECT * FROM users WHERE role='OW' OR role='AO'"
 
-		dbcomm_ais = New OleDbCommand(sql_owners, dbconn)
-		dbread_ais = dbcomm_ais.ExecuteReader()
+        dbcomm_ais = New OleDbCommand(sql_owners, dbconn)
+        dbread_ais = dbcomm_ais.ExecuteReader()
 
-		While dbread_ais.Read()
-			'owner_option.Text = owner_option.Text & "<option value='" & dbread_ais.GetValue(0) & "'>" & dbread_ais.GetValue(1) & "</option>"
-			owner.Items.Add(New ListItem(dbread_ais.GetValue(1), dbread_ais.GetValue(0)))
-		End While
+        While dbread_ais.Read()
+            'owner_option.Text = owner_option.Text & "<option value='" & dbread_ais.GetValue(0) & "'>" & dbread_ais.GetValue(1) & "</option>"
+            owner.Items.Add(New ListItem(dbread_ais.GetValue(1), dbread_ais.GetValue(0)))
+        End While
 
         Dim extra As String = ""
         If ro = "OW" Then
@@ -357,7 +306,7 @@ Partial Class _Default
                     Dim tCell_ctd As New HtmlTableCell
                     Dim ais_created As Date
                     ais_created = dbread_ais.GetDateTime(3)
-                    tCell_ctd.InnerHtml = ais_created.Date + "<br><b>" + HumanizeBkw(DateDiff(DateInterval.Day, ais_created.Date, Today.Date)) + "</b>"
+                    tCell_ctd.InnerHtml = ais_created.Date + "<br><b>" + utils.humanize_Bkw(DateDiff(DateInterval.Day, ais_created.Date, Today.Date)) + "</b>"
                     tRow.Cells.Add(tCell_ctd)
 
                     '<td>Feb 14, 2015</td>
@@ -369,8 +318,8 @@ Partial Class _Default
                         tCell_due.InnerHtml = "<b>Unset</b>"
                     Else
                         ais_duedate = dbread_ais.GetDateTime(4)
-                        resultHumanizeFwd = HumanizeFwd(DateDiff(DateInterval.Day, Today.Date, ais_duedate.Date))
-                        tCell_due.InnerHtml = ais_duedate.Date + "<br><b>" + HumanizeFwd(DateDiff(DateInterval.Day, Today.Date, ais_duedate.Date)) + "</b>"
+                        resultHumanizeFwd = utils.humanize_Fwd(DateDiff(DateInterval.Day, Today.Date, ais_duedate.Date))
+                        tCell_due.InnerHtml = ais_duedate.Date + "<br><b>" + utils.humanize_Fwd(DateDiff(DateInterval.Day, Today.Date, ais_duedate.Date)) + "</b>"
 
                         If resultHumanizeFwd = "OverDue" Then
                             tCell_due.InnerHtml = ais_duedate.Date + "<br><span style='font-weight: bold;color:rgb(255, 75, 75)'>" + resultHumanizeFwd + "</span>"
@@ -380,7 +329,7 @@ Partial Class _Default
 
                     '<td>Status</td>
                     Dim tCell_sts As New HtmlTableCell
-                    tCell_sts.InnerText = ai_Str_Status(dbread_ais.GetString(5))
+                    tCell_sts.InnerText = utils.ai_Str_Status(dbread_ais.GetString(5))
                     tRow.Cells.Add(tCell_sts)
 
                     '<td><a href="#">Create</a></td>
@@ -417,7 +366,7 @@ Partial Class _Default
             End If
             dbread_ais.Close()
 
-            min_date.Text = "'" + now.ToString("yyyy/MM/dd") + "'"
+            min_date.Text = "'" + Now.ToString("yyyy/MM/dd") + "'"
             max_date.Text = "'" + req_duedate.ToString("yyyy/MM/dd") + "'"
 
         End If
@@ -426,7 +375,7 @@ Partial Class _Default
         dbconn.Close()
 
         'SAP ANALYTICS
-        Dim anal As New SapAnalytics
+        REM Dim anal As New SapAnalytics
         'req_timesheet_data.Text = anal.createTimeLine(request_id)
         'section_width.Text = "<style>.timesheet .scale section {width: " + anal.each_section_width.ToString + "px;}</style>"
 

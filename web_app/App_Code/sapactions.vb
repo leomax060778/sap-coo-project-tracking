@@ -1,9 +1,6 @@
-﻿Imports Microsoft.VisualBasic
-
-Imports System.Data.OleDb
-Imports System
-Imports SysConfig
-Imports Linker
+﻿Imports System.Data.OleDb
+Imports common
+Imports commonLib
 
 Public Class SapActions
 
@@ -142,7 +139,7 @@ Public Class SapActions
             ownerID = users.getIdByMail(sourceMail(owner))
 
             'CREATE ACTION ITEM
-            sql = "INSERT INTO actionitems (request_id, description, owner, status) VALUES (" + req_id.ToString + ", '" + mailSubject + " / " + mailBody + "', '" + ownerID + "', 'IP')"
+            sql = "INSERT INTO actionitems (request_id, description, owner, status) VALUES (" + req_id.ToString + ", '" + mailSubject + " / " + mailBody + "', '" + ownerID + "', 'PD')"
             dbcomm = New OleDbCommand(sql, dbconn)
             dbcomm.ExecuteNonQuery()
             dbcomm.CommandText = "SELECT @@IDENTITY"
@@ -155,13 +152,13 @@ Public Class SapActions
             mail_dict.Add("{description}", "[" + mailSubject + "] " + mailBody) 'MAIL SUBJECT / AI DESCRIPTION
             mail_dict.Add("{duedate}", "See description")
             mail_dict.Add("{accept_link}", syscfg.getSystemUrl + "sap_accept_new_due.aspx?id=" + eLink.enLink(ai_id.ToString))
-			mail_dict.Add("{reject_link}", syscfg.getSystemUrl + "sap_reject_due.aspx?id=" + eLink.enLink(ai_id.ToString))
-            mail_dict.Add("{extension_link}", syscfg.getSystemUrl + "sap_ext.aspx?id=" + eLink.enLink(ai_id.ToString))	
-			mail_dict.Add("{need_information}", syscfg.getSystemUrl + "sap_ai_data.aspx?id=" + eLink.enLink(ai_id.ToString))			
+            mail_dict.Add("{reject_link}", syscfg.getSystemUrl + "sap_reject_due.aspx?id=" + eLink.enLink(ai_id.ToString))
+            mail_dict.Add("{extension_link}", syscfg.getSystemUrl + "sap_ext.aspx?id=" + eLink.enLink(ai_id.ToString))
+            mail_dict.Add("{need_information}", syscfg.getSystemUrl + "sap_ai_data.aspx?id=" + eLink.enLink(ai_id.ToString))
             mail_dict.Add("{ai_owner}", users.getNameByMail(sourceMail(owner)))
             mail_dict.Add("{app_link}", syscfg.getSystemUrl)
             mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the report")
-			mail_dict.Add("{ai_link}", syscfg.getSystemUrl + "sap_ai_view.aspx?id=" + ai_id.ToString)
+            mail_dict.Add("{ai_link}", syscfg.getSystemUrl + "sap_ai_view.aspx?id=" + ai_id.ToString)
 
             newMail.SendNotificationMail(mail_dict)
 
@@ -191,7 +188,7 @@ Public Class SapActions
         mail_dict.Add("{rq_id}", req_id.ToString)
         mail_dict.Add("{description}", "<b>" + mailSubject + "</b><br>" + mailBody) 'MAIL SUBJECT / AI DESCRIPTION
         mail_dict.Add("{owners}", ownersMailStr)
-		mail_dict.Add("{app_link}", syscfg.getSystemUrl)
+        mail_dict.Add("{app_link}", syscfg.getSystemUrl)
         mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the report")
 
         newMail.SendNotificationMail(mail_dict)
@@ -427,11 +424,12 @@ Public Class SapActions
             mail_dict.Add("{detail}", dbread_ais.GetString(2))
             mail_dict.Add("{duedate}", dbread_ais.GetDateTime(4).ToString("dd/MMM/yyyy"))
             mail_dict.Add("{delivery}", Now.Date.ToString("dd/MMM/yyyy"))
-			mail_dict.Add("{requestor_name}", users.getNameById(requestor))
+            mail_dict.Add("{requestor_name}", users.getNameById(requestor))
             mail_dict.Add("{app_link}", syscfg.getSystemUrl)
             mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the report")
             mail_dict.Add("{delivery_link1}", syscfg.getSystemUrl + "delivery.ashx?file=" + fileName1)
             mail_dict.Add("{filename1}", fileName1)
+            mail_dict.Add("{subject}", "Delivery Notice | AI#" & ai_id)
 
             If fileName2 <> "" Then
                 mail_dict.Add("{delivery_link2}", syscfg.getSystemUrl + "delivery.ashx?file=" + fileName2)

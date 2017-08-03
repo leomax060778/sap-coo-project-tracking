@@ -4,6 +4,8 @@ Imports System.Collections.Generic
 Imports Linker
 Imports LogSAPTareas
 Imports MailTemplate
+Imports common
+Imports commonLib
 
 Partial Class sap_confirm
 

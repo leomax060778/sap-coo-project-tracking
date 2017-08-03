@@ -3,6 +3,7 @@
 Imports System.Data.OleDb
 Imports System
 Imports SapActions
+Imports common
 
 Public Class SapAnalytics
 
@@ -25,8 +26,7 @@ Public Class SapAnalytics
         Dim evento As String
         Dim result As String = ""
         Dim line, color As String
-        Dim timestamp As Date
-        Dim creation, extension As Date
+        Dim timestamp, creation As Date
         Dim duedate As Date = actions.requestGetAIsLastDueDate(req_id)
         Dim startyear As Integer = 0
         Dim desde As String = ""
@@ -361,7 +361,7 @@ Public Class SapAnalytics
             While dbread_req.Read()
 
                 dueDateStr = "Unset"
-                deliveredDatestr = "Unset"
+                deliveredDateStr = "Unset"
                 originalDateStr = "Unset"
                 completedDateStr = "Unset"
 

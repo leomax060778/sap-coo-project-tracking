@@ -257,7 +257,8 @@ Public Class SapUser
         dbconn = New OleDbConnection(syscfg.getConnection)
         dbconn.Open()
 
-        sql_req = "SELECT mail FROM users WHERE role='AO' OR role='AD'"
+        'role='AO' OR 
+        sql_req = "SELECT mail FROM users WHERE role='AD'"
 
         dbcomm_req = New OleDbCommand(sql_req, dbconn)
 

@@ -1,12 +1,14 @@
 ﻿Imports System.Data.OleDb
+Imports commonLib
 
 Public Class LumiraReports
+
+    Dim syscfg As New SystemConfiguration
 
     Public Sub LogRequestReport(ByRef req_id As String, ByRef requestData As Dictionary(Of String, String))
         Dim dbconn As OleDbConnection
         Dim dbcomm As OleDbCommand
         Dim sqlQuery As String
-        Dim syscfg As New SysConfig
         Dim action As String = ""
         Dim sql_fields As String = ""
         Dim sql_values As String = ""
@@ -65,7 +67,6 @@ Public Class LumiraReports
         Dim dbconn As OleDbConnection
         Dim dbcomm As OleDbCommand
         Dim sqlQuery As String
-        Dim syscfg As New SysConfig
 
         Dim action As String = ""
         Dim sql_fields As String = ""
@@ -121,7 +122,6 @@ Public Class LumiraReports
 
     Private Function ExistsAI(ByVal ai_id As String) As Boolean
 
-        Dim syscfg As New SysConfig
         Dim dbconn As OleDbConnection
         Dim dbcomm_ais As OleDbCommand
         Dim dbread_ais As OleDbDataReader
@@ -152,7 +152,6 @@ Public Class LumiraReports
 
     Private Function ExistsRequest(ByVal req_id As String) As Boolean
 
-        Dim syscfg As New SysConfig
         Dim dbconn As OleDbConnection
         Dim dbcomm_req As OleDbCommand
         Dim dbread_req As OleDbDataReader
@@ -183,8 +182,6 @@ Public Class LumiraReports
     End Function
 
     Private Function ExistsActionItem(ByVal ai_id As String) As Boolean
-
-        Dim syscfg As New SysConfig
         Dim dbconn As OleDbConnection
         Dim dbcomm_req As OleDbCommand
         Dim dbread_req As OleDbDataReader

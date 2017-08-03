@@ -1,9 +1,13 @@
 ﻿Imports System.IO
+Imports commonLib
 
 'Highligth COLOR
 '#FFFC6E
 
 Module Module1
+
+    Dim systemConfig As New SystemConfiguration
+    Dim appConfiguration As New AppSettings
 
     Sub MyHandler(ByVal sender As Object, ByVal args As UnhandledExceptionEventArgs)
         Dim e As Exception = DirectCast(args.ExceptionObject, Exception)
@@ -13,7 +17,7 @@ Module Module1
     Sub Main2()
         Dim sapMails As New MailTemplate
         Dim log_dict As New Dictionary(Of String, String)
-        Dim newLog As New LogSAPTareas
+        Dim newLog As New Logging
         Dim syscfg As New SysConfig
         Dim actions As New SapActions
         Dim currentDomain As AppDomain = AppDomain.CurrentDomain
@@ -28,32 +32,30 @@ Module Module1
         'sapMails.imapPort = 143
         'sapMails.isSSL = False
         'sapMails.hostSMTP = "mail.folderit.net"
-        'sapMails.emailUser = "lhildt@folderit.net"
-        'sapMails.emailPass = "R6bRaY83"
-        'sapMails.emailAddressFrom = "lhildt@folderit.net"
-
-        'sapMails.currentEnv = "testing"
-        'sapMails.imapServer = "mail.folderit.net"
-        'sapMails.imapPort = 143
-        'sapMails.isSSL = False
-        'sapMails.hostSMTP = "mail.folderit.net"
         'sapMails.emailUser = "support_planningtool@folderit.net"
         'sapMails.emailPass = "support2016"
-        'sapMails.emailAddressFrom = "support_planningtool@folderit.net"
 
         'Production
-        sapMails.currentEnv = "production"
-        sapMails.imapServer = "imap.global.corp.sap"
-        sapMails.imapPort = 993
-        sapMails.isSSL = True
-        sapMails.hostSMTP = "mail.sap.corp"
-        sapMails.emailUser = "asa1_sap_mktg_in_ac@global.corp.sap\sap_marketing_in_action"
-        sapMails.emailPass = "BAoR}:qKQSkzSBO'#4pQ"
-        sapMails.emailAddressFrom = "sap_marketing_in_action@sap.com"
+        'sapMails.currentEnv = "production"
+        'sapMails.imapServer = "imap.global.corp.sap"
+        'sapMails.imapPort = 993
+        'sapMails.isSSL = True
+        'sapMails.hostSMTP = "mail.sap.corp"
+        'sapMails.emailUser = "asa1_sap_mktg_in_ac@global.corp.sap\sap_marketing_in_action"
+        'sapMails.emailPass = "BAoR}:qKQSkzSBO'#4pQ"
+        'sapMails.emailAddressFrom = "sap_marketing_in_action@sap.com"
+
+        sapMails.imapServer = appConfiguration.imapServer
+        sapMails.imapPort = appConfiguration.imapPort
+        sapMails.isSSL = appConfiguration.isSSL
+        sapMails.hostSMTP = appConfiguration.hostSMTP
+        sapMails.emailUser = appConfiguration.emailUser
+        sapMails.emailPass = appConfiguration.emailPass
+        sapMails.emailAddressFrom = systemConfig.getSystemEmail()
 
         Try
 
-            log("connection in use: " + syscfg.getConnection())
+            log("connection in use: " + systemConfig.getConnection())
 
             log("step #2: Checking emails")
 

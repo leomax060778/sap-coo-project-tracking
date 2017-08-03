@@ -140,9 +140,8 @@ Public Class MailTemplate
     Private Sub SendHtmlFormattedEmail(ByVal recipientEmail As String, ByVal subject As String, ByVal body As String)
 
         Dim dbconn As OleDbConnection
-        Dim dbcomm, dbcomm_ais As OleDbCommand
-        Dim dbread_ais As OleDbDataReader
-        Dim sql, sql_ais As String
+        Dim dbcomm As OleDbCommand
+        Dim sql As String
 
         Dim syscfg As New SysConfig
         Dim users As New SapUser
@@ -206,6 +205,11 @@ Public Class MailTemplate
             Case Else
                 'ERROR / HALT DO NOTHING
         End Select
+
+        'When the subject is provided in the map
+        If mailData.ContainsKey("{subject}") AndAlso Not String.IsNullOrEmpty(mailData("{subject}")) Then
+            mailSubject = mailData("{subject}")
+        End If
 
         Dim reader As StreamReader = New StreamReader(HttpContext.Current.Server.MapPath(mailTemplate))
 

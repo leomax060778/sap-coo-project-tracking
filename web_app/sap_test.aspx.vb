@@ -1,11 +1,10 @@
 Imports System.Data.OleDb
 Imports System
 Imports System.Collections.Generic
-Imports Linker
+Imports common.Linker
 Imports LogSAPTareas
 Imports MailTemplate
 Imports SapActions
-Imports SapAnalytics
 
 Partial Class sap_test
     Inherits System.Web.UI.Page
@@ -69,9 +68,9 @@ Partial Class sap_test
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         Dim actions As New SapActions
-        Dim anal As New SapAnalytics
+        'Dim anal As New SapAnalytics
 
-    response.write(sum_filter("ur") & " Unassigned Request <a href='http://rtm-bmo.bue.sap.corp:8888/sap_main.aspx?f=ur'>View Items</a><br>")
+        Response.write(sum_filter("ur") & " Unassigned Request <a href='http://rtm-bmo.bue.sap.corp:8888/sap_main.aspx?f=ur'>View Items</a><br>")
     response.write(sum_filter("nd") & " Need Data <a href='http://rtm-bmo.bue.sap.corp:8888/sap_main.aspx?f=nd'>View Items</a><br>")
     response.write(sum_filter("ap") & " Accept Pending <a href='http://rtm-bmo.bue.sap.corp:8888/sap_main.aspx?f=ap'>View Items</a><br>")
     response.write(sum_filter("ex") & " Extending Pending for Appr/Rej <a href='http://rtm-bmo.bue.sap.corp:8888/sap_main.aspx?f=ex'>View Items</a><br>")

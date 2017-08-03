@@ -5,6 +5,8 @@ Imports System
 
 Public Class SapUser
 
+    Dim syscfg As New SystemConfiguration
+
     Public Function getId() As String
         Dim ru As String = System.Web.HttpContext.Current.User.Identity.Name
         If ru = "" Then
@@ -26,8 +28,6 @@ Public Class SapUser
         Dim dbcomm_req As OleDbCommand
         Dim dbread_req As OleDbDataReader
         Dim sql_req As String
-
-        Dim syscfg As New SysConfig
 
         dbconn = New OleDbConnection(syscfg.getConnection)
         dbconn.Open()
@@ -55,9 +55,9 @@ Public Class SapUser
         Dim dbcomm_req As OleDbCommand
         Dim dbread_req As OleDbDataReader
         Dim sql_req As String
+        Dim logApp As New Logging
 
-        log("mailAddress:" & mailAddress)
-        Dim syscfg As New SysConfig
+        logApp.log("mailAddress:" & mailAddress)
 
         dbconn = New OleDbConnection(syscfg.getConnection)
         dbconn.Open()
@@ -86,8 +86,6 @@ Public Class SapUser
         Dim dbread_req As OleDbDataReader
         Dim sql_req As String
 
-        Dim syscfg As New SysConfig
-
         dbconn = New OleDbConnection(syscfg.getConnection)
         dbconn.Open()
 
@@ -115,8 +113,6 @@ Public Class SapUser
         Dim dbread_req As OleDbDataReader
         Dim sql_req As String
 
-        Dim syscfg As New SysConfig
-
         dbconn = New OleDbConnection(syscfg.getConnection)
         dbconn.Open()
 
@@ -141,8 +137,6 @@ Public Class SapUser
         Dim dbcomm_req As OleDbCommand
         Dim dbread_req As OleDbDataReader
         Dim sql_req As String
-
-        Dim syscfg As New SysConfig
 
         dbconn = New OleDbConnection(syscfg.getConnection)
         dbconn.Open()
@@ -174,8 +168,6 @@ Public Class SapUser
         Dim dbread_req As OleDbDataReader
         Dim sql_req As String
 
-        Dim syscfg As New SysConfig
-
         dbconn = New OleDbConnection(syscfg.getConnection)
         dbconn.Open()
 
@@ -205,12 +197,11 @@ Public Class SapUser
         Dim dbread_req As OleDbDataReader
         Dim sql_req As String
 
-        Dim syscfg As New SysConfig
-
         dbconn = New OleDbConnection(syscfg.getConnection)
         dbconn.Open()
 
-        sql_req = "SELECT DISTINCT mail FROM users WHERE role='AD' OR role='AO'"
+        'OR role='AO'
+        sql_req = "SELECT DISTINCT mail FROM users WHERE role='AD'"
 
         dbcomm_req = New OleDbCommand(sql_req, dbconn)
 
@@ -234,8 +225,6 @@ Public Class SapUser
         Dim dbcomm_req As OleDbCommand
         Dim dbread_req As OleDbDataReader
         Dim sql_req As String
-
-        Dim syscfg As New SysConfig
 
         dbconn = New OleDbConnection(syscfg.getConnection)
         dbconn.Open()
@@ -265,8 +254,6 @@ Public Class SapUser
         Dim dbread_req As OleDbDataReader
         Dim sql_req As String
 
-        Dim syscfg As New SysConfig
-
         dbconn = New OleDbConnection(syscfg.getConnection)
         dbconn.Open()
 
@@ -294,8 +281,6 @@ Public Class SapUser
         Dim dbcomm_req As OleDbCommand
         Dim dbread_req As OleDbDataReader
         Dim sql_req As String
-
-        Dim syscfg As New SysConfig
 
         dbconn = New OleDbConnection(syscfg.getConnection)
         dbconn.Open()
@@ -325,8 +310,6 @@ Public Class SapUser
         Dim dbread_req As OleDbDataReader
         Dim sql_req As String
 
-        Dim syscfg As New SysConfig
-
         dbconn = New OleDbConnection(syscfg.getConnection)
         dbconn.Open()
 
@@ -354,7 +337,6 @@ Public Class SapUser
         Dim dbcomm_req As OleDbCommand
         Dim dbread_req As OleDbDataReader
         Dim sql_req As String
-        Dim syscfg As New SysConfig
 
         dbconn = New OleDbConnection(syscfg.getConnection)
         dbconn.Open()
@@ -376,7 +358,6 @@ Public Class SapUser
         Dim dbcomm_req As OleDbCommand
         Dim dbread_req As OleDbDataReader
         Dim sql_req As String
-        Dim syscfg As New SysConfig
 
         dbconn = New OleDbConnection(syscfg.getConnection)
         dbconn.Open()

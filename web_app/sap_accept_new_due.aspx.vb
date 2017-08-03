@@ -4,6 +4,8 @@ Imports System.Collections.Generic
 Imports Linker
 Imports LogSAPTareas
 Imports MailTemplate
+Imports common
+Imports commonLib
 
 Partial Class sap_accept_new_due
     Inherits System.Web.UI.Page

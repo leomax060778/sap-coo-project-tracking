@@ -1,5 +1,7 @@
 ﻿Imports System.Data.OleDb
 Imports System.IO
+Imports common
+Imports commonLib
 
 Partial Class Default2
     Inherits System.Web.UI.Page
@@ -177,12 +179,12 @@ Partial Class Default2
                 mail_dict.Add("{description}", http_req_form_descr) 'MAIL SUBJECT / AI DESCRIPTION
                 mail_dict.Add("{duedate}", http_req_form_duedate)
                 mail_dict.Add("{accept_link}", syscfg.getSystemUrl + "sap_accept_new_due.aspx?id=" + link.enLink(ai_id.ToString))
-				mail_dict.Add("{reject_link}", syscfg.getSystemUrl + "sap_reject_due.aspx?id=" + link.enLink(ai_id.ToString))
+                mail_dict.Add("{reject_link}", syscfg.getSystemUrl + "sap_reject_due.aspx?id=" + link.enLink(ai_id.ToString))
                 mail_dict.Add("{extension_link}", syscfg.getSystemUrl + "sap_ext.aspx?id=" + link.enLink(ai_id.ToString))
                 mail_dict.Add("{need_information}", syscfg.getSystemUrl + "sap_ai_data.aspx?id=" + link.enLink(ai_id.ToString))
                 mail_dict.Add("{ai_owner}", users.getNameById(http_req_form_owner))
                 mail_dict.Add("{app_link}", syscfg.getSystemUrl)
-				mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the report")
+                mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the report")
 
                 newMail.SendNotificationMail(mail_dict)
 

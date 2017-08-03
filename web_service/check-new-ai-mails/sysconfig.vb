@@ -1,7 +1,10 @@
 ﻿Imports System.Data.OleDb
 Imports System.IO
+Imports commonLib
 
 Public Class SysConfig
+
+    Dim syscfg As New SystemConfiguration
 
     Public Function getSendMailStatus() As Boolean 'As Dictionary(Of String, String)
         'Dim result As New Dictionary(Of String, String)
@@ -10,8 +13,6 @@ Public Class SysConfig
         Dim dbcomm_req As OleDbCommand
         Dim dbread_req As OleDbDataReader
         Dim sql_req As String
-
-        Dim syscfg As New SysConfig
 
         dbconn = New OleDbConnection(syscfg.getConnection)
         dbconn.Open()
@@ -39,8 +40,6 @@ Public Class SysConfig
         Dim dbread_req As OleDbDataReader
         Dim sql_req As String
 
-        Dim syscfg As New SysConfig
-
         dbconn = New OleDbConnection(syscfg.getConnection)
         dbconn.Open()
 
@@ -65,8 +64,6 @@ Public Class SysConfig
         Dim dbcomm_req As OleDbCommand
         Dim dbread_req As OleDbDataReader
         Dim sql_req As String
-
-        Dim syscfg As New SysConfig
 
         dbconn = New OleDbConnection(syscfg.getConnection)
         dbconn.Open()
@@ -93,8 +90,6 @@ Public Class SysConfig
         Dim dbread_req As OleDbDataReader
         Dim sql_req As String
 
-        Dim syscfg As New SysConfig
-
         dbconn = New OleDbConnection(syscfg.getConnection)
         dbconn.Open()
 
@@ -120,8 +115,6 @@ Public Class SysConfig
         Dim dbread_req As OleDbDataReader
         Dim sql_req As String
 
-        Dim syscfg As New SysConfig
-
         dbconn = New OleDbConnection(syscfg.getConnection)
         dbconn.Open()
 
@@ -144,7 +137,6 @@ Public Class SysConfig
         Dim dbconn As OleDbConnection
         Dim dbcomm_req As OleDbCommand
         Dim sql_req As String
-        Dim syscfg As New SysConfig
 
         dbconn = New OleDbConnection(syscfg.getConnection)
         dbconn.Open()
@@ -158,7 +150,6 @@ Public Class SysConfig
         Dim dbconn As OleDbConnection
         Dim dbcomm_req As OleDbCommand
         Dim sql_req As String
-        Dim syscfg As New SysConfig
 
         dbconn = New OleDbConnection(syscfg.getConnection)
         dbconn.Open()
@@ -167,27 +158,6 @@ Public Class SysConfig
         dbcomm_req.ExecuteNonQuery()
         dbconn.Close()
     End Sub
-
-    Public Function getConnection() As String
-        Dim result As String
-
-        'Production
-        result = "Provider=SAOLEDB;UID=root;PWD=root;Server=sap-ais-2;DBN=sap-ais-2;ASTART=No;host=arbuesql01.phl.sap.corp:2638;"
-
-        'Testing
-        'result = "Provider=SAOLEDB;UID=root;PWD=root;Server=sap-ais-2;DBN=sap-ais-2;ASTART=No;host=localhost:2638;"
-
-        Return result
-    End Function
-
-    Public Function getSystemMail() As String
-        'email account for testing
-        'Return "support_planningtool@folderit.net"
-
-        'new email account defined for the tool
-        Return "sap_marketing_in_action@sap.com"
-
-    End Function
 
     Public Function getSystemAdminMail() As String
         Dim users As New SapUser
@@ -206,25 +176,6 @@ Public Class SysConfig
             Case Else
                 'result = "http://localhost:3542/"
                 result = "http://rtm-bmo.bue.sap.corp:8888/"
-        End Select
-        Return result
-    End Function
-
-    Public Function req_Str_Status(ByVal s As String) As String
-        Dim result As String
-        Select Case s
-            Case "IP"
-                result = "In Progress"
-            Case "PD"
-                result = "Pending"
-            Case "CR"
-                result = "Created"
-            Case "ND"
-                result = "Need Data"
-            Case "CP"
-                result = "Completed"
-            Case Else
-                result = "Unset"
         End Select
         Return result
     End Function
