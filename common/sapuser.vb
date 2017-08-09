@@ -257,7 +257,8 @@ Public Class SapUser
         dbconn = New OleDbConnection(syscfg.getConnection)
         dbconn.Open()
 
-        sql_req = "SELECT id FROM users WHERE role='OW' OR role='AO'"
+        sql_req = "SELECT id FROM users WHERE role='OW'"
+        'OR role='AO'"
 
         dbcomm_req = New OleDbCommand(sql_req, dbconn)
 
@@ -285,7 +286,8 @@ Public Class SapUser
         dbconn = New OleDbConnection(syscfg.getConnection)
         dbconn.Open()
 
-        sql_req = "SELECT id FROM users WHERE role='AD' OR role='AO'"
+        'Or role='AO'"
+        sql_req = "SELECT id FROM users WHERE role='AD'"
 
         dbcomm_req = New OleDbCommand(sql_req, dbconn)
 

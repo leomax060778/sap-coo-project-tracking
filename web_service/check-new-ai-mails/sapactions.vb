@@ -207,13 +207,14 @@ Public Class SapActions
 
         'CREATE AN AI FOR EACH OWNER AND SEND AN EMAIL
         'EACH OWNER IS APPENDED IN THE DICTIONARY AS OWN1, OWN2, OWN3...
-        Dim i As Integer
+        Dim i, dueDays As Integer
         Dim owner, ownerID As String
         Dim newMail As New MailTemplate
         Dim mail_dict As New Dictionary(Of String, String)
         Dim log_dict As New Dictionary(Of String, String)
         Dim ownersMailStr As String = ""
         Dim adminMail As String = ""
+        Dim dayText As String = "day"
 
         For i = 1 To sourceMail.Count - 6 'THE MAIL HAS 6 FIELDS THE REST ARE THE OWNERS
 
@@ -229,6 +230,12 @@ Public Class SapActions
             dbcomm.CommandText = "SELECT @@IDENTITY"
             ai_id = dbcomm.ExecuteScalar()
 
+            'CALCULATE DUE DAYS
+            dueDays = DateDiff(DateInterval.Day, Today.Date, posDueDate.Date)
+            If dueDays > 1 Then
+                dayText = "days"
+            End If
+
             'SEND MAIL TO OWNER WITH AIS DETAILS
             mail_dict.Add("mail", "CR") 'AI CREATED
             mail_dict.Add("to", sourceMail(owner))
@@ -243,6 +250,7 @@ Public Class SapActions
             mail_dict.Add("{app_link}", syscfg.getSystemUrl)
             mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the report")
             mail_dict.Add("{ai_link}", syscfg.getSystemUrl + "sap_ai_view.aspx?id=" + ai_id.ToString)
+            mail_dict.Add("{subject}", "AI#" + ai_id.ToString + " Is due in " + dueDays.ToString + " " + dayText)
 
             'DO NOT SEND BECAUSE THE AI DOES NOT HAVE DUE DATE TO ACCEPT
             If parseResult Then
@@ -792,24 +800,26 @@ Public Class SapActions
             report = "No action is required"
         End If
 
-        For Each id In users.getAdminsID("")
+        'IF THERE ARE ANY NEWS
+        If Not String.IsNullOrEmpty(report) Then
 
-            'IF THERE ARE ANY NEWS
-            If Not String.IsNullOrEmpty(report) Then
+            mail_dict.Add("mail", "AR") 'ADMIN REPORT
+            mail_dict.Add("to", users.getAdminMail)
+            mail_dict.Add("{time}", "Today")
+            mail_dict.Add("{date}", DateTime.Now.ToString("MM/dd/yyyy"))
+            mail_dict.Add("{data}", report)
+            mail_dict.Add("{app_link}", syscfg.getSystemUrl)
+            mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the Admin report")
 
-                mail_dict.Add("mail", "AR") 'ADMIN REPORT
-                mail_dict.Add("to", users.getMailById(id))
-                mail_dict.Add("{time}", "Today")
-                mail_dict.Add("{date}", DateTime.Now.ToString("MM/dd/yyyy"))
-                mail_dict.Add("{data}", report)
-                mail_dict.Add("{app_link}", syscfg.getSystemUrl)
-                mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the Admin report")
+            newMail.SendNotificationMail(mail_dict)
 
-                newMail.SendNotificationMail(mail_dict)
+            mail_dict.Clear()
+        End If
 
-                mail_dict.Clear()
-            End If
-        Next
+        'For Each id In users.getAdminsID("")
+
+        'Next
+
     End Sub
 
 
