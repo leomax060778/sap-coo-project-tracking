@@ -29,5 +29,11 @@
     <Setting Name="systemEmail" Type="System.String" Scope="Application">
       <Value Profile="(Default)">sap_marketing_in_action@sap.com</Value>
     </Setting>
+    <Setting Name="getSystemUrl" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://rtm-bmo.bue.sap.corp:8888/</Value>
+    </Setting>
+    <Setting Name="pathLogFile" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">d:\webapps\test\log.txt</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
