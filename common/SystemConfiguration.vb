@@ -32,4 +32,17 @@
         Return result
     End Function
 
+    Public Function getSystemAdminMail() As String
+        'Return "lhildt@folderit.net"
+
+        Return "a.eyzaguirre@sap.com"
+    End Function
+
+    Public Function getSystemUrl() As String
+        'result = "http://rtm-bmo.bue.sap.corp:8888/"
+        ' result = "http://localhost:3542/"
+
+        Return appConfiguration.getSystemUrl
+    End Function
+
 End Class

@@ -16,6 +16,7 @@
     <MyType>Console</MyType>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <IsWebBootstrapper>false</IsWebBootstrapper>
+    <TargetFrameworkProfile />
     <PublishUrl>publish-check-new-ai-mails\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -31,7 +32,6 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -160,6 +160,7 @@
     <Import Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="emailGenerator.vb" />
     <Compile Include="lumirareports.vb" />
     <Compile Include="mails.vb" />
     <Compile Include="Module1.vb" />

@@ -66,4 +66,80 @@
         Return formatedDate
     End Function
 
+    Public Function getEmailTemplate(ByVal mailAcronym) As String
+        Dim emailTemplate As String = String.Empty
+
+        Select Case mailAcronym
+            Case "ND"
+                emailTemplate = ".\email-templates\SAP Email A - More info.html"
+            Case "CF"
+                emailTemplate = ".\email-templates\SAP Email B - Due 2 days.html"
+            Case "CR"
+                emailTemplate = ".\email-templates\SAP Email C - AI Owner.html"
+            Case "CP"
+                emailTemplate = ".\email-templates/SAP Email D - Delivery Approval.html"
+            Case "NE"
+                emailTemplate = ".\email-templates\SAP Email E - Extension Requested.html"
+            Case "EA"
+                emailTemplate = ".\email-templates\SAP Email F - Extension Approved.html"
+            Case "ER"
+                emailTemplate = ".\email-templates\SAP Email G - Extension Rejected.html"
+            Case "DL"
+                emailTemplate = ".\email-templates\SAP Email I - Due today.html"
+            Case "NR"
+                emailTemplate = ".\email-templates\SAP Email H - Admin New Request.html"
+            Case "OR"
+                emailTemplate = ".\email-templates\SAP Email N - Owner Report.html"
+            Case "AR"
+                emailTemplate = ".\email-templates\SAP Email O - Admin Report.html"
+            Case "AC"
+                emailTemplate = ".\email-templates/SAP Email J - AI Completed.html"
+            Case "AU"
+                emailTemplate = ".\email-templates/SAP Email K - AI Uncompleted.html"
+            Case "OC"
+                emailTemplate = ".\email-templates/SAP Email P - AI Owner Changed.html"
+            Case Else
+                emailTemplate = String.Empty
+        End Select
+
+        Return emailTemplate
+    End Function
+
+    Public Function getDefaultEmailSubject(ByVal mailAcronym) As String
+        Dim mailSubject As String = String.Empty
+
+        Select Case mailAcronym
+            Case "ND"
+                mailSubject = "Your request is pending for information lack"
+            Case "CF"
+                mailSubject = "AI due date confirmation"
+            Case "CR"
+                mailSubject = "New AI"
+            Case "CP"
+                mailSubject = "Delivery approval"
+            Case "NE"
+                mailSubject = "AI extension requested"
+            Case "EA"
+                mailSubject = "AI extension approved"
+            Case "ER"
+                mailSubject = "AI extension rejected"
+            Case "DL"
+                mailSubject = "AI delivery day"
+            Case "NR"
+                mailSubject = "New RQ created"
+            Case "OR"
+                mailSubject = "Your WIP Action Items"
+            Case "AR"
+                mailSubject = "COO Project Tracking - Admin Report"
+            Case "AC"
+                mailSubject = "AI completed"
+            Case "AU"
+                mailSubject = "AI uncompleted"
+            Case Else
+                'ERROR / HALT DO NOTHING
+        End Select
+
+        Return mailSubject
+    End Function
+
 End Class

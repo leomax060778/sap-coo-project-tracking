@@ -8,7 +8,6 @@ Imports System.Security.Cryptography.X509Certificates
 Imports MailKit
 Imports MailKit.Security
 Imports System.Text.RegularExpressions
-Imports common
 Imports commonLib
 
 
@@ -472,45 +471,15 @@ Public Class MailTemplate
             ai_Id = mailData("{ai_id}")
         End If
 
-        'SELECT MAIL TEMPLATE
-        Select Case mailData("mail")
-            Case "ND"
-                mailTemplate = ".\email-templates\SAP Email A - More info.html"
-                mailSubject = "Your request is pending for information lack"
-            Case "CF"
-                mailTemplate = ".\email-templates\SAP Email B - Due 2 days.html"
-                mailSubject = "AI due date confirmation"
-            Case "CR"
-                mailTemplate = ".\email-templates\SAP Email C - AI Owner.html"
-                mailSubject = "New AI"
-            Case "NE"
-                mailTemplate = ".\email-templates\SAP Email E - Extension Requested.html"
-                mailSubject = "AI extension requested"
-            Case "EA"
-                mailTemplate = ".\email-templates\SAP Email F - Extension Approved.html"
-                mailSubject = "AI extension approved"
-            Case "ER"
-                mailTemplate = ".\email-templates\SAP Email G - Extension Rejected.html"
-                mailSubject = "AI extension rejected"
-            Case "DL"
-                mailTemplate = ".\email-templates\SAP Email I - Due today.html"
-                mailSubject = "AI delivery day"
-            Case "NR"
-                mailTemplate = ".\email-templates\SAP Email H - Admin New Request.html"
-                mailSubject = "New RQ created"
-            Case "OR"
-                mailTemplate = ".\email-templates\SAP Email N - Owner Report.html"
-                mailSubject = "Your WIP Action Items"
-            Case "AR"
-                mailTemplate = ".\email-templates\SAP Email O - Admin Report.html"
-                mailSubject = "COO Project Tracking - Admin Report"
-            Case Else
-                'ERROR / HALT DO NOTHING
-        End Select
+        mailTemplate = utils.getEmailTemplate(mailData("mail"))
 
+        'GET EMAIL SUBJECT
         'When the subject is provided in the map
         If mailData.ContainsKey("{subject}") AndAlso Not String.IsNullOrEmpty(mailData("{subject}")) Then
             mailSubject = mailData("{subject}")
+        Else
+            'Get default email subject
+            mailSubject = utils.getDefaultEmailSubject(mailData("mail"))
         End If
 
         Dim reader As StreamReader = New StreamReader(mailTemplate)
@@ -672,8 +641,7 @@ Public Class MailTemplate
             End If
 
         Catch ex As Exception
-            log("Error when processing email - Unhandled Exception: " + ex.Message)
-            log("Error when processing email - Unhandled Exception: " + ex.StackTrace)
+            log("Error processing email: " + ex.Message + " - " + ex.StackTrace)
         End Try
 
         dbread.Close()
@@ -756,8 +724,11 @@ Public Class MailTemplate
         dbread.Close()
 
         'CONFIRM DUE NOTIFICATIONS
+        Dim dueDays As Integer
+        Dim ai_id As Long
         Dim twoDays As New TimeSpan(2, 0, 0, 0)
         Dim dueDate As Date = Now.Date.Add(twoDays)
+        Dim dayText As String = "day"
 
         sql = "SELECT * FROM actionitems WHERE due='" + dueDate.Year.ToString + "-" + dueDate.Month.ToString + "-" + dueDate.Day.ToString + "' AND sent_confirm=0;"
         dbcomm = New OleDbCommand(sql, dbconn)
@@ -766,20 +737,28 @@ Public Class MailTemplate
         If dbread.HasRows Then
             While dbread.Read()
 
+                ai_id = dbread.GetInt64(0)
+
+                'CALCULATE DUE DAYS
+                dueDays = DateDiff(DateInterval.Day, Today.Date, dueDate.Date)
+                If dueDays > 1 Then
+                    dayText = "days"
+                End If
+
                 'SEND MAIL TO OWNER WITH AIS DETAILS
                 mail_dict.Add("mail", "CF") 'AI CREATED
                 mail_dict.Add("to", users.getMailById(dbread.GetString(6)))
-                mail_dict.Add("{ai_id}", dbread.GetInt64(0).ToString)
+                mail_dict.Add("{ai_id}", ai_id.ToString)
                 mail_dict.Add("{description}", dbread.GetString(2)) 'MAIL SUBJECT / AI DESCRIPTION
                 mail_dict.Add("{duedate}", dueDate.ToString("dd/MMM/yyyy"))
-                mail_dict.Add("{confirm_link}", syscfg.getSystemUrl + "sap_confirm.aspx?id=" + eLink.enLink(dbread.GetInt64(0).ToString))
-                mail_dict.Add("{extension_link}", syscfg.getSystemUrl + "sap_ext.aspx?id=" + eLink.enLink(dbread.GetInt64(0).ToString))
-                mail_dict.Add("{need_information}", syscfg.getSystemUrl + "sap_ai_data.aspx?id=" + eLink.enLink(dbread.GetInt64(0).ToString))
+                mail_dict.Add("{confirm_link}", syscfg.getSystemUrl + "sap_confirm.aspx?id=" + eLink.enLink(ai_id.ToString))
+                mail_dict.Add("{extension_link}", syscfg.getSystemUrl + "sap_ext.aspx?id=" + eLink.enLink(ai_id.ToString))
+                mail_dict.Add("{need_information}", syscfg.getSystemUrl + "sap_ai_data.aspx?id=" + eLink.enLink(ai_id.ToString))
                 mail_dict.Add("{ai_owner}", users.getNameById(dbread.GetString(6)))
                 mail_dict.Add("{app_link}", syscfg.getSystemUrl)
                 mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the report")
-                mail_dict.Add("{ai_link}", syscfg.getSystemUrl + "sap_ai_view.aspx?id=" + dbread.GetInt64(0).ToString)
-                mail_dict.Add("{subject}", "AI#" & dbread.GetInt64(0).ToString & " Is Due in 2 Days")
+                mail_dict.Add("{ai_link}", syscfg.getSystemUrl + "sap_ai_view.aspx?id=" + ai_id.ToString)
+                mail_dict.Add("{subject}", "AI#" + ai_id.ToString + " Is due in " + dueDays.ToString + " " + dayText)
 
                 newMail.SendNotificationMail(mail_dict)
 

@@ -11,6 +11,9 @@ Public Class SapUser
         Dim ru As String = System.Web.HttpContext.Current.User.Identity.Name
         If ru = "" Then
             ru = System.Environment.UserName
+            'I821201 - Adrian de Tomas
+            'I828136 - Morales, Nicolas
+            'I858823 - Ferrerira, Jordao Gustavo
             ru = "C5246787"
         Else
             ru = Mid(ru, InStr(ru, "\") + 1)
@@ -19,10 +22,54 @@ Public Class SapUser
     End Function
 
     Public Function getName() As String
+        'Returns only name 
         getName = getNameById(getId)
     End Function
 
+    Public Function getFullName() As String
+        'Returns full name
+        getFullName = getFullNameById(getId)
+    End Function
+
     Public Function getNameById(ByVal id As String) As String
+        Dim result As String
+        Dim dbconn As OleDbConnection
+        Dim dbcomm_req As OleDbCommand
+        Dim dbread_req As OleDbDataReader
+        Dim sql_req As String
+        Dim name As String = ""
+        Dim elements As String()
+
+        dbconn = New OleDbConnection(syscfg.getConnection)
+        dbconn.Open()
+
+        sql_req = "SELECT name FROM users WHERE id='" & id & "'"
+
+        dbcomm_req = New OleDbCommand(sql_req, dbconn)
+
+        dbread_req = dbcomm_req.ExecuteReader()
+        If dbread_req.HasRows Then
+            dbread_req.Read()
+            result = dbread_req.GetString(0)
+
+            'Return only name
+            If (result.Length > 0) Then
+                elements = result.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
+                If (elements.LongCount >= 2) Then
+                    result = elements(1).Trim()
+                End If
+            End If
+
+        Else
+            result = "guest"
+        End If
+
+        dbconn.Close()
+
+        Return result
+    End Function
+
+    Public Function getFullNameById(ByVal id As String) As String
         Dim result As String
         Dim dbconn As OleDbConnection
         Dim dbcomm_req As OleDbCommand

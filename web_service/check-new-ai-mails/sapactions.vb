@@ -1,6 +1,5 @@
 ﻿Imports System.Data.OleDb
 Imports System.Text
-Imports common
 Imports commonLib
 
 Public Class SapActions
@@ -294,24 +293,27 @@ Public Class SapActions
         '////////////////////////////////////////////////////////////
 
         'Dim mail_dict As New Dictionary(Of String, String)
-        mail_dict.Add("mail", "NR") 'NEW REQUEST
-        mail_dict.Add("to", syscfg.getSystemAdminMail)
-        mail_dict.Add("{rq_id}", req_id.ToString)
-        mail_dict.Add("{rq_link}", syscfg.getSystemUrl & "sap_req.aspx?id=" & req_id.ToString.Trim())
-        mail_dict.Add("{description}", "<b>" + mailSubject + "</b><br>" + mailBody) 'MAIL SUBJECT / AI DESCRIPTION
-        mail_dict.Add("{owners}", ownersMailStr)
-        mail_dict.Add("{app_link}", syscfg.getSystemUrl)
-        mail_dict.Add("{contact_mail_link}", "mailto: " & users.getAdminMail & "?subject=Questions about the report")
-
-        newMail.SendNotificationMail(mail_dict)
 
         'SEND TO MULTIPLE REQUESTORS - DISABLED 2017-06-14
-        'For Each adminMail In syscfg.getSystemAdminMail.Split(";")
-        '    If Not String.IsNullOrEmpty(adminMail) Then
-        '        mail_dict("to") = adminMail
-        '        newMail.SendNotificationMail(mail_dict)
-        '    End If
-        'Next
+        For Each adminMail In syscfg.getSystemAdminMail.Split(";")
+            If Not String.IsNullOrEmpty(adminMail) Then
+                mail_dict.Add("mail", "NR") 'NEW REQUEST
+                mail_dict.Add("{rq_id}", req_id.ToString)
+                mail_dict.Add("{rq_link}", syscfg.getSystemUrl & "sap_req.aspx?id=" & req_id.ToString.Trim())
+                mail_dict.Add("{description}", "<b>" + mailSubject + "</b><br>" + mailBody) 'MAIL SUBJECT / AI DESCRIPTION
+                mail_dict.Add("{owners}", ownersMailStr)
+                mail_dict.Add("{app_link}", syscfg.getSystemUrl)
+                mail_dict.Add("{contact_mail_link}", "mailto: " & users.getAdminMail & "?subject=Questions about the report")
+                mail_dict("to") = adminMail
+                mail_dict.Add("{admin_name}", users.getNameByMail(adminMail))
+
+                newMail.SendNotificationMail(mail_dict)
+
+                'clear the dictionary
+                mail_dict.Clear()
+
+            End If
+        Next
 
         '////////////////////////////////////////////////////////////
         'INSERT LOG HERE
@@ -496,12 +498,14 @@ Public Class SapActions
         Dim todayList As String = ""
         Dim count As Integer
         Dim syscfg As New SysConfig
+        Dim audience As String
 
         'Building Owner
         'Count Acceptance Pending OW
+        audience = "OWNER"
         count = ais_sum_filter("ap")
         todayList = todayList & "<tr>
-                                    <td style='width: 80px;border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Owner</td> 
+                                    <td style='width: 80px;border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & audience & "</td> 
                                     <td style='width: 200px;border-radius: 0 0 0 5px;text-align: left; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'><a href='" & syscfg.getSystemUrl & "sap_main.aspx?f=ap'>Acceptance Pending (OW)</a></td>
                                     <td style='width: 80px;border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif;'>" & count & "</td>
                                     <td style='width: 330px;border-radius: 0 0 0 5px;text-align: left; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Get feedback and accept/reject the request in the system</td>
@@ -516,9 +520,10 @@ Public Class SapActions
                                 </tr>"
         ''Building Requestor
         'Count Acceptance Pending RQ
+        audience = "REQUESTOR"
         count = ais_sum_filter("rq")
         todayList = todayList & "<tr>
-                                    <td style='width: 80px;border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Requestor</td> 
+                                    <td style='width: 80px;border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & audience & "</td> 
                                     <td style='width: 200px;border-radius: 0 0 0 5px;text-align: left; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'><a href='" & syscfg.getSystemUrl & "sap_main.aspx?f=rq'>Acceptance Pending (RQ)</a></td>
                                     <td style='width: 80px;border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif;'>" & count & "</td>
                                     <td style='width: 330px;border-radius: 0 0 0 5px;text-align: left; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Ask the owner to accept it</td>
@@ -550,9 +555,10 @@ Public Class SapActions
                                 </tr>"
         ''Building Admin
         'Count this week items
+        audience = "ADMIN"
         count = ais_sum_filter("dw")
         todayList = todayList & "<tr>
-                                    <td style='width: 80px;border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Admin</td> 
+                                    <td style='width: 80px;border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & audience & "</td> 
                                     <td style='width: 200px;border-radius: 0 0 0 5px;text-align: left; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'><a href='" & syscfg.getSystemUrl & "sap_main.aspx?f=dw'> This Week DD</a></td>
                                     <td style='width: 80px;border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif;'>" & count & "</td>
                                     <td style='width: 330px;border-radius: 0 0 0 5px;text-align: left; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Be on top of this week deliverables</td>
@@ -771,6 +777,7 @@ Public Class SapActions
 
                 mail_dict.Add("mail", "OR") 'OWNER REPORT
                 mail_dict.Add("to", users.getMailById(id))
+                mail_dict.Add("{owner_name}", users.getNameById(id))
                 mail_dict.Add("{time}", interval)
                 mail_dict.Add("{date}", utils.formatDateToSTring(Now.Date))
                 mail_dict.Add("{data}", report(interval))
@@ -803,22 +810,24 @@ Public Class SapActions
         'IF THERE ARE ANY NEWS
         If Not String.IsNullOrEmpty(report) Then
 
-            mail_dict.Add("mail", "AR") 'ADMIN REPORT
-            mail_dict.Add("to", users.getAdminMail)
-            mail_dict.Add("{time}", "Today")
-            mail_dict.Add("{date}", DateTime.Now.ToString("MM/dd/yyyy"))
-            mail_dict.Add("{data}", report)
-            mail_dict.Add("{app_link}", syscfg.getSystemUrl)
-            mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the Admin report")
+            For Each id In users.getAdminsID("")
 
-            newMail.SendNotificationMail(mail_dict)
+                mail_dict.Add("mail", "AR") 'ADMIN REPORT
+                mail_dict.Add("to", users.getAdminMail)
+                mail_dict.Add("{admin_name}", users.getNameById(id))
+                mail_dict.Add("{time}", "Today")
+                mail_dict.Add("{date}", DateTime.Now.ToString("MM/dd/yyyy"))
+                mail_dict.Add("{data}", report)
+                mail_dict.Add("{app_link}", syscfg.getSystemUrl)
+                mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the Admin report")
 
-            mail_dict.Clear()
+                newMail.SendNotificationMail(mail_dict)
+
+                mail_dict.Clear()
+
+            Next
+
         End If
-
-        'For Each id In users.getAdminsID("")
-
-        'Next
 
     End Sub
 
