@@ -1,12 +1,14 @@
 ﻿Imports System.Data.OleDb
+Imports commonLib
 
 Public Class LumiraReports
+
+    Dim sysConfiguration As New SystemConfiguration
 
     Public Sub LogRequestReport(ByRef req_id As String, ByRef requestData As Dictionary(Of String, String))
         Dim dbconn As OleDbConnection
         Dim dbcomm As OleDbCommand
         Dim sqlQuery As String
-        Dim syscfg As New SysConfig
         Dim action As String = ""
         Dim sql_fields As String = ""
         Dim sql_values As String = ""
@@ -14,7 +16,7 @@ Public Class LumiraReports
         If (requestData.Count = 0) Then Return
 
         'Open a connection
-        dbconn = New OleDbConnection(syscfg.getConnection)
+        dbconn = New OleDbConnection(sysConfiguration.getConnection)
         dbconn.Open()
 
         action = "insert"
@@ -65,7 +67,6 @@ Public Class LumiraReports
         Dim dbconn As OleDbConnection
         Dim dbcomm As OleDbCommand
         Dim sqlQuery As String
-        Dim syscfg As New SysConfig
 
         Dim action As String = ""
         Dim sql_fields As String = ""
@@ -74,7 +75,7 @@ Public Class LumiraReports
         If (aiData.Count = 0) Then Return
 
         'Open a connection
-        dbconn = New OleDbConnection(syscfg.getConnection)
+        dbconn = New OleDbConnection(sysConfiguration.getConnection)
         dbconn.Open()
 
         action = "insert"
@@ -121,7 +122,6 @@ Public Class LumiraReports
 
     Private Function ExistsAI(ByVal ai_id As String) As Boolean
 
-        Dim syscfg As New SysConfig
         Dim dbconn As OleDbConnection
         Dim dbcomm_ais As OleDbCommand
         Dim dbread_ais As OleDbDataReader
@@ -131,7 +131,7 @@ Public Class LumiraReports
         If IsNothing(ai_id) Then Return False
 
         Try
-            dbconn = New OleDbConnection(syscfg.getConnection)
+            dbconn = New OleDbConnection(sysConfiguration.getConnection)
             dbconn.Open()
 
             sql_req = "SELECT * FROM lumira_ais WHERE ai_id=" + ai_id
@@ -151,8 +151,6 @@ Public Class LumiraReports
     End Function
 
     Private Function ExistsRequest(ByVal req_id As String) As Boolean
-
-        Dim syscfg As New SysConfig
         Dim dbconn As OleDbConnection
         Dim dbcomm_req As OleDbCommand
         Dim dbread_req As OleDbDataReader
@@ -162,7 +160,7 @@ Public Class LumiraReports
         If IsNothing(req_id) Then Return False
 
         Try
-            dbconn = New OleDbConnection(syscfg.getConnection)
+            dbconn = New OleDbConnection(sysConfiguration.getConnection)
             dbconn.Open()
 
             sql_req = "SELECT * FROM lumira_requests WHERE req_id=" + req_id
@@ -184,7 +182,6 @@ Public Class LumiraReports
 
     Private Function ExistsActionItem(ByVal ai_id As String) As Boolean
 
-        Dim syscfg As New SysConfig
         Dim dbconn As OleDbConnection
         Dim dbcomm_req As OleDbCommand
         Dim dbread_req As OleDbDataReader
@@ -192,7 +189,7 @@ Public Class LumiraReports
         Dim sql_req As String
 
         Try
-            dbconn = New OleDbConnection(syscfg.getConnection)
+            dbconn = New OleDbConnection(sysConfiguration.getConnection)
             dbconn.Open()
 
             sql_req = "SELECT * FROM lumira_ais WHERE ai_id=" + ai_id

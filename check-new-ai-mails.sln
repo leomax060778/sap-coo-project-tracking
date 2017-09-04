@@ -7,8 +7,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "check-new-ai-mails", "web_s
 EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "web_app", "web_app\", "{6987D310-4B0C-4809-BA11-9017503ABE90}"
 	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv2.0"
-		ProjectReferences = ""
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		ProjectReferences = "{a6459d5b-e24e-4b99-ab13-96d770923b73}|commonLib.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_3542"
 		Debug.AspNetCompiler.PhysicalPath = "web_app\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_3542\"

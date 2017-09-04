@@ -45,12 +45,16 @@
     <link rel="stylesheet" type="text/css" href="css/ie9.css">
 <![endif]-->
 
-<!-- code section -->
+<!-- code section 
 <script type="text/javascript">
-    var max_date = <asp:Literal ID="max_date" runat="server"></asp:Literal>;
-    jQuery(function () {
+    -->
+    <script type="text/javascript">
+        var max_date = <asp:Literal ID="max_date" runat="server"></asp:Literal>;
+
+        jQuery(function () {
 
         jQuery('#duedate').datetimepicker({ timepicker: false, format: 'd/M/Y', closeOnDateSelect: true, minDate: new Date(), maxDate: max_date });
+        jQuery('#duedate').datetimepicker({ timepicker: false, format: 'd/M/Y', closeOnDateSelect: true });
 
         jQuery('.add-ai').on('click', function () {
             $("#new_item_dialog").alert();

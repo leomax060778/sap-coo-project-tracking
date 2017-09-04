@@ -1,10 +1,10 @@
 ﻿Imports System.Data.OleDb
-Imports System.IO
 Imports commonLib
 
 Public Class SysConfig
 
     Dim syscfg As New SystemConfiguration
+    Dim appConfiguration As New AppSettings
 
     Public Function getSendMailStatus() As Boolean 'As Dictionary(Of String, String)
         'Dim result As New Dictionary(Of String, String)
@@ -165,19 +165,10 @@ Public Class SysConfig
     End Function
 
     Public Function getSystemUrl() As String
-        Dim result As String
-        Select Case System.Environment.UserName
-            Case "SiS"
-                result = "http://localhost:2952/sap-tareas/"
-            Case "Vostro"
-                result = "http://localhost:4120/sap/"
-            Case "PabloVM"
-                result = "http://localhost:????/demochoto/"
-            Case Else
-                'result = "http://localhost:3542/"
-                result = "http://rtm-bmo.bue.sap.corp:8888/"
-        End Select
-        Return result
+        'result = "http://localhost:3542/"
+        'result = "http://rtm-bmo.bue.sap.corp:8888/"
+        Return appConfiguration.getSystemUrl
+
     End Function
 
 End Class

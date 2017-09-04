@@ -1,10 +1,4 @@
 ﻿Imports System.Data.OleDb
-Imports System
-Imports System.Collections.Generic
-Imports Linker
-Imports LogSAPTareas
-Imports MailTemplate
-Imports common
 Imports commonLib
 
 Partial Class sap_confirm
@@ -20,10 +14,10 @@ Partial Class sap_confirm
         Dim dbread_ais As OleDbDataReader
         Dim sql, sql_ais As String
 
-        Dim syscfg As New SysConfig
-        Dim users As New SapUser
+        Dim sysConfiguration As New SystemConfiguration
+        Dim userCommon As New commonLib.SapUser
 
-        dbconn = New OleDbConnection(syscfg.getConnection)
+        dbconn = New OleDbConnection(sysConfiguration.getConnection)
         dbconn.Open()
 
         'REQUEST ID
@@ -84,12 +78,12 @@ Partial Class sap_confirm
 
             'EVENT: AI_EXTENSION [R5]
 
-            Dim newLog As New LogSAPTareas
+            Dim newLog As New Logging
 
             Dim log_dict As New Dictionary(Of String, String)
             log_dict.Add("ai_id", ai_id.ToString)
             log_dict.Add("owner_id", ai_owner)
-            log_dict.Add("admin_id", users.getId)
+            log_dict.Add("admin_id", userCommon.getId)
             'log_dict.Add("prev_value", ai_old_due.ToString)
             'log_dict.Add("new_value", ai_extension.ToString)
             log_dict.Add("event", "AI_EXTENDED")

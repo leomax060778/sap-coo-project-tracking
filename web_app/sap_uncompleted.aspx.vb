@@ -1,9 +1,10 @@
 ﻿Imports System.Data.OleDb
-Imports common
 Imports commonLib
 
 Partial Class _Default
     Inherits System.Web.UI.Page
+
+    Dim userCommon As New commonLib.SapUser
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
@@ -14,12 +15,12 @@ Partial Class _Default
         Dim dbread_ais As OleDbDataReader
         Dim sql, sql_ais As String
 
-        Dim syscfg As New SysConfig
         Dim users As New SapUser
         Dim actions As New SapActions
         Dim utils As New Utils
+        Dim sysConfiguration As New SystemConfiguration
 
-        dbconn = New OleDbConnection(syscfg.getConnection)
+        dbconn = New OleDbConnection(sysConfiguration.getConnection)
         dbconn.Open()
 
         'REQUEST ID
@@ -30,7 +31,7 @@ Partial Class _Default
         Dim i As Integer
 
         'CHECK IF REQUEST HAS AN AI ID
-        If String.IsNullOrEmpty(http_ai_id) Or Not Integer.TryParse(http_ai_id, i) Or (users.getRole <> "RQ" And users.getRole = "OW") Then
+        If String.IsNullOrEmpty(http_ai_id) Or Not Integer.TryParse(http_ai_id, i) Or (userCommon.getRole <> "RQ" And userCommon.getRole = "OW") Then
             Response.Redirect(".\sap_error.aspx", False)
         Else
             Integer.TryParse(http_ai_id, ai_id)
@@ -82,20 +83,20 @@ Partial Class _Default
 
                 Dim mail_dict As New Dictionary(Of String, String)
                 mail_dict.Add("mail", "AU") 'AI EXTENSION REJECTED
-                mail_dict.Add("to", users.getMailById(owner_id))
+                mail_dict.Add("to", userCommon.getMailById(owner_id))
                 mail_dict.Add("{ai_id}", ai_id.ToString)
-                mail_dict.Add("{ai_owner}", users.getNameById(owner_id) & "(" & owner_id & ")")
+                mail_dict.Add("{ai_owner}", userCommon.getNameById(owner_id) & "(" & owner_id & ")")
                 mail_dict.Add("{description}", description) 'MAIL SUBJECT / AI DESCRIPTION
                 mail_dict.Add("{duedate}", duedate)
                 mail_dict.Add("{reason}", Request.Form("reason"))
-                mail_dict.Add("{requestor_name}", users.getNameById(requestor_id))
-                mail_dict.Add("{app_link}", syscfg.getSystemUrl)
-                mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the report")
-                mail_dict.Add("{subject}", "AI# " & ai_id.ToString & " Is Incomplete")
+                mail_dict.Add("{requestor_name}", userCommon.getNameById(requestor_id))
+                mail_dict.Add("{app_link}", sysConfiguration.getSystemUrl)
+                mail_dict.Add("{contact_mail_link}", "mailto:" & userCommon.getAdminMail & "?subject=Questions about the report")
+                mail_dict.Add("{subject}", "AI#" & ai_id.ToString & " Is Incomplete")
 
                 newMail.SendNotificationMail(mail_dict)
 
-                mail_dict("to") = users.getAdminMail()
+                mail_dict("to") = userCommon.getAdminMail()
                 newMail.SendNotificationMail(mail_dict)
                 '////////////////////////////////////////////////////////////
                 'INSERT LOG HERE
@@ -103,12 +104,12 @@ Partial Class _Default
 
                 'EVENT: AI_EXTENSION [R5]
 
-                Dim newLog As New LogSAPTareas
+                Dim newLog As New Logging
 
                 Dim log_dict As New Dictionary(Of String, String)
                 log_dict.Add("ai_id", ai_id.ToString)
                 log_dict.Add("request_id", request_id.ToString)
-                log_dict.Add("admin_id", users.getId)
+                log_dict.Add("admin_id", userCommon.getId)
                 log_dict.Add("owner_id", owner_id)
                 log_dict.Add("requestor_id", requestor_id)
                 log_dict.Add("event", "AI_UNCOMPLETED")
@@ -117,7 +118,7 @@ Partial Class _Default
                 newLog.LogWrite(log_dict)
 
                 Dim redirectTo As String
-                redirectTo = syscfg.getSystemUrl + "sap_main.aspx"
+                redirectTo = sysConfiguration.getSystemUrl + "sap_main.aspx"
                 Response.Redirect(redirectTo, False)
             End If
         Else

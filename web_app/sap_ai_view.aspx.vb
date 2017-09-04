@@ -1,14 +1,4 @@
 ﻿Imports System.Data.OleDb
-Imports System
-Imports System.Web
-Imports System.Web.UI
-Imports System.Web.UI.WebControls
-Imports System.Web.HttpUtility
-Imports System.Collections.Generic
-Imports SysConfig
-Imports SapActions
-Imports Linker
-Imports common
 Imports commonLib
 'Imports MailTemplate
 
@@ -21,12 +11,12 @@ Imports commonLib
 Partial Class _Default
     Inherits System.Web.UI.Page
 
+    Dim userCommon As New commonLib.SapUser
+
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
-        Dim syscfg As New SysConfig
-
-        Dim su As New SapUser
-        Dim ro As String = su.getRole()
+        Dim sysConfiguration As New SystemConfiguration
+        Dim ro As String = userCommon.getRole()
 
         Dim actions As New SapActions
         Dim link As New Linker
@@ -35,7 +25,7 @@ Partial Class _Default
         Dim dbread_req, dbread_ais As OleDbDataReader
         Dim sql_req, sql_ais As String
 
-        dbconn = New OleDbConnection(syscfg.getConnection)
+        dbconn = New OleDbConnection(sysConfiguration.getConnection)
         dbconn.Open()
 
         'REQUEST ID
@@ -44,7 +34,7 @@ Partial Class _Default
         Dim i As Integer
 
         If String.IsNullOrEmpty(http_req_id) Or Not Integer.TryParse(http_req_id, i) Then
-            Response.Redirect(syscfg.getSystemUrl + "sap_main.aspx", False)
+            Response.Redirect(sysConfiguration.getSystemUrl + "sap_main.aspx", False)
         Else
             Integer.TryParse(http_req_id, request_id)
         End If
@@ -54,7 +44,7 @@ Partial Class _Default
         duedate.Value = ""
 
         Dim sql_owners As String
-        sql_owners = "SELECT * FROM users WHERE id='" & su.getId() & "'"
+        sql_owners = "SELECT * FROM users WHERE id='" & userCommon.getId() & "'"
 
         dbcomm_ais = New OleDbCommand(sql_owners, dbconn)
         dbread_ais = dbcomm_ais.ExecuteReader()
@@ -118,7 +108,7 @@ Partial Class _Default
                 duedate.Value = req_duedate.ToString("dd/MMM/yyyy")
             End If
 
-            link_ai_id.HRef = syscfg.getSystemUrl + "sap_main.aspx"
+            link_ai_id.HRef = sysConfiguration.getSystemUrl + "sap_main.aspx"
 
             REM dbcomm_req = New OleDbCommand("SELECT * FROM requests WHERE id=" + dbread_ais.GetInt64(1).ToString, dbconn)
             REM dbread_req = dbcomm_req.ExecuteReader()

@@ -1,8 +1,5 @@
 ﻿Imports System.Data.OleDb
-Imports System
-Imports System.Collections.Generic
-Imports Linker
-Imports LogSAPTareas
+Imports commonLib
 Imports MailTemplate
 Imports SysConfig
 
@@ -15,13 +12,13 @@ Imports SysConfig
 Partial Class sap_ai_del
     Inherits System.Web.UI.Page
 
+    Dim userCommon As New commonLib.SapUser
+
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
-        Dim syscfg As New SysConfig
+        Dim sysConfiguration As New SystemConfiguration
         Dim actions As New SapActions
-
-        Dim users As SapUser = New SapUser
-        Dim ro As String = users.getRole()
+        Dim ro As String = userCommon.getRole()
 
         Dim http_req_id As String = Request("id")
         Dim request_id As Integer
@@ -29,23 +26,18 @@ Partial Class sap_ai_del
         If Not String.IsNullOrEmpty(http_req_id) And Integer.TryParse(http_req_id, request_id) And ro <> "OW" Then
 
             Dim dbconn As OleDbConnection
-            Dim dbcomm, dbcomm_req, dbcomm_ais As OleDbCommand
-            Dim dbread_ais As OleDbDataReader
-            Dim sql, sql_req, sql_ais As String
-            Dim ai_new_status, ai_current_status As String
+            Dim dbcomm_req As OleDbCommand
+            Dim sql_req As String
 
             '#####TODO:#CHECK#IF#DB#EXIST###########
 
-            dbconn = New OleDbConnection(syscfg.getConnection)
+            dbconn = New OleDbConnection(sysConfiguration.getConnection)
             dbconn.Open()
 
             'LOG INFORMATION
             Dim log_rq_id As String = http_req_id
-            Dim log_event As String
             Dim log_detail As String = "Some detail here..."
             Dim log_owner As String = "Current USER here..."
-            Dim log_prev_value As String
-            Dim log_new_value As String
             Dim log_record As Boolean = False
 
             'CHANGE AIS STATUS TO CANCELED
@@ -63,24 +55,24 @@ Partial Class sap_ai_del
             'WOULD HAVE TO LOG CHANGE STATUS FROM ?? TO XX
             '###################################################
 
-            Dim newLog As New LogSAPTareas
+            Dim newLog As New Logging
 
             Dim log_dict As New Dictionary(Of String, String)
             log_dict.Add("ai_id", http_req_id)
             'log_dict.Add("request_id", http_req_id)
-            log_dict.Add("admin_id", users.getId)
+            log_dict.Add("admin_id", userCommon.getId)
             log_dict.Add("event", "AI_CANCELED")
             log_dict.Add("detail", "AI Canceled")
 
             newLog.LogWrite(log_dict)
 
-            Response.Redirect(syscfg.getSystemUrl + "sap_req.aspx?id=" + Request("req"), False)
+            Response.Redirect(sysConfiguration.getSystemUrl + "sap_req.aspx?id=" + Request("req"), False)
             'Response.Redirect(syscfg.getSystemUrl + "sap_main.aspx", False)
 
             dbconn.Close()
 
         Else
-            Response.Redirect(syscfg.getSystemUrl + "sap_main.aspx", False)
+            Response.Redirect(sysConfiguration.getSystemUrl + "sap_main.aspx", False)
             'REDIRECT ME OUT OF HERE
             '#####TODO#HANDLE#EXCEPTION#########
             'Throw New Exception("Request ID not found!")

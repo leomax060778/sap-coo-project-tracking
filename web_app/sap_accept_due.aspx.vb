@@ -5,6 +5,9 @@ Imports commonLib
 Partial Class sap_accept_due
     Inherits System.Web.UI.Page
 
+    Dim sysConfiguration As New SystemConfiguration
+    Dim userCommon As New commonLib.SapUser
+
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
         'CHECK IF DB EXISTS
@@ -13,13 +16,11 @@ Partial Class sap_accept_due
         Dim dbcomm, dbcomm_ais As OleDbCommand
         Dim dbread_ais As OleDbDataReader
         Dim sql, sql_ais As String
-
-        Dim syscfg As New SysConfig
         Dim users As New SapUser
         Dim actions As New SapActions
         Dim utils As New Utils
 
-        dbconn = New OleDbConnection(syscfg.getConnection)
+        dbconn = New OleDbConnection(sysConfiguration.getConnection)
         dbconn.Open()
 
         'REQUEST ID
@@ -78,13 +79,13 @@ Partial Class sap_accept_due
 
             Dim mail_dict As New Dictionary(Of String, String)
             mail_dict.Add("mail", "EA") 'AI EXTENSION APPROVED
-            mail_dict.Add("to", users.getMailById(ai_owner))
+            mail_dict.Add("to", userCommon.getMailById(ai_owner))
             mail_dict.Add("{ai_id}", ai_id.ToString)
             mail_dict.Add("{description}", ai_descr) 'MAIL SUBJECT / AI DESCRIPTION
             mail_dict.Add("{duedate}", utils.formatDateToSTring(ai_extension))
-            mail_dict.Add("{ai_owner}", users.getNameById(ai_owner))
-            mail_dict.Add("{app_link}", syscfg.getSystemUrl)
-            mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the report")
+            mail_dict.Add("{ai_owner}", userCommon.getNameById(ai_owner))
+            mail_dict.Add("{app_link}", sysConfiguration.getSystemUrl)
+            mail_dict.Add("{contact_mail_link}", "mailto:" & userCommon.getAdminMail & "?subject=Questions about the report")
             mail_dict.Add("{subject}", "Extension for AI#" & ai_id.ToString & " has been approved")
 
             newMail.SendNotificationMail(mail_dict)
@@ -95,12 +96,12 @@ Partial Class sap_accept_due
 
             'EVENT: AI_EXTENSION [R5]
 
-            Dim newLog As New LogSAPTareas
+            Dim newLog As New Logging
             Dim log_dict As New Dictionary(Of String, String)
 
             log_dict.Add("ai_id", ai_id.ToString)
             log_dict.Add("request_id", request_id.ToString)
-            log_dict.Add("admin_id", users.getId)
+            log_dict.Add("admin_id", userCommon.getId)
             log_dict.Add("owner_id", ai_owner)
             log_dict.Add("requestor_id", actions.getRequestorIdFromRequestId(request_id))
             log_dict.Add("prev_value", ai_old_due.ToString)
@@ -119,7 +120,7 @@ Partial Class sap_accept_due
         dbread_ais.Close()
         dbconn.Close()
 
-        Response.Redirect(syscfg.getSystemUrl + "sap_main.aspx", False)
+        Response.Redirect(sysConfiguration.getSystemUrl + "sap_main.aspx", False)
     End Sub
 
 End Class

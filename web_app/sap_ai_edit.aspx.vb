@@ -1,60 +1,13 @@
 ﻿Imports System.Data.OleDb
-Imports common
+Imports System.Globalization
 Imports commonLib
 
 Partial Class _Default
     Inherits System.Web.UI.Page
 
-    Private Function HumanizeFwd(ByVal i As Integer) As String
-        Dim result As String
-        Select Case i
-            Case Is < 0
-                result = "OverDue"
-            Case 0
-                result = "Today"
-            Case 1
-                result = "Tomorrow"
-            Case Else
-                result = "within " & i.ToString & " days"
-        End Select
-        Return result
-    End Function
-
-    Private Function HumanizeBkw(ByVal i As Integer) As String
-        Dim result As String
-        Select Case i
-            Case Is < 0
-                result = "Error"
-            Case 0
-                result = "Today"
-            Case 1
-                result = "Yesterday"
-            Case Else
-                result = i.ToString & " days ago"
-        End Select
-        Return result
-    End Function
-
-    Private Function ai_Str_Status(ByVal s As String) As String
-        Dim result As String
-        Select Case s
-            Case "PD"
-                result = "Pending"
-            Case "IP"
-                result = "In Progress"
-            Case "NE"
-                result = "Extending"
-            Case "OD"
-                result = "Overdue"
-            Case "CF"
-                result = "Confirmed"
-            Case "DL"
-                result = "Delivered"
-            Case Else
-                result = "Unset"
-        End Select
-        Return result
-    End Function
+    Dim sysConfiguration As New SystemConfiguration
+    Dim userCommon As New commonLib.SapUser
+    Dim appConfiguration As New AppSettings
 
     Private Sub setDeliveredAttachments(ai_id As String, description As String)
 
@@ -64,7 +17,6 @@ Partial Class _Default
         Dim fileName4 As String = ""
         Dim fileName5 As String = ""
         Dim fn As String = ""
-        Dim syscfg As New SysConfig
         Dim actions As New SapActions
 
         'Check if files were uploaded
@@ -75,7 +27,7 @@ Partial Class _Default
             If FileUpload1.HasFile Then
                 Try
                     fileName1 = Now().ToString("yyyyMMdd_hhmmss_") & FileUpload1.FileName
-                    FileUpload1.SaveAs("d:\webapps\test\delivery\" & fileName1)
+                    FileUpload1.SaveAs(appConfiguration.deliveryStorePath & fileName1)
                 Catch ex As System.Exception
                     Label1.Text = "ERROR: " & ex.Message.ToString()
                 End Try
@@ -86,7 +38,7 @@ Partial Class _Default
             If FileUpload2.HasFile Then
                 Try
                     fileName2 = Now().ToString("yyyyMMdd_hhmmss_") & FileUpload2.FileName
-                    FileUpload2.SaveAs("d:\webapps\test\delivery\" & fileName2)
+                    FileUpload2.SaveAs(appConfiguration.deliveryStorePath & fileName2)
                 Catch ex As System.Exception
                     Label2.Text = "ERROR: " & ex.Message.ToString()
                 End Try
@@ -95,7 +47,7 @@ Partial Class _Default
             If FileUpload3.HasFile Then
                 Try
                     fileName3 = Now().ToString("yyyyMMdd_hhmmss_") & FileUpload2.FileName
-                    FileUpload3.SaveAs("d:\webapps\test\delivery\" & fileName3)
+                    FileUpload3.SaveAs(appConfiguration.deliveryStorePath & fileName3)
                 Catch ex As System.Exception
                     Label3.Text = "ERROR: " & ex.Message.ToString()
                 End Try
@@ -104,7 +56,7 @@ Partial Class _Default
             If FileUpload4.HasFile Then
                 Try
                     fileName4 = Now().ToString("yyyyMMdd_hhmmss_") & FileUpload2.FileName
-                    FileUpload4.SaveAs("d:\webapps\test\delivery\" & fileName4)
+                    FileUpload4.SaveAs(appConfiguration.deliveryStorePath & fileName4)
                 Catch ex As System.Exception
                     Label4.Text = "ERROR: " & ex.Message.ToString()
                 End Try
@@ -113,7 +65,7 @@ Partial Class _Default
             If FileUpload5.HasFile Then
                 Try
                     fileName5 = Now().ToString("yyyyMMdd_hhmmss_") & FileUpload2.FileName
-                    FileUpload5.SaveAs("d:\webapps\test\delivery\" & fileName5)
+                    FileUpload5.SaveAs(appConfiguration.deliveryStorePath & fileName5)
                 Catch ex As System.Exception
                     Label5.Text = "ERROR: " & ex.Message.ToString()
                 End Try
@@ -143,28 +95,26 @@ Partial Class _Default
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
-        Dim syscfg As New SysConfig
-
         Dim su As New SapUser
-        Dim ro As String = su.getRole()
+        Dim ro As String = userCommon.getRole()
 
         Dim actions As New SapActions
         Dim link As New Linker
 
-        current_user.Text = su.getName()
+        current_user.Text = userCommon.getFullName()
 
         If ro = "OW" Then
-            Response.Redirect(syscfg.getSystemUrl + "sap_main.aspx", False)
+            Response.Redirect(sysConfiguration.getSystemUrl + "sap_main.aspx", False)
         Else
 
             Dim dbconn As OleDbConnection
-            Dim dbcomm, dbcomm_req, dbcomm_ais As OleDbCommand
+            Dim dbcomm_req, dbcomm_ais As OleDbCommand
             Dim dbread_req, dbread_ais As OleDbDataReader
-            Dim sql, sql_req, sql_ais As String
+            Dim sql_req, sql_ais As String
 
             '#####TODO:#CHECK#IF#DB#EXIST###########
 
-            dbconn = New OleDbConnection(syscfg.getConnection)
+            dbconn = New OleDbConnection(sysConfiguration.getConnection)
             dbconn.Open()
 
             'REQUEST ID
@@ -173,7 +123,7 @@ Partial Class _Default
             Dim i As Integer
 
             If String.IsNullOrEmpty(http_req_id) Or Not Integer.TryParse(http_req_id, i) Then
-                Response.Redirect(syscfg.getSystemUrl + "sap_main.aspx", False)
+                Response.Redirect(sysConfiguration.getSystemUrl + "sap_main.aspx", False)
             Else
                 Integer.TryParse(http_req_id, request_id)
             End If
@@ -193,6 +143,7 @@ Partial Class _Default
                 Dim changes As String = ""
                 Dim redirect_req As Integer
                 Dim sendMail As Boolean = False
+                Dim sendMailOwnerChange As Boolean = False
                 Dim currentOwner As String
                 Dim currentStatus As String
                 Dim currentDesc As String
@@ -216,6 +167,7 @@ Partial Class _Default
                         End If
                         changes = changes + "owner='" + http_req_form_owner + "'"
                         sendMail = True
+                        sendMailOwnerChange = True
                     End If
 
                     currentStatus = dbread_req.GetString(5)
@@ -230,6 +182,7 @@ Partial Class _Default
                     End If
 
                     Dim duedb As Date
+                    Dim duereqdate As Date = Date.ParseExact(http_req_form_duedate.Replace(" ", "").Replace(".", ""), "dd/MMM/yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo, System.Globalization.DateTimeStyles.None)
 
                     If Not String.IsNullOrEmpty(http_req_form_duedate) Then
 
@@ -238,8 +191,6 @@ Partial Class _Default
                         Else
                             duedb = Today.Date
                         End If
-
-                        Dim duereqdate As Date = Date.ParseExact(http_req_form_duedate.Replace(" ", ""), "dd/MMM/yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo, Globalization.DateTimeStyles.None)
 
                         If duedb.Year <> duereqdate.Year Or duedb.Month <> duereqdate.Month Or duedb.Day <> duereqdate.Day Then
                             If Not String.IsNullOrEmpty(changes) Then
@@ -273,24 +224,47 @@ Partial Class _Default
                         Else
 
                             Dim newMail As New MailTemplate
+                            Dim dueDays As Integer
+                            Dim dayText As String = "day"
+
+                            'CALCULATE DUE DAYS
+                            dueDays = DateDiff(DateInterval.Day, Today.Date, duereqdate.Date)
+                            If dueDays > 1 Then
+                                dayText = "days"
+                            End If
 
                             Dim mail_dict As New Dictionary(Of String, String)
                             mail_dict.Add("mail", "CR") 'NEW AI CREATED
-                            mail_dict.Add("to", su.getMailById(http_req_form_owner))
+                            mail_dict.Add("to", userCommon.getMailById(http_req_form_owner))
                             mail_dict.Add("{ai_id}", request_id.ToString)
-                            mail_dict.Add("{ai_link}", syscfg.getSystemUrl + "sap_ai_view.aspx?id=" + request_id.ToString)
-                            mail_dict.Add("{ai_owner}", su.getNameById(http_req_form_owner))
+                            mail_dict.Add("{ai_link}", sysConfiguration.getSystemUrl + "sap_ai_view.aspx?id=" + request_id.ToString)
+                            mail_dict.Add("{ai_owner}", userCommon.getNameById(http_req_form_owner))
                             mail_dict.Add("{description}", http_req_form_descr) 'MAIL SUBJECT / AI DESCRIPTION
                             mail_dict.Add("{duedate}", http_req_form_duedate)
-                            mail_dict.Add("{accept_link}", syscfg.getSystemUrl + "sap_accept_new_due.aspx?id=" + link.enLink(request_id.ToString))
-                            mail_dict.Add("{reject_link}", syscfg.getSystemUrl + "sap_reject_due.aspx?id=" + link.enLink(request_id.ToString))
-                            mail_dict.Add("{extension_link}", syscfg.getSystemUrl + "sap_ext.aspx?id=" + link.enLink(request_id.ToString))
-                            mail_dict.Add("{need_information}", syscfg.getSystemUrl + "sap_ai_data.aspx?id=" + link.enLink(request_id.ToString))
-                            mail_dict.Add("{requestor_name}", su.getNameById(http_req_form_owner))
-                            mail_dict.Add("{app_link}", syscfg.getSystemUrl)
-                            mail_dict.Add("{contact_mail_link}", "mailto:" & su.getAdminMail & "?subject=Questions about the report")
+                            mail_dict.Add("{accept_link}", sysConfiguration.getSystemUrl + "sap_accept_new_due.aspx?id=" + link.enLink(request_id.ToString))
+                            mail_dict.Add("{reject_link}", sysConfiguration.getSystemUrl + "sap_reject_due.aspx?id=" + link.enLink(request_id.ToString))
+                            mail_dict.Add("{extension_link}", sysConfiguration.getSystemUrl + "sap_ext.aspx?id=" + link.enLink(request_id.ToString))
+                            mail_dict.Add("{need_information}", sysConfiguration.getSystemUrl + "sap_ai_data.aspx?id=" + link.enLink(request_id.ToString))
+                            mail_dict.Add("{requestor_name}", userCommon.getNameById(http_req_form_owner))
+                            mail_dict.Add("{app_link}", sysConfiguration.getSystemUrl)
+                            mail_dict.Add("{contact_mail_link}", "mailto:" & userCommon.getAdminMail & "?subject=Questions about the report")
+                            mail_dict.Add("{subject}", "AI#" + request_id.ToString + " Is due in " + dueDays.ToString + " " + dayText)
 
                             If sendMail Then
+                                newMail.SendNotificationMail(mail_dict)
+                            End If
+
+                            'Check if should send email if AI owner has changed
+                            If sendMailOwnerChange Then
+                                mail_dict = New Dictionary(Of String, String)
+                                mail_dict.Add("mail", "OC") 'NEW AI CREATED
+                                mail_dict.Add("to", userCommon.getMailById(currentOwner))
+                                mail_dict.Add("{ai_id}", request_id.ToString)
+                                mail_dict.Add("{ai_owner}", userCommon.getNameById(currentOwner))
+                                mail_dict.Add("{description}", http_req_form_descr) 'MAIL SUBJECT / AI DESCRIPTION
+                                mail_dict.Add("{contact_mail_link}", "mailto:" & userCommon.getAdminMail & "?subject=Questions about the report")
+                                mail_dict.Add("{subject}", "AI#" + request_id.ToString + " is no longer assigned to you")
+
                                 newMail.SendNotificationMail(mail_dict)
                             End If
                         End If
@@ -298,12 +272,12 @@ Partial Class _Default
                         '////////////////////////////////////////////////////////////
                         'INSERT LOG HERE
                         '////////////////////////////////////////////////////////////
-                        Dim newLog As New LogSAPTareas
+                        Dim newLog As New Logging
                         Dim log_dict As New Dictionary(Of String, String)
 
                         log_dict.Add("ai_id", request_id.ToString)
                         log_dict.Add("request_id", request_id.ToString)
-                        log_dict.Add("admin_id", su.getId)
+                        log_dict.Add("admin_id", userCommon.getId)
                         log_dict.Add("owner_id", http_req_form_owner)
                         log_dict.Add("prev_value", ("Due:" & duedb.ToString("dd/MMM/yyyy") & " Owner:" & currentOwner & " Status:" & currentStatus & " Desc:" & currentDesc).Replace("'", ""))
                         log_dict.Add("new_value", changes.Replace("'", ""))
@@ -317,7 +291,7 @@ Partial Class _Default
                 End If
 
                 Dim redirectTo As String
-                redirectTo = syscfg.getSystemUrl + "sap_req.aspx?id=" + redirect_req.ToString
+                redirectTo = sysConfiguration.getSystemUrl + "sap_req.aspx?id=" + redirect_req.ToString
                 Response.Redirect(redirectTo, False)
             End If
 
@@ -398,9 +372,9 @@ Partial Class _Default
                     duedate.Value = req_duedate.ToString("dd/MMM/yyyy")
                 End If
 
-                link_req_id.HRef = syscfg.getSystemUrl + "sap_req.aspx?id=" + dbread_ais.GetInt64(1).ToString
+                link_req_id.HRef = sysConfiguration.getSystemUrl + "sap_req.aspx?id=" + dbread_ais.GetInt64(1).ToString
 
-                link_del_ai.HRef = syscfg.getSystemUrl + "sap_ai_del.aspx?id=" + Convert.ToInt64(dbread_ais.GetValue(0)).ToString + "&req=" + dbread_ais.GetInt64(1).ToString
+                link_del_ai.HRef = sysConfiguration.getSystemUrl + "sap_ai_del.aspx?id=" + Convert.ToInt64(dbread_ais.GetValue(0)).ToString + "&req=" + dbread_ais.GetInt64(1).ToString
 
                 dbcomm_req = New OleDbCommand("SELECT * FROM requests WHERE id=" + dbread_ais.GetInt64(1).ToString, dbconn)
                 dbread_req = dbcomm_req.ExecuteReader()

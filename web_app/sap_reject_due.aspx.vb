@@ -1,14 +1,11 @@
 ﻿Imports System.Data.OleDb
-Imports System
-Imports System.Collections.Generic
-Imports Linker
-Imports LogSAPTareas
-Imports MailTemplate
-Imports common
 Imports commonLib
 
 Partial Class sap_reject_due
     Inherits System.Web.UI.Page
+
+    Dim sysConfiguration As New SystemConfiguration
+    Dim userCommon As New commonLib.SapUser
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
@@ -19,12 +16,11 @@ Partial Class sap_reject_due
         Dim dbread_ais As OleDbDataReader
         Dim sql, sql_ais As String
 
-        Dim syscfg As New SysConfig
         Dim users As New SapUser
         Dim actions As New SapActions
         Dim utils As New Utils
 
-        dbconn = New OleDbConnection(syscfg.getConnection)
+        dbconn = New OleDbConnection(sysConfiguration.getConnection)
         dbconn.Open()
 
         'REQUEST ID
@@ -90,17 +86,17 @@ Partial Class sap_reject_due
 
                 Dim mail_dict As New Dictionary(Of String, String)
                 mail_dict.Add("mail", "ER") 'AI EXTENSION REJECTED
-                mail_dict.Add("to", users.getMailById(ai_owner))
+                mail_dict.Add("to", userCommon.getMailById(ai_owner))
                 mail_dict.Add("{ai_id}", ai_id.ToString)
-                mail_dict.Add("{ai_owner}", users.getNameById(ai_owner) & "(" & ai_owner & ")")
-                mail_dict.Add("{requestor}", users.getMailById(requestor_id))
+                mail_dict.Add("{ai_owner}", userCommon.getNameById(ai_owner) & "(" & ai_owner & ")")
+                mail_dict.Add("{requestor}", userCommon.getMailById(requestor_id))
                 mail_dict.Add("{description}", ai_descr) 'MAIL SUBJECT / AI DESCRIPTION
                 mail_dict.Add("{duedate}", utils.formatDateToSTring(ai_duedate))
                 mail_dict.Add("{reason}", Request.Form("reason"))
-                mail_dict.Add("{requestor_name}", users.getNameById(requestor_id))
-                mail_dict.Add("{app_link}", syscfg.getSystemUrl)
-                mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the report")
-                mail_dict.Add("{subject}", "AI #" & ai_id.ToString & " Extension Rejected")
+                mail_dict.Add("{requestor_name}", userCommon.getNameById(requestor_id))
+                mail_dict.Add("{app_link}", sysConfiguration.getSystemUrl)
+                mail_dict.Add("{contact_mail_link}", "mailto:" & userCommon.getAdminMail & "?subject=Questions about the report")
+                mail_dict.Add("{subject}", "AI#" & ai_id.ToString & " Extension Rejected")
 
                 newMail.SendNotificationMail(mail_dict)
 
@@ -110,12 +106,12 @@ Partial Class sap_reject_due
 
                 'EVENT: AI_EXTENSION [R5]
 
-                Dim newLog As New LogSAPTareas
+                Dim newLog As New Logging
 
                 Dim log_dict As New Dictionary(Of String, String)
                 log_dict.Add("ai_id", ai_id.ToString)
                 log_dict.Add("request_id", request_id.ToString)
-                log_dict.Add("admin_id", users.getId)
+                log_dict.Add("admin_id", userCommon.getId)
                 log_dict.Add("owner_id", ai_owner)
                 log_dict.Add("requestor_id", requestor_id)
                 log_dict.Add("event", "AI_NOT_EXTENDED")
@@ -127,7 +123,7 @@ Partial Class sap_reject_due
                 lblMessage.Text = "Succesfully delivered your feedback"
 
                 Dim redirectTo As String
-                redirectTo = syscfg.getSystemUrl + "sap_main.aspx"
+                redirectTo = sysConfiguration.getSystemUrl + "sap_main.aspx"
                 Response.Redirect("./sap_main.aspx", False)
 
             End If

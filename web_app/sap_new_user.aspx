@@ -1,6 +1,6 @@
 ﻿<%@ Page Language="VB" AutoEventWireup="false" %>
 <%
-    Dim su As SapUser = New SapUser()
+    Dim userCommon As New commonLib.SapUser
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -90,7 +90,7 @@
     /* text-align: center; */
     /* display: inline; */
     margin: 0 auto;
-"><img src="/images/bloqueado.png"><div>Your user id '<b><%= su.getId() %></b>' is not associated with this service.</div></div>
+"><img src="/images/bloqueado.png"><div>Your user id '<b><%= userCommon.getId() %></b>' is not associated with this service.</div></div>
         </div>
             </ul>
 

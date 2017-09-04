@@ -58,6 +58,10 @@
 		 border: 1px solid #FDB813;
 		 border-width:1px;
          }
+		 table.social td {
+			text-align: left;
+			vertical-align: top;
+		 }
          .social .soc-btn {
          padding: 3px 7px;
          font-size:12px;
@@ -67,10 +71,6 @@
          display:block;
          text-align:center;
          }
-		 table.social td {
-			text-align: left;
-			vertical-align: top;
-		 }
          a.fb { background-color: #3B5998!important; }
          a.tw { background-color: #1daced!important; }
          a.gp { background-color: #DB4A39!important; }
@@ -167,14 +167,6 @@
          margin:0 auto;
          display:block; 
          }
-		 /* This should also be a block element, so that it will fill 100% of the .container */
-		 .content-btn {
-		 text-align:center;
-		 padding:15px;
-         max-width:600px;
-         margin:0 auto;
-         display:block; 
-         }
          /* Let's make sure tables in the content area are 100% wide */
          .content table { width: 100%; }
          /* Odds and ends */
@@ -244,23 +236,23 @@
                   <table>
                      <tr>
                         <td>
-							<h2 style="color: #555555;font-size: 20px; font-family: Arial, Helvetica, sans-serif; margin-top: 40px;">Hi {ai_owner}:</h2>
-							<p style="color: #555555;font-size: 14px; line-height: 18px; font-family: Arial, Helvetica, sans-serif;">The action item listed below is due <b>today.</b> Please confirm your completion of task.</p>
+							  <h2 style="color: #555555;font-size: 20px; font-family: Arial, Helvetica, sans-serif; margin-top: 40px;">Hi {ai_owner}:</h2>
+							  <p style="color: #555555;font-size: 14px; line-height: 18px; font-family: Arial, Helvetica, sans-serif;">The Action Item below has been removed from your account. You are no longer assigned to AI#<span style="color:#008FD3;">{ai_id}</span></p>
                               <!-- Espacio -->
                               <tr>
-                                 <td ></td>
+                                 <td>
+									<p></p>
+								 </td>
                               </tr>                          
 						  <!-- social & contact -->
                            <table class="social" width="70%">
                               <tr>
 								<th style="border-radius: 5px 0 0 0;font-size: 14px;font-family: Arial, Helvetica, sans-serif;background:#fff;color:#F0AB00;border-bottom-width:3px;border-bottom-style:solid;border-bottom-color:#fff">AI#</th>
 								<th style="font-size: 14px;font-family: Arial, Helvetica, sans-serif;background:#fff;color:#F0AB00;border-bottom-width:3px;border-bottom-style:solid;border-bottom-color:#fff">Description</th>
-								<th style="border-radius: 0 5px 0 0;font-size: 14px;font-family: Arial, Helvetica, sans-serif;background:#fff;color:#F0AB00;border-bottom-width:3px;border-bottom-style:solid;border-bottom-color:#fff">Due Date</th>
                               </tr>
                               <tr>
-								<td style="width: 60px;border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;">{ai_id}</td>
-								<td style="width: 410px; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;">{description}</td>
-								<td style="width: 60px;border-radius: 0 0 5px 0;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif;">{duedate}</td>
+								<td style="border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;">{ai_id}</td>
+								<td style="font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;">{description}</td>
                               </tr>
                            </table>
                            <!-- /social & contact -->
@@ -273,29 +265,10 @@
          </tr>
       </table>
       <!-- /BODY -->
-	  <!-- BUTTONS -->
-	  <table class="footer-wrap">
-		<tr>
-			<td class="container" >
-			      <!-- content -->
-               <div class="content-btn">
-				   <table>
-					<tr >
-						<td align="center" style="-webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px;" bgcolor="#008FD3">
-							<a href="{delivery_link}" target="_blank" style="font-size: 14px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; color: #ffffff; text-decoration: none; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; padding: 5px; border: 1px solid #008FD3; display: inline-block;">Confirm delivery</a>
-						</td>
-					 </tr>
-				   </table>
-			   </div>
-               <!-- /content -->
-			</td>
-		</tr>
-	  </table
-	  <!-- /BUTTONS -->
       <!-- FOOTER -->
       <table class="footer-wrap">
          <tr>
-			<td></td>
+            <td></td>
             <td class="container">
                <!-- content -->
                <div class="content">

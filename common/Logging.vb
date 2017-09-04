@@ -3,8 +3,10 @@ Imports System.IO
 
 Public Class Logging
 
+    Dim appSettings As New AppSettings
+
     Public Sub log(ByVal s As String)
-        Dim strFile As String = "d:\webapps\test\log.txt"
+        Dim strFile As String = appSettings.pathLogFile
         Using sw As New StreamWriter(File.Open(strFile, FileMode.OpenOrCreate))
             sw.WriteLine("[" + Now.ToString("yyyy.MM.dd hh:mm:ss") + "]" + s)
             sw.Flush()
@@ -12,7 +14,6 @@ Public Class Logging
     End Sub
 
     Public Sub LogWrite(ByRef eventData As Dictionary(Of String, String))
-
         Dim dbconn As OleDbConnection
         Dim dbcomm As OleDbCommand
         Dim sql As String

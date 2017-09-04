@@ -6,15 +6,16 @@ Imports System.Web
 Imports System.Web.UI
 Imports System.Web.UI.WebControls
 Imports SysConfig
+Imports commonLib
 
 Partial Class _Default
     Inherits System.Web.UI.Page
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
-        Dim syscfg As New SysConfig
+        Dim sysConfiguration As New SystemConfiguration
         Dim redirectTo As String
-        redirectTo = syscfg.getSystemUrl + "sap_main.aspx"
+        redirectTo = sysConfiguration.getSystemUrl + "sap_main.aspx"
         Response.Redirect(redirectTo, False)
 
         ''Dim dbconn, sql, dbcomm, dbread

@@ -1,43 +1,13 @@
 ﻿Imports System.Data.OleDb
-Imports System
-Imports System.Web
-Imports System.Web.UI
-Imports System.Web.UI.WebControls
-Imports System.Collections.Generic
-Imports MailTemplate
-Imports LogSAPTareas
-Imports SysConfig
-Imports SapUser
-'Imports System.Text
-'Imports System.Security.Cryptography
-Imports Linker
-Imports System.Globalization
-Imports common
 Imports commonLib
+Imports System.Globalization
 
 Partial Class Default2
     Inherits System.Web.UI.Page
 
-    Private Function ai_Str_Status(ByVal s As String) As String
-        Dim result As String
-        Select Case s
-            Case "PD"
-                result = "Pending"
-            Case "IP"
-                result = "In Progress"
-            Case "NE"
-                result = "Extending"
-            Case "OD"
-                result = "Overdue"
-            Case "CF"
-                result = "Confirmed"
-            Case "DL"
-                result = "Delivered"
-            Case Else
-                result = "Unset"
-        End Select
-        Return result
-    End Function
+    Dim sysConfiguration As New SystemConfiguration
+    Dim userCommon As New commonLib.SapUser
+    Dim utilCommon As New commonLib.Utils
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
@@ -49,12 +19,11 @@ Partial Class Default2
         Dim dbread_req, dbread_ais As OleDbDataReader
         Dim sql, sql_ais As String
 
-        Dim syscfg As New SysConfig
         Dim users As New SapUser
         Dim actions As New SapActions
         Dim utils As New Utils
 
-        dbconn = New OleDbConnection(syscfg.getConnection)
+        dbconn = New OleDbConnection(sysConfiguration.getConnection)
         dbconn.Open()
 
         'CLEAR FORM
@@ -62,7 +31,8 @@ Partial Class Default2
         duedate.Value = ""
 
         'REQUEST FORM
-        If Request.ServerVariables("REQUEST_METHOD") = "POST" Then
+        'If Request.ServerVariables("REQUEST_METHOD") = "POST" Then
+        If Not IsPostBack Then
 
             '#####TODO:#CHECK#VALUES################
             Dim http_req_form_ai_id As String = Request.Form("form_ai_id")
@@ -77,7 +47,7 @@ Partial Class Default2
             'ai_new_due = ai_new_due.Date
 
             'CHECK AI ACTUAL STATUS
-            sql_ais = "SELECT * FROM actionitems WHERE id=" + http_req_form_ai_id + " AND owner='" + users.getId + "'"
+            sql_ais = "SELECT * FROM actionitems WHERE id=" + http_req_form_ai_id + " AND owner='" + userCommon.getId + "'"
             dbcomm_ais = New OleDbCommand(sql_ais, dbconn)
             dbread_ais = dbcomm_ais.ExecuteReader()
 
@@ -118,19 +88,19 @@ Partial Class Default2
 
                     Dim mail_dict As New Dictionary(Of String, String)
                     mail_dict.Add("mail", "NE") 'AI EXTENSION
-                    mail_dict.Add("to", users.getMailById(requestor_id))
+                    mail_dict.Add("to", userCommon.getMailById(requestor_id))
                     mail_dict.Add("{ai_id}", http_req_form_ai_id)
-                    mail_dict.Add("{owner}", users.getNameById(ai_owner) & "(" & ai_owner & ")")
+                    mail_dict.Add("{owner}", userCommon.getNameById(ai_owner) & "(" & ai_owner & ")")
                     mail_dict.Add("{description}", ai_descr) 'MAIL SUBJECT / AI DESCRIPTION
                     mail_dict.Add("{duedate}", utils.formatDateToSTring(ai_old_due))
                     mail_dict.Add("{extension}", http_req_form_duedate)
                     mail_dict.Add("{reason}", http_req_form_reason)
-                    mail_dict.Add("{accept_link}", syscfg.getSystemUrl + "sap_accept_due.aspx?id=" + link.enLink(http_req_form_ai_id))
-                    mail_dict.Add("{reject_link}", syscfg.getSystemUrl + "sap_reject_due.aspx?id=" + link.enLink(http_req_form_ai_id))
-                    mail_dict.Add("{requestor_name}", users.getNameById(requestor_id))
-                    mail_dict.Add("{app_link}", syscfg.getSystemUrl)
-                    mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the report")
-
+                    mail_dict.Add("{accept_link}", sysConfiguration.getSystemUrl + "sap_accept_due.aspx?id=" + link.enLink(http_req_form_ai_id))
+                    mail_dict.Add("{reject_link}", sysConfiguration.getSystemUrl + "sap_reject_due.aspx?id=" + link.enLink(http_req_form_ai_id))
+                    mail_dict.Add("{requestor_name}", userCommon.getNameById(requestor_id))
+                    mail_dict.Add("{app_link}", sysConfiguration.getSystemUrl)
+                    mail_dict.Add("{contact_mail_link}", "mailto:" & userCommon.getAdminMail & "?subject=Questions about the report")
+                    mail_dict.Add("{subject}", "Extension Requested for AI#" & http_req_form_ai_id)
 
                     newMail.SendNotificationMail(mail_dict)
 
@@ -155,25 +125,25 @@ Partial Class Default2
 
                     'EVENT: AI_EXTENSION [R5]
 
-                    Dim newLog As New LogSAPTareas
+                    Dim newLog As New Logging
 
                     Dim log_dict As New Dictionary(Of String, String)
                     log_dict.Add("ai_id", http_req_form_ai_id)
                     log_dict.Add("request_id", request_id.ToString)
-                    log_dict.Add("admin_id", users.getId)
+                    log_dict.Add("admin_id", userCommon.getId)
                     log_dict.Add("owner_id", ai_owner)
                     log_dict.Add("requestor_id", requestor_id)
                     log_dict.Add("prev_value", ai_old_due)
                     log_dict.Add("new_value", http_req_form_duedate)
                     log_dict.Add("event", "AI_EXTENSION")
-                    log_dict.Add("detail", users.getName + ", requests an extension [" + DateDiff("d", ai_created, ai_old_due).ToString + "+" + DateDiff("d", ai_old_due, ai_new_due).ToString + "days] until " + ai_new_due.ToString("dddd, MMMM dd, yyyy"))
+                    log_dict.Add("detail", userCommon.getName + ", requests an extension [" + DateDiff("d", ai_created, ai_old_due).ToString + "+" + DateDiff("d", ai_old_due, ai_new_due).ToString + "days] until " + ai_new_due.ToString("dddd, MMMM dd, yyyy"))
 
                     newLog.LogWrite(log_dict)
 
                 End If
 
                 Dim redirectTo As String
-                redirectTo = syscfg.getSystemUrl + "sap_owner.aspx"
+                redirectTo = sysConfiguration.getSystemUrl + "sap_owner.aspx"
                 Response.Redirect(redirectTo, False)
 
             Else
@@ -201,7 +171,7 @@ Partial Class Default2
             ai_id = linked.deLink(http_ai_id)
         End If
 
-        sql_ais = "SELECT * FROM actionitems WHERE id=" + ai_id.ToString + " AND owner='" + users.getId + "'"
+        sql_ais = "SELECT * FROM actionitems WHERE id=" + ai_id.ToString + " AND owner='" + userCommon.getId + "'"
 
         dbcomm_ais = New OleDbCommand(sql_ais, dbconn)
 
@@ -245,7 +215,7 @@ Partial Class Default2
             min_date.Text = "'" + ai_duedate.Year.ToString + "/" + ai_duedate.Month.ToString + "/" + ai_duedate.Day.ToString + "'"
             set_date.Text = min_date.Text
             'desc
-            ai_tbl_status.Text = ai_Str_Status(dbread_ais.GetString(5))
+            ai_tbl_status.Text = utilCommon.ai_Str_Status(dbread_ais.GetString(5))
 
             dbcomm_req = New OleDbCommand("SELECT * FROM requests WHERE id=" + dbread_ais.GetInt64(1).ToString, dbconn)
             dbread_req = dbcomm_req.ExecuteReader()
@@ -267,7 +237,7 @@ Partial Class Default2
             'ERROR: AI DOES NOT EXIST
             dbconn.Close()
             dbread_ais.Close()
-            Response.Redirect(syscfg.getSystemUrl + "sap_owner.aspx", False)
+            Response.Redirect(sysConfiguration.getSystemUrl + "sap_owner.aspx", False)
 
         End If
 

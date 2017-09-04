@@ -8,6 +8,7 @@ Module Module1
 
     Dim systemConfig As New SystemConfiguration
     Dim appConfiguration As New AppSettings
+    Dim sapMails As New MailTemplate
 
     Sub MyHandler(ByVal sender As Object, ByVal args As UnhandledExceptionEventArgs)
         Dim e As Exception = DirectCast(args.ExceptionObject, Exception)
@@ -15,7 +16,7 @@ Module Module1
     End Sub
 
     Sub Main2()
-        Dim sapMails As New MailTemplate
+
         Dim log_dict As New Dictionary(Of String, String)
         Dim newLog As New Logging
         Dim syscfg As New SysConfig
@@ -26,6 +27,8 @@ Module Module1
 
         log("step #1: start - checking connection")
 
+        'result = "http://rtm-bmo.bue.sap.corp:8888/"
+        ' result = "http://localhost:3542/"
         'Testing
         'sapMails.currentEnv = "testing"
         'sapMails.imapServer = "mail.folderit.net"
@@ -59,16 +62,9 @@ Module Module1
 
             log("step #2: Checking emails")
 
-            'Only for testing
-            'actions.sendOwnerReport("this week")
-            'actions.sendOwnerReport("today")
-            'actions.sendAdminReport()
-            'End testing
-
             sapMails.CheckMail()
 
             log("step #3: Checking report schedule")
-            log("step #3: " + String.Concat(Now.Hour.ToString(), ":", Now.Minute.ToString()))
 
             If Now.Hour >= 8 And Not syscfg.hasSentNotificationToday() Then
                 sapMails.SendNotifications()
@@ -115,6 +111,21 @@ Module Module1
 
     End Sub
 
+    Sub MainEmailTemplates()
+        Dim emailTester As New emailGenerator
+        Dim actions As New SapActions
+
+        'Only for testing
+        'actions.sendOwnerReport("this week")
+        'actions.sendOwnerReport("today")
+        'actions.sendAdminReport()
+        'End testing
+
+        'This is going to generate the emails for testing all templates
+        emailTester.createEmails()
+
+    End Sub
+
     Sub log(ByVal message As String)
         Dim strFile As String = "log.txt"
         Dim fileExists As Boolean = File.Exists(strFile)
@@ -125,7 +136,11 @@ Module Module1
     End Sub
 
     Sub Main()
+        'Main thread for production
         Main2()
+
+        'Email creator for testing
+        'MainEmailTemplates()
     End Sub
 
 End Module

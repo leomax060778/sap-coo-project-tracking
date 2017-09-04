@@ -1,28 +1,13 @@
 ﻿Imports System.Data.OleDb
+Imports commonLib
 
 Partial Class Default2
     Inherits System.Web.UI.Page
 
-    Private Function ai_Str_Status(ByVal s As String) As String
-        Dim result As String
-        Select Case s
-            Case "PD"
-                result = "Pending"
-            Case "IP"
-                result = "In Progress"
-            Case "NE"
-                result = "Extending"
-            Case "OD"
-                result = "Overdue"
-            Case "CF"
-                result = "Confirmed"
-            Case "DL"
-                result = "Delivered"
-            Case Else
-                result = "Unset"
-        End Select
-        Return result
-    End Function
+    Dim sysConfiguration As New SystemConfiguration
+    Dim userCommon As New SapUser
+    Dim utilCommon As New Utils
+    Dim appConfiguration As New AppSettings
 
     Protected Sub Button1_Click(ByVal sender As Object, ByVal e As System.EventArgs)
         Dim actions As New SapActions
@@ -41,7 +26,7 @@ Partial Class Default2
             If FileUpload1.HasFile Then
                 Try
                     fileName1 = Now().ToString("yyyyMMdd_hhmmss_") & FileUpload1.FileName
-                    FileUpload1.SaveAs("d:\webapps\test\delivery\" & fileName1)
+                    FileUpload1.SaveAs(appConfiguration.deliveryStorePath & fileName1)
                     'Label1.Text = "File name: " & FileUpload1.PostedFile.FileName & "<br>" & "File Size: " & FileUpload1.PostedFile.ContentLength & " kb<br>" & "Content type: " & FileUpload1.PostedFile.ContentType
 
                 Catch ex As System.Exception
@@ -54,7 +39,7 @@ Partial Class Default2
             If FileUpload2.HasFile Then
                 Try
                     fileName2 = Now().ToString("yyyyMMdd_hhmmss_") & FileUpload2.FileName
-                    FileUpload2.SaveAs("d:\webapps\test\delivery\" & fileName2)
+                    FileUpload2.SaveAs(appConfiguration.deliveryStorePath & fileName2)
                 Catch ex As System.Exception
                     Label2.Text = "ERROR: " & ex.Message.ToString()
                 End Try
@@ -63,7 +48,7 @@ Partial Class Default2
             If FileUpload3.HasFile Then
                 Try
                     fileName3 = Now().ToString("yyyyMMdd_hhmmss_") & FileUpload2.FileName
-                    FileUpload3.SaveAs("d:\webapps\test\delivery\" & fileName3)
+                    FileUpload3.SaveAs(appConfiguration.deliveryStorePath & fileName3)
                 Catch ex As System.Exception
                     Label3.Text = "ERROR: " & ex.Message.ToString()
                 End Try
@@ -72,7 +57,7 @@ Partial Class Default2
             If FileUpload4.HasFile Then
                 Try
                     fileName4 = Now().ToString("yyyyMMdd_hhmmss_") & FileUpload2.FileName
-                    FileUpload4.SaveAs("d:\webapps\test\delivery\" & fileName4)
+                    FileUpload4.SaveAs(appConfiguration.deliveryStorePath & fileName4)
                 Catch ex As System.Exception
                     Label4.Text = "ERROR: " & ex.Message.ToString()
                 End Try
@@ -81,7 +66,7 @@ Partial Class Default2
             If FileUpload5.HasFile Then
                 Try
                     fileName5 = Now().ToString("yyyyMMdd_hhmmss_") & FileUpload2.FileName
-                    FileUpload5.SaveAs("d:\webapps\test\delivery\" & fileName5)
+                    FileUpload5.SaveAs(appConfiguration.deliveryStorePath & fileName5)
                 Catch ex As System.Exception
                     Label5.Text = "ERROR: " & ex.Message.ToString()
                 End Try
@@ -109,9 +94,8 @@ Partial Class Default2
         Dim sql_ais As String
 
         Dim users As New SapUser
-        Dim syscfg As New SysConfig
 
-        dbconn = New OleDbConnection(syscfg.getConnection)
+        dbconn = New OleDbConnection(sysConfiguration.getConnection)
         dbconn.Open()
 
         'REQUEST ID
@@ -126,7 +110,7 @@ Partial Class Default2
             Integer.TryParse(http_ai_id, ai_id)
         End If
 
-        sql_ais = "SELECT * FROM actionitems WHERE id=" + ai_id.ToString + " AND owner='" + users.getId + "'"
+        sql_ais = "SELECT * FROM actionitems WHERE id=" + ai_id.ToString + " AND owner='" + userCommon.getId + "'"
         dbcomm_ais = New OleDbCommand(sql_ais, dbconn)
 
         label_ai_id.Text = ai_id.ToString
@@ -166,7 +150,7 @@ Partial Class Default2
             End If
 
             'desc
-            ai_tbl_status.Text = ai_Str_Status(dbread_ais.GetString(5))
+            ai_tbl_status.Text = utilCommon.ai_Str_Status(dbread_ais.GetString(5))
 
         Else
 
