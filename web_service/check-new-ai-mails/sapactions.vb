@@ -813,7 +813,7 @@ Public Class SapActions
             For Each id In users.getAdminsID("")
 
                 mail_dict.Add("mail", "AR") 'ADMIN REPORT
-                mail_dict.Add("to", users.getAdminMail)
+                mail_dict.Add("to", users.getMailById(id))
                 mail_dict.Add("{admin_name}", users.getNameById(id))
                 mail_dict.Add("{time}", "Today")
                 mail_dict.Add("{date}", DateTime.Now.ToString("MM/dd/yyyy"))
