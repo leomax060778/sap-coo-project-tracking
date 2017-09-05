@@ -1,7 +1,11 @@
 ﻿Imports System.Data.OleDb
+Imports commonLib
 
 Partial Class Default2
     Inherits System.Web.UI.Page
+
+    Dim sysConfiguration As New SystemConfiguration
+    Dim userCommon As New commonLib.SapUser
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
@@ -11,11 +15,9 @@ Partial Class Default2
         Dim dbcomm_req As OleDbCommand
         Dim dbread_req As OleDbDataReader
         Dim sql_req As String
-
-        Dim syscfg As New SysConfig
         Dim users As New SapUser
 
-        dbconn = New OleDbConnection(syscfg.getConnection)
+        dbconn = New OleDbConnection(sysConfiguration.getConnection)
         dbconn.Open()
 
 
@@ -24,7 +26,7 @@ Partial Class Default2
         Dim i As Integer
 
         If String.IsNullOrEmpty(http_req_id) Or Not Integer.TryParse(http_req_id, i) Then
-            Response.Redirect(syscfg.getSystemUrl + "sap_main.aspx", False)
+            Response.Redirect(sysConfiguration.getSystemUrl + "sap_main.aspx", False)
         Else
             Integer.TryParse(http_req_id, req_id)
         End If
@@ -83,7 +85,7 @@ Partial Class Default2
             mail_dict.Add("mail", "ND") 'REQ MORE INFORMATION NEEDED
             mail_dict.Add("to", http_req_mail)
             mail_dict.Add("{req_id}", http_req_form_id)
-            mail_dict.Add("{requestor_name}", users.getNameByMail(http_req_mail))
+            mail_dict.Add("{requestor_name}", userCommon.getNameByMail(http_req_mail))
             mail_dict.Add("{name}", http_req_form_hd_name)
             mail_dict.Add("{hl_name}", http_req_form_name)
             mail_dict.Add("{description}", http_req_form_hd_descr) 'MAIL SUBJECT / AI DESCRIPTION
@@ -91,10 +93,11 @@ Partial Class Default2
             mail_dict.Add("{duedate}", "Unset")
             mail_dict.Add("{hl_due}", http_req_form_duedate)
             mail_dict.Add("{detail}", http_req_form_detail)
-            mail_dict.Add("{app_link}", syscfg.getSystemUrl)
+            mail_dict.Add("{app_link}", sysConfiguration.getSystemUrl)
             'for each admin in users.admins
-            mail_dict.Add("{reply_mail_link}", "mailto:" & users.getAdminMail & "?subject=RQ#" & http_req_form_id.Trim() & "%20-%20To%20process%20your%20request%20additional%20info%20is%20needed&body=Dear%20Admin%2C%0D%0A%0D%0AHere%20is%20the%20info%20required%3A%0D%0A%0D%0A" & urlBody)
+            mail_dict.Add("{reply_mail_link}", "mailto:" & userCommon.getAdminMail & "?subject=RQ#" & http_req_form_id.Trim() & "%20-%20To%20process%20your%20request%20additional%20info%20is%20needed&body=Dear%20Admin%2C%0D%0A%0D%0AHere%20is%20the%20info%20required%3A%0D%0A%0D%0A" & urlBody)
             'next
+			mail_dict.Add("{subject}", userCommon.getNameByMail(http_req_mail) & " is requesting information for AI#" & http_req_form_id.Trim())
 
             newMail.SendNotificationMail(mail_dict)
 
@@ -104,11 +107,11 @@ Partial Class Default2
             '////////////////////////////////////////////////////////////
 
             'LOG INFORMATION
-            Dim newLog As New LogSAPTareas
+            Dim newLog As New Logging
             Dim log_dict As New Dictionary(Of String, String)
             log_dict.Add("req_id", http_req_form_id)
-            log_dict.Add("admin_id", users.getId)
-            log_dict.Add("requestor_id", users.getIdByMail(http_req_mail))
+            log_dict.Add("admin_id", userCommon.getId)
+            log_dict.Add("requestor_id", userCommon.getIdByMail(http_req_mail))
             log_dict.Add("event", "MISSING_INFO")
             log_dict.Add("detail", http_req_form_detail) '.Substring(0, 256)) 'DETAIL FIELD IS CHAR(256)
             'newLog.LogWrite(log_dict)
@@ -148,7 +151,7 @@ Partial Class Default2
             form_req_name.Value = dbread_req.GetString(4)
             form_req_descr.Value = dbread_req.GetString(5)
             'form_req_duedate.Value = req_id.ToString
-            requestor_mail.Value = users.getMailById(dbread_req.GetString(1))
+            requestor_mail.Value = userCommon.getMailById(dbread_req.GetString(1))
 
         Else
 

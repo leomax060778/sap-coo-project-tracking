@@ -1,31 +1,33 @@
 ﻿Imports System.Data.OleDb
+Imports commonLib
 
 Partial Class _Default
     Inherits System.Web.UI.Page
 
+    Dim sysConfiguration As New SystemConfiguration
+    Dim userCommon As New commonLib.SapUser
+
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
-        Dim syscfg As New SysConfig
-
         Dim su As New SapUser
-        Dim ro As String = su.getRole()
+        Dim ro As String = userCommon.getRole()
 
         Dim actions As New SapActions
 
-        current_user.Text = su.getName()
+        current_user.Text = userCommon.getFullName()
 
         If ro = "OW" Then
-            Response.Redirect(syscfg.getSystemUrl + "sap_main.aspx", False)
+            Response.Redirect(sysConfiguration.getSystemUrl + "sap_main.aspx", False)
         Else
 
             Dim dbconn As OleDbConnection
-            Dim dbcomm, dbcomm_req, dbcomm_ais As OleDbCommand
-            Dim dbread_req, dbread_ais As OleDbDataReader
-            Dim sql, sql_req, sql_ais As String
+            Dim dbcomm_req As OleDbCommand
+            Dim dbread_req As OleDbDataReader
+            Dim sql_req As String
 
             '#####TODO:#CHECK#IF#DB#EXIST###########
 
-            dbconn = New OleDbConnection(syscfg.getConnection)
+            dbconn = New OleDbConnection(sysConfiguration.getConnection)
             dbconn.Open()
 
             'REQUEST ID
@@ -92,7 +94,7 @@ Partial Class _Default
                 End If
 
                 Dim redirectTo As String
-                redirectTo = syscfg.getSystemUrl + "sap_crud.aspx"
+                redirectTo = sysConfiguration.getSystemUrl + "sap_crud.aspx"
                 Response.Redirect(redirectTo, False)
             End If
 
@@ -113,7 +115,7 @@ Partial Class _Default
                 role.Value = dbread_req.GetString(4).ToString
                 email.Value = dbread_req.GetString(2).ToString
 
-                link_del_user.HRef = syscfg.getSystemUrl + "sap_user_del.aspx?id=" + id.Value
+                link_del_user.HRef = sysConfiguration.getSystemUrl + "sap_user_del.aspx?id=" + id.Value
 
             End If
 

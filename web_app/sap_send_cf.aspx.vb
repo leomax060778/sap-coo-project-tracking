@@ -1,30 +1,25 @@
 ﻿Imports System.Data.OleDb
-Imports System
-Imports System.Collections.Generic
-Imports Linker
-Imports LogSAPTareas
-Imports MailTemplate
-Imports SysConfig
-Imports common
 Imports commonLib
 
 Partial Class sap_send_cf
     Inherits System.Web.UI.Page
+
+    Dim sysConfiguration As New SystemConfiguration
+    Dim userCommon As New commonLib.SapUser
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
         'CHECK IF DB EXISTS
         '#####TODO###################
         Dim dbconn As OleDbConnection
-        Dim dbcomm, dbcomm_ais As OleDbCommand
+        Dim dbcomm_ais As OleDbCommand
         Dim dbread_ais As OleDbDataReader
-        Dim sql, sql_ais As String
+        Dim sql_ais As String
 
         Dim su As New SapUser
-        Dim syscfg As New SysConfig
         Dim link As New Linker
 
-        dbconn = New OleDbConnection(syscfg.getConnection)
+        dbconn = New OleDbConnection(sysConfiguration.getConnection)
         dbconn.Open()
 
         Dim ai_id As String = Request("id")
@@ -58,14 +53,14 @@ Partial Class sap_send_cf
             mail_dict.Add("mail", "CF") 'AI EXTENSION APPROVED
             mail_dict.Add("to", "ezequielrosa@gmail.com")
             mail_dict.Add("{ai_id}", ai_id)
-            mail_dict.Add("{ai_link}", syscfg.getSystemUrl + "sap_ai_view.aspx?id=" + ai_id.ToString)
+            mail_dict.Add("{ai_link}", sysConfiguration.getSystemUrl + "sap_ai_view.aspx?id=" + ai_id.ToString)
             mail_dict.Add("{description}", ai_descr) 'MAIL SUBJECT / AI DESCRIPTION
             mail_dict.Add("{duedate}", ai_old_due.ToString)
-            mail_dict.Add("{confirm_link}", syscfg.getSystemUrl + "sap_ext.aspx?id=" + ai_old_due.ToString)
-            mail_dict.Add("{extension_link}", syscfg.getSystemUrl + "sap_ext.aspx?id=" + ai_id.ToString)
+            mail_dict.Add("{confirm_link}", sysConfiguration.getSystemUrl + "sap_ext.aspx?id=" + ai_old_due.ToString)
+            mail_dict.Add("{extension_link}", sysConfiguration.getSystemUrl + "sap_ext.aspx?id=" + ai_id.ToString)
             'mail_dict.Add("{requestor_name}", su.getNameById(owner_id))
-            mail_dict.Add("{app_link}", syscfg.getSystemUrl)
-            mail_dict.Add("{contact_mail_link}", "mailto:" & su.getAdminMail & "?subject=Questions about the report")
+            mail_dict.Add("{app_link}", sysConfiguration.getSystemUrl)
+            mail_dict.Add("{contact_mail_link}", "mailto:" & userCommon.getAdminMail & "?subject=Questions about the report")
 
             newMail.SendNotificationMail(mail_dict)
 
@@ -75,7 +70,7 @@ Partial Class sap_send_cf
 
             'EVENT: AI_EXTENSION [R5]
 
-            Dim newLog As New LogSAPTareas
+            Dim newLog As New Logging
 
             Dim log_dict As New Dictionary(Of String, String)
             log_dict.Add("ai_id", ai_id)

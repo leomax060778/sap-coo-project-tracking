@@ -1,22 +1,17 @@
 Imports System.Data.OleDb
-Imports System
-Imports System.Collections.Generic
-Imports common.Linker
-Imports LogSAPTareas
-Imports MailTemplate
-Imports SapActions
+Imports commonLib
 
 Partial Class sap_test
     Inherits System.Web.UI.Page
 
-    protected function sum_filter(filter as String) as integer
-        Dim syscfg As New SysConfig
+    Protected Function sum_filter(filter As String) As Integer
+        Dim sysConfiguration As New SystemConfiguration
         Dim actions As New SapActions
         Dim dbconn As OleDbConnection
         Dim dbcomm As OleDbCommand
         Dim dbread As OleDbDataReader
 
-        dbconn = New OleDbConnection(syscfg.getConnection)
+        dbconn = New OleDbConnection(sysConfiguration.getConnection)
         dbconn.Open()
 
         Dim extra_where As String = "(status = 'CR' OR status = 'ND') AND ai_count = 0"
@@ -38,7 +33,7 @@ Partial Class sap_test
         End Select
 
         Dim sql As String = "SELECT *, (SELECT count(*) FROM actionitems WHERE requests.id = actionitems.request_id) AS ai_count FROM requests WHERE " & extra_where & " ORDER BY id DESC"
-        Dim res as integer = 0
+        Dim res As Integer = 0
         dbcomm = New OleDbCommand(sql, dbconn)
         dbread = dbcomm.ExecuteReader()
 
@@ -55,30 +50,30 @@ Partial Class sap_test
                     req_missing_days = DateDiff(DateInterval.Day, Today.Date, req_duedate.Date)
                 End If
 
-                If filter <> "od" OR (filter = "od" AND req_missing_days < 7 AND req_missing_days > -1)
-                        res = res + 1
+                If filter <> "od" Or (filter = "od" And req_missing_days < 7 And req_missing_days > -1) Then
+                    res = res + 1
                 End If
 
             End While
 
         End If
 
-        return res
-    end function
+        Return res
+    End Function
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         Dim actions As New SapActions
         'Dim anal As New SapAnalytics
 
-        Response.write(sum_filter("ur") & " Unassigned Request <a href='http://rtm-bmo.bue.sap.corp:8888/sap_main.aspx?f=ur'>View Items</a><br>")
-    response.write(sum_filter("nd") & " Need Data <a href='http://rtm-bmo.bue.sap.corp:8888/sap_main.aspx?f=nd'>View Items</a><br>")
-    response.write(sum_filter("ap") & " Accept Pending <a href='http://rtm-bmo.bue.sap.corp:8888/sap_main.aspx?f=ap'>View Items</a><br>")
-    response.write(sum_filter("ex") & " Extending Pending for Appr/Rej <a href='http://rtm-bmo.bue.sap.corp:8888/sap_main.aspx?f=ex'>View Items</a><br>")
-    response.write(sum_filter("dl") & " Deliver Pending for Appr/Rej <a href='http:rtm-bmo.bue.sap.corp:8888/sap_main.aspx?f=dl'>View Items</a><br>")
-    response.write(sum_filter("od") & " Overdue within a week <a href='http://rtm-bmo.bue.sap.corp:8888/sap_main.aspx?f=od'>View Items</a><br>")
+        Response.Write(sum_filter("ur") & " Unassigned Request <a href='http://rtm-bmo.bue.sap.corp:8888/sap_main.aspx?f=ur'>View Items</a><br>")
+        Response.Write(sum_filter("nd") & " Need Data <a href='http://rtm-bmo.bue.sap.corp:8888/sap_main.aspx?f=nd'>View Items</a><br>")
+        Response.Write(sum_filter("ap") & " Accept Pending <a href='http://rtm-bmo.bue.sap.corp:8888/sap_main.aspx?f=ap'>View Items</a><br>")
+        Response.Write(sum_filter("ex") & " Extending Pending for Appr/Rej <a href='http://rtm-bmo.bue.sap.corp:8888/sap_main.aspx?f=ex'>View Items</a><br>")
+        Response.Write(sum_filter("dl") & " Deliver Pending for Appr/Rej <a href='http:rtm-bmo.bue.sap.corp:8888/sap_main.aspx?f=dl'>View Items</a><br>")
+        Response.Write(sum_filter("od") & " Overdue within a week <a href='http://rtm-bmo.bue.sap.corp:8888/sap_main.aspx?f=od'>View Items</a><br>")
 
 
-    Response.End
+        Response.End()
     End Sub
 
 End Class

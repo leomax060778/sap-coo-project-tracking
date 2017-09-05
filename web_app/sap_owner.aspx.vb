@@ -1,26 +1,28 @@
 ﻿Imports System.Data.OleDb
+Imports commonLib
 
 Partial Class _Default
     Inherits System.Web.UI.Page
 
     Dim utils As New Utils
+    Dim sysConfiguration As New SystemConfiguration
+    Dim userCommon As New commonLib.SapUser
 
     Private Sub CommandBtn_Click(ByVal sender As Object, ByVal e As CommandEventArgs)
 
-        Dim syscfg As New SysConfig
         Dim actions As New SapActions
 
         Dim su As SapUser = New SapUser()
-        Dim ro As String = su.getRole()
+        Dim ro As String = userCommon.getRole()
 
         If ro <> "OW" And ro <> "AO" Then
-            Response.Redirect(syscfg.getSystemUrl + "sap_main.aspx", False)
+            Response.Redirect(sysConfiguration.getSystemUrl + "sap_main.aspx", False)
         End If
 
         Dim dbconn As OleDbConnection
-        Dim dbcomm, dbcomm_req, dbcomm_ais As OleDbCommand
+        Dim dbcomm_req, dbcomm_ais As OleDbCommand
         Dim dbread_ais As OleDbDataReader
-        Dim sql, sql_req, sql_ais As String
+        Dim sql_ais As String
         Dim ai_new_status, ai_current_status As String
         Dim req_id As Integer
 
@@ -28,7 +30,7 @@ Partial Class _Default
 
         '#####TODO:#CHECK#IF#DB#EXIST###########
 
-        dbconn = New OleDbConnection(syscfg.getConnection)
+        dbconn = New OleDbConnection(sysConfiguration.getConnection)
         dbconn.Open()
 
         'Get AI current STATUS for VALIDATION
@@ -38,9 +40,6 @@ Partial Class _Default
         dbread_ais.Read()
         ai_current_status = dbread_ais.GetString(5)
         req_id = dbread_ais.GetInt64(1)
-
-        'Dim comment() As String
-        'comment = lnk.CommandArgument.Split(",") ' you can access like comment(0),comment(1)
 
         ai_new_status = "ERROR"
 
@@ -72,7 +71,7 @@ Partial Class _Default
 
             Case "Extend"
                 If ai_current_status <> "DL" Then
-                    Response.Redirect(syscfg.getSystemUrl + "sap_ext.aspx?id=" + ai_id, False)
+                    Response.Redirect(sysConfiguration.getSystemUrl + "sap_ext.aspx?id=" + ai_id, False)
                 End If
 
             Case "Confirm"
@@ -91,7 +90,7 @@ Partial Class _Default
             Case "Deliver"
                 If ai_current_status <> "PD" And ai_current_status <> "NE" And ai_current_status <> "DL" Then
                     'REDIRECT TO DELIVER PAGE
-                    Response.Redirect(syscfg.getSystemUrl + "sap_dlvr.aspx?id=" + ai_id, False)
+                    Response.Redirect(sysConfiguration.getSystemUrl + "sap_dlvr.aspx?id=" + ai_id, False)
                 End If
 
             Case Else
@@ -106,7 +105,7 @@ Partial Class _Default
             sql_ais = "UPDATE actionitems SET status='" + ai_new_status + "' WHERE id=" + ai_id
             dbcomm_req = New OleDbCommand(sql_ais, dbconn)
             dbcomm_req.ExecuteNonQuery()
-            Response.Redirect(syscfg.getSystemUrl + "sap_owner.aspx", False)
+            Response.Redirect(sysConfiguration.getSystemUrl + "sap_owner.aspx", False)
 
             'Update Lumira AI
             Dim lumiraReport As New LumiraReports
@@ -123,11 +122,11 @@ Partial Class _Default
 
             If log_record Then
 
-                Dim newLog As New LogSAPTareas
+                Dim newLog As New Logging
 
                 Dim log_dict As New Dictionary(Of String, String)
                 log_dict.Add("ai_id", log_ai_id)
-                log_dict.Add("admin_id", su.getId)
+                log_dict.Add("admin_id", userCommon.getId)
                 log_dict.Add("owner_id", log_owner)
                 log_dict.Add("prev_value", log_prev_value)
                 log_dict.Add("new_value", log_new_value)
@@ -145,28 +144,23 @@ Partial Class _Default
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
-        Dim syscfg As New SysConfig
-
-        Dim su as SapUser = new SapUser()
-
-        Select Case su.getrole()
+        Select Case userCommon.getRole()
             Case "AD"
-                Response.Redirect(syscfg.getSystemUrl + "sap_main.aspx", False)
+                Response.Redirect(sysConfiguration.getSystemUrl + "sap_main.aspx", False)
             Case "guest"
-                Response.Redirect(syscfg.getSystemUrl + "sap_new_user.aspx", False)
+                Response.Redirect(sysConfiguration.getSystemUrl + "sap_new_user.aspx", False)
         End Select
 
         Dim dbconn As OleDbConnection
-        Dim dbcomm, dbcomm_req, dbcomm_ais As OleDbCommand
-        Dim dbread_req, dbread_ais As OleDbDataReader
-        Dim sql, sql_req, sql_ais As String
+        Dim dbcomm_ais As OleDbCommand
+        Dim dbread_ais As OleDbDataReader
+        Dim sql_ais As String
 
         '#####TODO:#CHECK#IF#DB#EXIST###########
 
         Dim connString As String = ConfigurationManager.ConnectionStrings("myConnectionString").ConnectionString
 
-        Dim users As SapUser = New SapUser
-        current_user.Text = users.getName()
+        current_user.Text = userCommon.getFullName()
 
         dbconn = New OleDbConnection(connString)
         dbconn.Open()
@@ -184,7 +178,7 @@ Partial Class _Default
         'ROWS ITERATION
         'sql_req = "SELECT * FROM requests WHERE id=" + request_id.ToString
         'sql_ais = "SELECT * FROM actionitems WHERE request_id=" + request_id.ToString + " AND owner='" + ru + "'"
-        sql_ais = "SELECT * FROM actionitems WHERE owner='" + su.getId() + "' AND status <> 'XX' ORDER BY id DESC"
+        sql_ais = "SELECT * FROM actionitems WHERE owner='" + userCommon.getId() + "' AND status <> 'XX' ORDER BY id DESC"
 
         'dbcomm_req = New OleDbCommand(sql_req, dbconn)
         dbcomm_ais = New OleDbCommand(sql_ais, dbconn)
@@ -205,7 +199,7 @@ Partial Class _Default
 
         'dbread_req.Read()
 
-        req_id.Text = su.getname()
+        req_id.Text = userCommon.getFullName()
 
         Dim tabla As HtmlTable
         tabla = FindControl("ai_list")
@@ -237,8 +231,8 @@ Partial Class _Default
 
                 '<td class="ai-desc">We need a snack machine to be installed in the new office. I'll be back by 14/02/2015 and I need it ASAP. Please make sure that it has a variety of healthy snacks too. Thanks!</td>
                 Dim tCell_des As New HtmlTableCell
-                if len(ai_desc) > 85 then
-                    ai_desc = mid(ai_desc,1,85) & "..."
+                If Len(ai_desc) > 85 Then
+                    ai_desc = Mid(ai_desc, 1, 85) & "..."
                 End If
                 tCell_des.InnerText = ai_desc
                 tRow.Cells.Add(tCell_des)

@@ -1,23 +1,23 @@
 ﻿Imports System.Data.OleDb
 Imports System.Web.HttpUtility
-'Imports MailTemplate
+Imports commonLib
 
 Partial Class _Default
     Inherits System.Web.UI.Page
 
+    Dim sysConfiguration As New SystemConfiguration
+    Dim userCommon As New commonLib.SapUser
+
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
-        Dim syscfg As New SysConfig
-
-        Dim su As New SapUser
-        Dim ro As String = su.getRole()
+        Dim ro As String = userCommon.getRole()
 
         Dim actions As New SapActions
 
-        current_user.Text = su.getName()
+        current_user.Text = userCommon.getFullName()
 
         If ro = "OW" Then
-            Response.Redirect(syscfg.getSystemUrl + "sap_main.aspx", False)
+            Response.Redirect(sysConfiguration.getSystemUrl + "sap_main.aspx", False)
         Else
 
             Dim dbconn As OleDbConnection
@@ -26,7 +26,7 @@ Partial Class _Default
             Dim sql_req As String
 
             '#####TODO:#CHECK#IF#DB#EXIST###########
-            dbconn = New OleDbConnection(syscfg.getConnection)
+            dbconn = New OleDbConnection(sysConfiguration.getConnection)
             dbconn.Open()
 
             'REQUEST ID
@@ -35,7 +35,7 @@ Partial Class _Default
             Dim i As Integer
 
             If String.IsNullOrEmpty(http_req_id) Or Not Integer.TryParse(http_req_id, i) Then
-                Response.Redirect(syscfg.getSystemUrl + "sap_main.aspx", False)
+                Response.Redirect(sysConfiguration.getSystemUrl + "sap_main.aspx", False)
             Else
                 Integer.TryParse(http_req_id, request_id)
             End If
@@ -92,7 +92,7 @@ Partial Class _Default
                         duedb = Nothing
                     End If
 
-                    Dim duereqdate As Date = Date.ParseExact(http_req_form_duedate.Replace(" ", ""), "dd/MMM/yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo, Globalization.DateTimeStyles.None)
+                    Dim duereqdate As Date = Date.ParseExact(http_req_form_duedate.Replace(" ", ""), "dd/MMM/yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo, System.Globalization.DateTimeStyles.None)
 
                     If duedb.Year <> duereqdate.Year Or duedb.Month <> duereqdate.Month Or duedb.Day <> duereqdate.Day Then
                         If Not String.IsNullOrEmpty(changes) Then
@@ -117,7 +117,7 @@ Partial Class _Default
                             lumira_request.Add("created", Date.UtcNow.ToString("yyyy/MM/dd HH:mm:ss"))
                         End If
 
-                        Dim newLog As New LogSAPTareas
+                        Dim newLog As New Logging
                         Dim log_dict As New Dictionary(Of String, String)
 
                         changes = ""
@@ -132,7 +132,7 @@ Partial Class _Default
 
                         'Add log entries to dictionary
                         log_dict.Add("request_id", request_id.ToString)
-                        log_dict.Add("admin_id", su.getId)
+                        log_dict.Add("admin_id", userCommon.getId)
                         log_dict.Add("event", "RQ_UPDATED")
                         log_dict.Add("detail", changes)
 
@@ -146,7 +146,7 @@ Partial Class _Default
                 End If
 
                 Dim redirectTo As String
-                redirectTo = syscfg.getSystemUrl + "sap_req.aspx?id=" + http_req_id
+                redirectTo = sysConfiguration.getSystemUrl + "sap_req.aspx?id=" + http_req_id
                 Response.Redirect(redirectTo, False)
             End If
 
@@ -182,7 +182,7 @@ Partial Class _Default
                 End If
 
                 duedate.Value = req_duedate.ToString("dd/MMM/yyyy")
-                link_del_req.HRef = syscfg.getSystemUrl + "sap_req_del.aspx?id=" + Convert.ToInt64(dbread_req.GetValue(0)).ToString
+                link_del_req.HRef = sysConfiguration.getSystemUrl + "sap_req_del.aspx?id=" + Convert.ToInt64(dbread_req.GetValue(0)).ToString
 
             End If
 

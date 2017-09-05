@@ -1,75 +1,36 @@
 ﻿Imports System.Data.OleDb
-Imports System
-Imports System.Web
-Imports System.Web.UI
-Imports System.Web.UI.WebControls
-Imports SysConfig
+Imports commonLib
 
 Partial Class Default2
     Inherits System.Web.UI.Page
 
-    Private Function humanize_Fwd(ByVal i As Integer) As String
-        Dim result As String
-        Select Case i
-            Case Is < 0
-                result = "Overdue"
-            Case 0
-                result = "Today"
-            Case 1
-                result = "Tomorrow"
-            Case Else
-                result = "within " + i.ToString + " days"
-        End Select
-        Return result
-    End Function
-
-    Private Function humanize_Bkw(ByVal i As Integer) As String
-        Dim result As String
-        Select Case i
-            Case Is < 0
-                result = "Error"
-            Case 0
-                result = "Today"
-            Case 1
-                result = "Yesterday"
-            Case Else
-                result = i.ToString + " days ago"
-        End Select
-        Return result
-    End Function
+    Dim utilCommon As New commonLib.Utils
+    Dim sysConfiguration As New SystemConfiguration
+    Dim userCommon As New commonLib.SapUser
 
     Private Sub CommandBtn_Click(ByVal sender As Object, ByVal e As CommandEventArgs)
 
-        Dim syscfg As New SysConfig
         Dim actions As New SapActions
-
-        Dim users As SapUser = New SapUser
-        Dim ro As String = users.getRole()
+        Dim ro As String = userCommon.getRole()
 
         If ro = "OW" Then
-            Response.Redirect(syscfg.getSystemUrl + "sap_main.aspx", False)
+            Response.Redirect(sysConfiguration.getSystemUrl + "sap_main.aspx", False)
         Else
 
             Dim dbconn As OleDbConnection
-            Dim dbcomm, dbcomm_req, dbcomm_ais As OleDbCommand
-            Dim dbread_ais As OleDbDataReader
-            Dim sql, sql_req, sql_ais As String
-            Dim ai_new_status, ai_current_status As String
-
+            Dim dbcomm_req As OleDbCommand
+            Dim sql_req As String
             Dim rq_id As String = CType(e.CommandArgument, String)
 
             '#####TODO:#CHECK#IF#DB#EXIST###########
 
-            dbconn = New OleDbConnection(syscfg.getConnection)
+            dbconn = New OleDbConnection(sysConfiguration.getConnection)
             dbconn.Open()
 
             'LOG INFORMATION
             Dim log_rq_id As String = rq_id
-            Dim log_event As String
             Dim log_detail As String = "Some detail here..."
             Dim log_owner As String = "Current USER here..."
-            Dim log_prev_value As String
-            Dim log_new_value As String
             Dim log_record As Boolean = False
 
             If e.CommandName = "X" Then
@@ -89,17 +50,17 @@ Partial Class Default2
                 'WOULD HAVE TO LOG CHANGE STATUS FROM ?? TO XX
                 '###################################################
 
-                Dim newLog As New LogSAPTareas
+                Dim newLog As New Logging
 
                 Dim log_dict As New Dictionary(Of String, String)
                 log_dict.Add("request_id", rq_id)
-                log_dict.Add("admin_id", users.getId)
+                log_dict.Add("admin_id", userCommon.getId)
                 log_dict.Add("event", "RQ_CANCELED")
                 log_dict.Add("detail", "Request Canceled")
 
                 newLog.LogWrite(log_dict)
 
-                Response.Redirect(syscfg.getSystemUrl + "sap_main.aspx", False)
+                Response.Redirect(sysConfiguration.getSystemUrl + "sap_main.aspx", False)
             End If
 
             dbconn.Close()
@@ -110,31 +71,28 @@ Partial Class Default2
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
-        Dim syscfg As New SysConfig
         Dim users As SapUser = New SapUser
         Dim actions As New SapActions
 
-        Select Case users.getRole()
+        Select Case userCommon.getRole()
             Case "OW"
-                Response.Redirect(syscfg.getSystemUrl + "sap_owner.aspx", False)
+                Response.Redirect(sysConfiguration.getSystemUrl + "sap_owner.aspx", False)
             Case "guest"
-                Response.Redirect(syscfg.getSystemUrl + "sap_new_user.aspx", False)
+                Response.Redirect(sysConfiguration.getSystemUrl + "sap_new_user.aspx", False)
                 'Case Else
                 'Response.Redirect(syscfg.getSystemUrl + "sap_support.aspx", False)
         End Select
 
         Dim dbconn As OleDbConnection
-        Dim dbcomm, dbcomm_req, dbcomm_ais As OleDbCommand
-        Dim dbread_req, dbread_ais As OleDbDataReader
-        Dim sql, sql_req, sql_ais As String
+        Dim dbcomm_req As OleDbCommand
+        Dim dbread_req As OleDbDataReader
+        Dim sql_req As String
 
-        dbconn = New OleDbConnection(syscfg.getConnection)
+        dbconn = New OleDbConnection(sysConfiguration.getConnection)
         dbconn.Open()
 
         'CLEAR FORMS
         new_due_date.Value = ""
-
-
 
         '############INSERT#NEW#ROW#############
         'sql = "INSERT INTO requests (requestor, mail, subject, detail, due) VALUES ('pablo@sap.com', 'Dear, Juan Perez. Need a new slaptron for next tuesday. Thanks!', 'New Slaptron', 'Next tuesday', '2015-02-25')"
@@ -149,7 +107,7 @@ Partial Class Default2
         '############INSERT#NEW#ROW#############
         'dbcomm.ExecuteScalar()
 
-        current_user.Text = users.getName()
+        current_user.Text = userCommon.getFullName()
 
 
 
@@ -164,8 +122,6 @@ Partial Class Default2
             Dim hot As HtmlImage
 
             While dbread_req.Read()
-
-
 
                 Dim tRow As New HtmlTableRow
 
@@ -193,7 +149,7 @@ Partial Class Default2
                 req_created = dbread_req.GetDateTime(2)
                 Dim tCell_ctd As New HtmlTableCell
                 Dim req_spent_days As Integer = DateDiff(DateInterval.Day, req_created.Date, Today.Date)
-                tCell_ctd.InnerHtml = req_created.Date.ToString("dd/MMM/yyyy") + "<br><span class='elapsed'>" + humanize_Bkw(req_spent_days) + "</span>"
+                tCell_ctd.InnerHtml = req_created.Date.ToString("dd/MMM/yyyy") + "<br><span class='elapsed'>" + utilCommon.humanize_Bkw(req_spent_days) + "</span>"
 
                 tRow.Cells.Add(tCell_ctd)
 
@@ -217,7 +173,7 @@ Partial Class Default2
                 Else
                     'req_duedate = dbread_req.GetDateTime(6)
                     Dim req_missing_days As Integer = DateDiff(DateInterval.Day, Today.Date, req_duedate.Date)
-                    tCell_due.InnerHtml = req_duedate.Date.ToString("dd/MMM/yyyy") + "<br><span class='elapsed'>" + humanize_Fwd(req_missing_days) + "</span>"
+                    tCell_due.InnerHtml = req_duedate.Date.ToString("dd/MMM/yyyy") + "<br><span class='elapsed'>" + utilCommon.humanize_Fwd(req_missing_days) + "</span>"
 
                 End If
 
@@ -227,7 +183,7 @@ Partial Class Default2
                 Dim tCell_ais As New HtmlTableCell
                 Dim req_status As String = dbread_req.GetString(7)
                 'tCell_ais.InnerHtml = "<div style='float: left;margin-top: 5px;'>" & syscfg.req_Str_Status(req_status) & "</div>"
-                tCell_ais.InnerHtml = syscfg.req_Str_Status(req_status)
+                tCell_ais.InnerHtml = utilCommon.ai_Str_Status(req_status)
                 If req_status = "00" Then
                     hot = New HtmlImage
                     hot.Src = ResolveUrl("~/images/hot.png")
@@ -241,10 +197,9 @@ Partial Class Default2
                 '<td><a href="request.html">View</a></td>
                 Dim tCell_btn As New HtmlTableCell
 
-                Dim text_btn As String
                 If req_status = "PD" Then
                     Dim nd_btn As New HtmlAnchor
-                    nd_btn.HRef = syscfg.getSystemUrl + "sap_data.aspx?id=" + current_req_id.ToString
+                    nd_btn.HRef = sysConfiguration.getSystemUrl + "sap_data.aspx?id=" + current_req_id.ToString
                     nd_btn.InnerText = "?"
                     tCell_btn.Controls.Add(nd_btn)
                     tRow.Cells.Add(tCell_btn)
@@ -253,7 +208,7 @@ Partial Class Default2
                 End If
 
                 tRow.Attributes.Add("id", current_req_id.ToString)
-                current_url.HRef = syscfg.getSystemUrl
+                current_url.HRef = sysConfiguration.getSystemUrl
 
                 'Dim link_btn As New HtmlAnchor
                 'link_btn.HRef = syscfg.getSystemUrl + "sap_req.aspx?id=" + current_req_id.ToString

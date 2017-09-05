@@ -1,14 +1,11 @@
 ﻿Imports System.Data.OleDb
-Imports System
-Imports System.Collections.Generic
-Imports Linker
-Imports LogSAPTareas
-Imports MailTemplate
-Imports common
 Imports commonLib
 
 Partial Class sap_accept_new_due
     Inherits System.Web.UI.Page
+
+    Dim sysConfiguration As New SystemConfiguration
+    Dim userCommon As New commonLib.SapUser
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
@@ -18,12 +15,10 @@ Partial Class sap_accept_new_due
         Dim dbcomm, dbcomm_ais As OleDbCommand
         Dim dbread_ais As OleDbDataReader
         Dim sql, sql_ais As String
-
-        Dim syscfg As New SysConfig
         Dim users As New SapUser
         Dim actions As New SapActions
 
-        dbconn = New OleDbConnection(syscfg.getConnection)
+        dbconn = New OleDbConnection(sysConfiguration.getConnection)
         dbconn.Open()
 
         'REQUEST ID
@@ -60,12 +55,12 @@ Partial Class sap_accept_new_due
             dbcomm = New OleDbCommand(sql, dbconn)
             dbcomm.ExecuteScalar()
 
-            Dim newLog As New LogSAPTareas
+            Dim newLog As New Logging
             Dim log_dict As New Dictionary(Of String, String)
 
             log_dict.Add("ai_id", ai_id.ToString)
             log_dict.Add("request_id", dbread_ais.GetInt64(1).ToString)
-            log_dict.Add("admin_id", users.getId)
+            log_dict.Add("admin_id", userCommon.getId)
             log_dict.Add("owner_id", dbread_ais.GetString(6))
             log_dict.Add("requestor_id", actions.getRequestorIdFromRequestId(dbread_ais.GetInt64(1)))
             log_dict.Add("prev_value", "PD")
@@ -84,7 +79,7 @@ Partial Class sap_accept_new_due
         dbread_ais.Close()
         dbconn.Close()
 
-        Response.Redirect(syscfg.getSystemUrl + "sap_main.aspx", False)
+        Response.Redirect(sysConfiguration.getSystemUrl + "sap_main.aspx", False)
     End Sub
 
 End Class

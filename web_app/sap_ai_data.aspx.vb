@@ -1,9 +1,11 @@
 ﻿Imports System.Data.OleDb
-Imports common
 Imports commonLib
 
 Partial Class sap_ai_data
     Inherits System.Web.UI.Page
+
+    Dim sysConfiguration As New SystemConfiguration
+    Dim userCommon As New commonLib.SapUser
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
@@ -13,8 +15,6 @@ Partial Class sap_ai_data
         Dim dbcomm, dbcomm_ais, dbcomm_req As OleDbCommand
         Dim dbread_req, dbread_ais As OleDbDataReader
         Dim sql, sql_ais, sql_req As String
-
-        Dim syscfg As New SysConfig
         Dim users As New SapUser
         Dim actions As New SapActions
         Dim utils As New Utils
@@ -25,7 +25,7 @@ Partial Class sap_ai_data
         Dim linked As New Linker
         Dim ai_duedate As New Date
 
-        dbconn = New OleDbConnection(syscfg.getConnection)
+        dbconn = New OleDbConnection(sysConfiguration.getConnection)
         dbconn.Open()
 
         If String.IsNullOrEmpty(http_ai_id) Or Not Integer.TryParse(http_ai_id, i) Then
@@ -70,12 +70,12 @@ Partial Class sap_ai_data
                 dbcomm = New OleDbCommand(sql, dbconn)
                 dbcomm.ExecuteScalar()
 
-                Dim newLog As New LogSAPTareas
+                Dim newLog As New Logging
                 Dim log_dict As New Dictionary(Of String, String)
 
                 log_dict.Add("ai_id", ai_id.ToString)
                 log_dict.Add("request_id", dbread_ais.GetInt64(1).ToString)
-                log_dict.Add("admin_id", users.getId)
+                log_dict.Add("admin_id", userCommon.getId)
                 log_dict.Add("owner_id", dbread_ais.GetString(6))
                 log_dict.Add("requestor_id", actions.getRequestorIdFromRequestId(dbread_ais.GetInt64(1)))
                 log_dict.Add("prev_value", "PD")
@@ -102,8 +102,8 @@ Partial Class sap_ai_data
 
                 mail_dict.Add("mail", "ND") 'ACTION ITEM MORE INFORMATION NEEDED
                 mail_dict.Add("to", http_req_mail)
-                mail_dict.Add("{requestor_name}", users.getNameByMail(http_req_mail))
-                mail_dict.Add("{ai_owner}", users.getNameById(ai_owner))
+                mail_dict.Add("{requestor_name}", userCommon.getNameByMail(http_req_mail))
+                mail_dict.Add("{ai_owner}", userCommon.getNameById(ai_owner))
                 mail_dict.Add("{req_id}", http_ai_form_id)
                 mail_dict.Add("{name}", http_ai_form_hd_name)
                 mail_dict.Add("{hl_name}", http_ai_form_name)
@@ -112,15 +112,15 @@ Partial Class sap_ai_data
                 mail_dict.Add("{duedate}", utils.formatDateToSTring(http_ai_duedate))
                 mail_dict.Add("{hl_due}", http_ai_form_duedate)
                 mail_dict.Add("{detail}", http_ai_form_detail)
-                mail_dict.Add("{reply_mail_link}", "mailto:" & users.getMailById(ai_owner) & "?subject=AI#" & http_ai_form_id.Trim() & "%20-%20To%20process%20your%20request%20additional%20info%20is%20needed&body=Dear%20Admin%2C%0D%0A%0D%0AHere%20is%20the%20info%20required%3A%0D%0A%0D%0A" & urlBody)
-                mail_dict.Add("{app_link}", syscfg.getSystemUrl)
-                mail_dict.Add("{subject}", users.getNameById(ai_owner) & " Is requesting information for AI #" & http_ai_form_id.Trim())
+                mail_dict.Add("{reply_mail_link}", "mailto:" & userCommon.getMailById(ai_owner) & "?subject=AI#" & http_ai_form_id.Trim() & "%20-%20To%20process%20your%20request%20additional%20info%20is%20needed&body=Dear%20Admin%2C%0D%0A%0D%0AHere%20is%20the%20info%20required%3A%0D%0A%0D%0A" & urlBody)
+                mail_dict.Add("{app_link}", sysConfiguration.getSystemUrl)
+                mail_dict.Add("{subject}", userCommon.getNameById(ai_owner) & " is requesting information for AI#" & http_ai_form_id.Trim())
 
                 newMail.SendNotificationMail(mail_dict)
 
             End If
 
-            Response.Redirect(syscfg.getSystemUrl + "sap_main.aspx", False)
+            Response.Redirect(sysConfiguration.getSystemUrl + "sap_main.aspx", False)
 
         End If
 
@@ -181,7 +181,7 @@ Partial Class sap_ai_data
                 form_ai_descr.Value = dbread_ais.GetString(2)
                 form_ai_id.Value = Convert.ToInt64(dbread_ais.GetValue(0))
                 form_ai_duedate.Value = ai_duedate.ToString("dd/MMM/yyyy")
-                requestor_mail.Value = users.getMailById(dbread_req.GetString(1))
+                requestor_mail.Value = userCommon.getMailById(dbread_req.GetString(1))
 
                 dbread_req.Close()
 

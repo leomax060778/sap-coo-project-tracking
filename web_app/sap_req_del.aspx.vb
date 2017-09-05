@@ -1,21 +1,18 @@
 ﻿Imports System.Data.OleDb
-Imports System
-Imports System.Collections.Generic
-Imports Linker
-Imports LogSAPTareas
+Imports commonLib
 Imports MailTemplate
 Imports SysConfig
 
 Partial Class sap_req_del
     Inherits System.Web.UI.Page
 
+    Dim sysConfiguration As New SystemConfiguration
+    Dim userCommon As New commonLib.SapUser
+
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
-        Dim syscfg As New SysConfig
         Dim actions As New SapActions
-
-        Dim users As SapUser = New SapUser
-        Dim ro As String = users.getRole()
+        Dim ro As String = userCommon.getRole()
 
         Dim http_req_id As String = Request("id")
         Dim request_id As Integer
@@ -27,7 +24,7 @@ Partial Class sap_req_del
             Dim sql_req As String
 
             '#####TODO:#CHECK#IF#DB#EXIST###########
-            dbconn = New OleDbConnection(syscfg.getConnection)
+            dbconn = New OleDbConnection(sysConfiguration.getConnection)
             dbconn.Open()
 
             'LOG INFORMATION
@@ -51,22 +48,22 @@ Partial Class sap_req_del
             'WOULD HAVE TO LOG CHANGE STATUS FROM ?? TO XX
             '###################################################
 
-            Dim newLog As New LogSAPTareas
+            Dim newLog As New Logging
 
             Dim log_dict As New Dictionary(Of String, String)
             log_dict.Add("request_id", http_req_id)
-            log_dict.Add("admin_id", users.getId)
+            log_dict.Add("admin_id", userCommon.getId)
             log_dict.Add("event", "RQ_CANCELED")
             log_dict.Add("detail", "Request canceled")
 
             newLog.LogWrite(log_dict)
 
-            Response.Redirect(syscfg.getSystemUrl + "sap_main.aspx", False)
+            Response.Redirect(sysConfiguration.getSystemUrl + "sap_main.aspx", False)
 
             dbconn.Close()
 
         Else
-            Response.Redirect(syscfg.getSystemUrl + "sap_main.aspx", False)
+            Response.Redirect(sysConfiguration.getSystemUrl + "sap_main.aspx", False)
             'REDIRECT ME OUT OF HERE
             '#####TODO#HANDLE#EXCEPTION#########
             'Throw New Exception("Request ID not found!")
