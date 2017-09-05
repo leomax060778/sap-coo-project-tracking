@@ -106,4 +106,34 @@ Partial Public NotInheritable Class AppSettings
             Return CType(Me("systemEmail"),String)
         End Get
     End Property
+    
+    <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Configuration.DefaultSettingValueAttribute("http://rtm-bmo.bue.sap.corp:8888/")>  _
+    Public ReadOnly Property getSystemUrl() As String
+        Get
+            Return CType(Me("getSystemUrl"),String)
+        End Get
+    End Property
+    
+    <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Configuration.DefaultSettingValueAttribute("d:\webapps\test\log.txt")>  _
+    Public ReadOnly Property pathLogFile() As String
+        Get
+            Return CType(Me("pathLogFile"),String)
+        End Get
+    End Property
+    
+    <Global.System.Configuration.UserScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Configuration.DefaultSettingValueAttribute("d:\webapps\test\delivery\")>  _
+    Public Property deliveryStorePath() As String
+        Get
+            Return CType(Me("deliveryStorePath"),String)
+        End Get
+        Set
+            Me("deliveryStorePath") = value
+        End Set
+    End Property
 End Class

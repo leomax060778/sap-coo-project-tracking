@@ -3,12 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "commonLib", "common\commonLib.vbproj", "{A6459D5B-E24E-4B99-AB13-96D770923B73}"
+EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "check-new-ai-mails", "web_service\check-new-ai-mails\check-new-ai-mails.vbproj", "{BA1A124E-BE7C-4BC2-9481-3307C989A233}"
 EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "web_app", "web_app\", "{6987D310-4B0C-4809-BA11-9017503ABE90}"
 	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv2.0"
-		ProjectReferences = ""
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_3542"
 		Debug.AspNetCompiler.PhysicalPath = "web_app\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_3542\"
@@ -27,8 +28,6 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "web_app", "web_app\", "{698
 		SlnRelativePath = "web_app\"
 	EndProjectSection
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "commonLib", "common\commonLib.vbproj", "{A6459D5B-E24E-4B99-AB13-96D770923B73}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +38,18 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A6459D5B-E24E-4B99-AB13-96D770923B73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6459D5B-E24E-4B99-AB13-96D770923B73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6459D5B-E24E-4B99-AB13-96D770923B73}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A6459D5B-E24E-4B99-AB13-96D770923B73}.Debug|x64.Build.0 = Debug|Any CPU
+		{A6459D5B-E24E-4B99-AB13-96D770923B73}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A6459D5B-E24E-4B99-AB13-96D770923B73}.Debug|x86.Build.0 = Debug|Any CPU
+		{A6459D5B-E24E-4B99-AB13-96D770923B73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6459D5B-E24E-4B99-AB13-96D770923B73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6459D5B-E24E-4B99-AB13-96D770923B73}.Release|x64.ActiveCfg = Release|Any CPU
+		{A6459D5B-E24E-4B99-AB13-96D770923B73}.Release|x64.Build.0 = Release|Any CPU
+		{A6459D5B-E24E-4B99-AB13-96D770923B73}.Release|x86.ActiveCfg = Release|Any CPU
+		{A6459D5B-E24E-4B99-AB13-96D770923B73}.Release|x86.Build.0 = Release|Any CPU
 		{BA1A124E-BE7C-4BC2-9481-3307C989A233}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{BA1A124E-BE7C-4BC2-9481-3307C989A233}.Debug|x64.ActiveCfg = Debug|x64
 		{BA1A124E-BE7C-4BC2-9481-3307C989A233}.Debug|x64.Build.0 = Debug|x64
@@ -61,18 +72,6 @@ Global
 		{6987D310-4B0C-4809-BA11-9017503ABE90}.Release|x64.Build.0 = Debug|Any CPU
 		{6987D310-4B0C-4809-BA11-9017503ABE90}.Release|x86.ActiveCfg = Debug|Any CPU
 		{6987D310-4B0C-4809-BA11-9017503ABE90}.Release|x86.Build.0 = Debug|Any CPU
-		{A6459D5B-E24E-4B99-AB13-96D770923B73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A6459D5B-E24E-4B99-AB13-96D770923B73}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A6459D5B-E24E-4B99-AB13-96D770923B73}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{A6459D5B-E24E-4B99-AB13-96D770923B73}.Debug|x64.Build.0 = Debug|Any CPU
-		{A6459D5B-E24E-4B99-AB13-96D770923B73}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{A6459D5B-E24E-4B99-AB13-96D770923B73}.Debug|x86.Build.0 = Debug|Any CPU
-		{A6459D5B-E24E-4B99-AB13-96D770923B73}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A6459D5B-E24E-4B99-AB13-96D770923B73}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A6459D5B-E24E-4B99-AB13-96D770923B73}.Release|x64.ActiveCfg = Release|Any CPU
-		{A6459D5B-E24E-4B99-AB13-96D770923B73}.Release|x64.Build.0 = Release|Any CPU
-		{A6459D5B-E24E-4B99-AB13-96D770923B73}.Release|x86.ActiveCfg = Release|Any CPU
-		{A6459D5B-E24E-4B99-AB13-96D770923B73}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
