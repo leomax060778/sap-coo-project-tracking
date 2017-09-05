@@ -125,15 +125,12 @@ Partial Public NotInheritable Class AppSettings
         End Get
     End Property
     
-    <Global.System.Configuration.UserScopedSettingAttribute(),  _
+    <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
      Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
      Global.System.Configuration.DefaultSettingValueAttribute("d:\webapps\test\delivery\")>  _
-    Public Property deliveryStorePath() As String
+    Public ReadOnly Property deliveryStorePath() As String
         Get
             Return CType(Me("deliveryStorePath"),String)
         End Get
-        Set
-            Me("deliveryStorePath") = value
-        End Set
     End Property
 End Class

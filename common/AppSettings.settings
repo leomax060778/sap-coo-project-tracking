@@ -35,7 +35,7 @@
     <Setting Name="pathLogFile" Type="System.String" Scope="Application">
       <Value Profile="(Default)">d:\webapps\test\log.txt</Value>
     </Setting>
-    <Setting Name="deliveryStorePath" Type="System.String" Scope="User">
+    <Setting Name="deliveryStorePath" Type="System.String" Scope="Application">
       <Value Profile="(Default)">d:\webapps\test\delivery\</Value>
     </Setting>
   </Settings>
