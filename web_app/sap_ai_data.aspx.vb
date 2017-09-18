@@ -64,6 +64,16 @@ Partial Class sap_ai_data
                 dbread_ais.Read()
 
                 Dim ai_owner As String = dbread_ais.GetString(6)
+                Dim subjectAI As String = http_ai_form_hd_name
+                Dim nameAI As String()
+
+                'Parse name to get only subject part
+                If http_ai_form_hd_name.Contains("/") Then
+                    nameAI = http_ai_form_hd_name.Split("/")
+                    If nameAI(0).Length > 0 Then
+                        subjectAI = Trim(nameAI(0))
+                    End If
+                End If
 
                 'DUEDATE ACCEPT
                 sql = "UPDATE actionitems SET status='ND' WHERE id=" + ai_id.ToString
@@ -105,7 +115,7 @@ Partial Class sap_ai_data
                 mail_dict.Add("{requestor_name}", userCommon.getNameByMail(http_req_mail))
                 mail_dict.Add("{ai_owner}", userCommon.getNameById(ai_owner))
                 mail_dict.Add("{req_id}", http_ai_form_id)
-                mail_dict.Add("{name}", http_ai_form_hd_name)
+                mail_dict.Add("{name}", subjectAI)
                 mail_dict.Add("{hl_name}", http_ai_form_name)
                 mail_dict.Add("{description}", http_ai_form_hd_descr) 'MAIL SUBJECT / AI DESCRIPTION
                 mail_dict.Add("{hl_descr}", http_ai_form_descr)
@@ -153,7 +163,6 @@ Partial Class sap_ai_data
                 End If
 
                 req_description.Text = "AI# " + ai_id.ToString() + "-" + dbread_ais.GetString(2).Replace("&#39;", "'")
-                'dbread_req.GetString(5).Replace("&#39;", "'")
                 If Len(req_description.Text) > 250 Then
                     req_description.Text = Mid(req_description.Text, 1, 250) & "..."
                 End If
