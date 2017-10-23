@@ -30,6 +30,23 @@ Partial Class Default2
         reason.InnerText = ""
         duedate.Value = ""
 
+        'REQUEST ID
+        Dim http_ai_id As String = Request("id")
+        Dim ai_id As Integer
+        Dim i As Integer
+
+        If String.IsNullOrEmpty(http_ai_id) Or Not Integer.TryParse(http_ai_id, i) Then
+            Response.Redirect(".\sap_error.aspx", False)
+        Else
+            Integer.TryParse(http_ai_id, ai_id)
+        End If
+
+        Dim linked As New Linker
+
+        If i > 1000000 Then
+            ai_id = linked.deLink(http_ai_id)
+        End If
+
         'REQUEST FORM
         'If Request.ServerVariables("REQUEST_METHOD") = "POST" Then
         If Not IsPostBack Then
@@ -47,7 +64,7 @@ Partial Class Default2
             'ai_new_due = ai_new_due.Date
 
             'CHECK AI ACTUAL STATUS
-            sql_ais = "SELECT * FROM actionitems WHERE id=" + http_req_form_ai_id + " AND owner='" + userCommon.getId + "'"
+            sql_ais = "SELECT * FROM actionitems WHERE id=" + ai_id.ToString() + " AND owner='" + users.getId + "'"
             dbcomm_ais = New OleDbCommand(sql_ais, dbconn)
             dbread_ais = dbcomm_ais.ExecuteReader()
 
@@ -152,23 +169,6 @@ Partial Class Default2
 
             End If
 
-        End If
-
-        'REQUEST ID
-        Dim http_ai_id As String = Request("id")
-        Dim ai_id As Integer
-        Dim i As Integer
-
-        If String.IsNullOrEmpty(http_ai_id) Or Not Integer.TryParse(http_ai_id, i) Then
-            Response.Redirect(".\sap_error.aspx", False)
-        Else
-            Integer.TryParse(http_ai_id, ai_id)
-        End If
-
-        Dim linked As New Linker
-
-        If i > 1000000 Then
-            ai_id = linked.deLink(http_ai_id)
         End If
 
         sql_ais = "SELECT * FROM actionitems WHERE id=" + ai_id.ToString + " AND owner='" + userCommon.getId + "'"
