@@ -62,6 +62,9 @@
 			text-align: left;
 			vertical-align: top;
 		 }
+		 table.social th {
+			text-align: left;
+		 }
          .social .soc-btn {
          padding: 3px 7px;
          font-size:12px;
@@ -69,7 +72,7 @@
          text-decoration:none;
          color: #FFF;font-weight:bold;
          display:block;
-         text-align:center;
+         text-align:left;
          }
          a.fb { background-color: #3B5998!important; }
          a.tw { background-color: #1daced!important; }
@@ -82,17 +85,17 @@
          /* ------------------------------------- 
          HEADER 
          ------------------------------------- */
-         table.head-wrap { width: 100%;}
+         table.head-wrap { width: 80%;max-width:800px;}
          .header.container table td.logo { padding: 15px; }
          .header.container table td.label { padding: 15px; padding-left:0px;}
          /* ------------------------------------- 
          BODY 
          ------------------------------------- */
-         table.body-wrap { width: 100%;}
+         table.body-wrap { width: 80%; max-width:800px;}
          /* ------------------------------------- 
          FOOTER 
          ------------------------------------- */
-         table.footer-wrap { width: 100%;	clear:both!important;
+         table.footer-wrap { width: 80%;	clear:both!important;
          }
          .footer-wrap .container td.content  p { border-top: 1px solid rgb(215,215,215); padding-top:15px;}
          .footer-wrap .container td.content p {
@@ -156,14 +159,13 @@
          /* Set a max-width, and make it display as block so it will automatically stretch to that width, but will also shrink down on a phone or something */
          .container {
          display:block!important;
-         max-width:600px!important;
+         max-width:800px;
          margin:0 auto!important; /* makes it centered */
          clear:both!important;
          }
          /* This should also be a block element, so that it will fill 100% of the .container */
          .content {
          padding:15px;
-         max-width:600px;
          margin:0 auto;
          display:block; 
          }
@@ -171,7 +173,7 @@
 		 .content-btn {
 		 text-align:center;
 		 padding:15px;
-         max-width:600px;
+         max-width:800;
          margin:0 auto;
          display:block; 
          }
@@ -186,7 +188,6 @@
          .column-wrap { 
          padding:0!important; 
          margin:0 auto; 
-         max-width:600px!important;
          }
          .column table { width:100%;}
          .social .column {
@@ -258,9 +259,9 @@
 								<th style="width: 80px;border-radius: 0 5px 0 0;font-size: 14px;font-family: Arial, Helvetica, sans-serif;background:#fff;color:#F0AB00;border-bottom-width:3px;border-bottom-style:solid;border-bottom-color:#fff">Owners</th>
 							  </tr>
                               <tr>
-								<td style="width: 80px;border-radius: 0 0 0 5px;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;">{rq_id}</td>
+								<td style="width: 80px;border-radius: 0 0 0 5px; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;">{rq_id}</td>
 								<td style="width: 410px; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;">{description}</td>
-								<td style="width: 80px;border-radius: 0 0 5px 0;text-align: center; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555; background: #fff;">{owners}</td>
+								<td style="width: 80px;border-radius: 0 0 5px 0; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555; background: #fff;">{owners}</td>
                               </tr>
                            </table>
                            <!-- /social & contact -->
