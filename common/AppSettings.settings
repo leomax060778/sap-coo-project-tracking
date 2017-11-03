@@ -21,7 +21,7 @@
       <Value Profile="(Default)">asa1_sap_mktg_in_ac@global.corp.sap\sap_marketing_in_action</Value>
     </Setting>
     <Setting Name="emailPass" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">BAoR}:qKQSkzSBO'#4pQ</Value>
+      <Value Profile="(Default)">q()#juik5{ug6jH7wQAU</Value>
     </Setting>
     <Setting Name="emailStorePath" Type="System.String" Scope="Application">
       <Value Profile="(Default)">d:\webapps\test\mails\</Value>

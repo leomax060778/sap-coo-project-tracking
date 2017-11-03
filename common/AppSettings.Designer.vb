@@ -82,7 +82,7 @@ Partial Public NotInheritable Class AppSettings
     
     <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
      Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-     Global.System.Configuration.DefaultSettingValueAttribute("BAoR}:qKQSkzSBO'#4pQ")>  _
+     Global.System.Configuration.DefaultSettingValueAttribute("q()#juik5{ug6jH7wQAU")>  _
     Public ReadOnly Property emailPass() As String
         Get
             Return CType(Me("emailPass"),String)
