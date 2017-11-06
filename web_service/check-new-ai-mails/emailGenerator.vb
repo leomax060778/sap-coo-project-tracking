@@ -21,7 +21,7 @@ Public Class emailGenerator
         Dim subject As String = "Testing email template magna aliqua."
         Dim description As String = "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat."
         Dim detail As String = "Quiere la boca exhausta vid, kiwi, piña y fugaz jamón. Fabio me exige, sin tapujos, que añada cerveza al whisky. Jovencillo emponzoñado de whisky, ¡qué figurota exhibes! La cigüeña tocaba cada vez mejor el saxofón y el búho pedía kiwi y queso. El jefe buscó el éxtasis en un imprevisto baño de whisky y gozó como un duque. Exhíbanse politiquillos zafios, con orejas kilométricas y uñas de gavilán"
-        Dim toAddress As String = users.getMailById("C5246787") + ";leonardohildt@gmail.com"
+        Dim toAddress As String = users.getMailById("C5246787") + ";leonardohildt@hotmail.com;leonardohildt@gmail.com;"
         '"lhildt@folderit.net"
         Dim reqNumber As String = "666"
         Dim aiNumber As String = "999"
@@ -75,63 +75,6 @@ Public Class emailGenerator
         'sapMails.SendNotificationMail(mail_dict)
         'mail_dict.Clear()
 
-        ''Action Item Due today
-        ''".\email-templates\SAP Email I - Due today.html"
-        'mail_dict.Add("mail", "DL") 'AI CREATED
-        'mail_dict.Add("to", toAddress)
-        'mail_dict.Add("{ai_id}", aiNumber)
-        'mail_dict.Add("{ai_owner}", aiOwner)
-        'mail_dict.Add("{description}", description) 'MAIL SUBJECT / AI DESCRIPTION
-        'mail_dict.Add("{duedate}", utils.formatDateToSTring(Now.Date) & " (Today)")
-        'mail_dict.Add("{delivery_link}", syscfg.getSystemUrl + "sap_dlvr.aspx?id=" + eLink.enLink(aiNumber))
-        'mail_dict.Add("{requestor_name}", requestorName)
-        'mail_dict.Add("{app_link}", syscfg.getSystemUrl)
-        'mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the report")
-        'mail_dict.Add("{ai_link}", syscfg.getSystemUrl + "sap_ai_view.aspx?id=" + aiNumber)
-        'mail_dict.Add("{subject}", "Your AI#" & aiNumber & " is Due Today")
-
-        'sapMails.SendNotificationMail(mail_dict)
-        'mail_dict.Clear()
-
-        ''Reminder due in two days
-        ''".\email-templates\SAP Email B - Due 2 days.html"
-        'mail_dict.Add("mail", "CF") 'AI CREATED
-        'mail_dict.Add("to", toAddress)
-        'mail_dict.Add("{ai_id}", aiNumber)
-        'mail_dict.Add("{description}", description) 'MAIL SUBJECT / AI DESCRIPTION
-        'mail_dict.Add("{duedate}", dueDate.ToString("dd/MMM/yyyy"))
-        'mail_dict.Add("{confirm_link}", syscfg.getSystemUrl + "sap_confirm.aspx?id=" + eLink.enLink(aiNumber))
-        'mail_dict.Add("{extension_link}", syscfg.getSystemUrl + "sap_ext.aspx?id=" + eLink.enLink(aiNumber))
-        'mail_dict.Add("{need_information}", syscfg.getSystemUrl + "sap_ai_data.aspx?id=" + eLink.enLink(aiNumber))
-        'mail_dict.Add("{ai_owner}", aiOwner)
-        'mail_dict.Add("{app_link}", syscfg.getSystemUrl)
-        'mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the report")
-        'mail_dict.Add("{ai_link}", syscfg.getSystemUrl + "sap_ai_view.aspx?id=" + aiNumber)
-        'mail_dict.Add("{subject}", "AI#" + aiNumber + " Is due in " + dueDays.ToString + " " + dayText)
-
-        'sapMails.SendNotificationMail(mail_dict)
-        'mail_dict.Clear()
-
-        ''AI created And email to AI Owner
-        ''".\email-templates\SAP Email C - AI Owner.html"
-        'mail_dict.Add("mail", "CR") 'AI CREATED
-        'mail_dict.Add("to", toAddress)
-        'mail_dict.Add("{ai_id}", aiNumber)
-        'mail_dict.Add("{description}", "[" + subject + "] " + description) 'MAIL SUBJECT / AI DESCRIPTION
-        'mail_dict.Add("{duedate}", utils.formatDateToSTring(dueDate))
-        'mail_dict.Add("{accept_link}", syscfg.getSystemUrl + "sap_accept_new_due.aspx?id=" + eLink.enLink(aiNumber))
-        'mail_dict.Add("{reject_link}", syscfg.getSystemUrl + "sap_reject_due.aspx?id=" + eLink.enLink(aiNumber))
-        'mail_dict.Add("{extension_link}", syscfg.getSystemUrl + "sap_ext.aspx?id=" + eLink.enLink(aiNumber))
-        'mail_dict.Add("{need_information}", syscfg.getSystemUrl + "sap_ai_data.aspx?id=" + eLink.enLink(aiNumber))
-        'mail_dict.Add("{ai_owner}", aiOwner)
-        'mail_dict.Add("{app_link}", syscfg.getSystemUrl)
-        'mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the report")
-        'mail_dict.Add("{ai_link}", syscfg.getSystemUrl + "sap_ai_view.aspx?id=" + aiNumber)
-        'mail_dict.Add("{subject}", "New AI#" + aiNumber)
-
-        'sapMails.SendNotificationMail(mail_dict)
-        'mail_dict.Clear()
-
         ''New Request to Admin
         ''".\email-templates\SAP Email H - Admin New Request.html"
         'mail_dict.Add("mail", "NR") 'NEW REQUEST
@@ -143,68 +86,6 @@ Public Class emailGenerator
         'mail_dict.Add("{app_link}", syscfg.getSystemUrl)
         'mail_dict.Add("{contact_mail_link}", "mailto: " & users.getAdminMail & "?subject=Questions about the report")
         'mail_dict.Add("{admin_name}", users.getNameById("C5246787"))
-
-        'sapMails.SendNotificationMail(mail_dict)
-        'mail_dict.Clear()
-
-        ''Need more information
-        ''".\email-templates\SAP Email A - More info.html"
-        'mail_dict.Add("mail", "ND") 'ACTION ITEM MORE INFORMATION NEEDED
-        'mail_dict.Add("to", toAddress)
-        'mail_dict.Add("{requestor_name}", requestorName)
-        'mail_dict.Add("{ai_owner}", aiOwner)
-        'mail_dict.Add("{req_id}", reqNumber)
-        'mail_dict.Add("{name}", subject)
-        'mail_dict.Add("{hl_name}", requestorName)
-        'mail_dict.Add("{description}", "Asked for more information") 'MAIL SUBJECT / AI DESCRIPTION
-        'mail_dict.Add("{hl_descr}", description)
-        'mail_dict.Add("{duedate}", dueDateAsString)
-        'mail_dict.Add("{hl_due}", dueDateAsString)
-        'mail_dict.Add("{detail}", description)
-        'mail_dict.Add("{reply_mail_link}", "mailto:" & toAddress & "?subject=AI#" & aiNumber & "%20-%20To%20process%20your%20request%20additional%20info%20is%20needed&body=Dear%20Admin%2C%0D%0A%0D%0AHere%20is%20the%20info%20required%3A%0D%0A%0D%0A" & subject)
-        'mail_dict.Add("{app_link}", syscfg.getSystemUrl)
-        'mail_dict.Add("{subject}", aiOwner & " is requesting information for AI#" & aiNumber)
-
-        'sapMails.SendNotificationMail(mail_dict)
-        'mail_dict.Clear()
-
-        ''Delivery approval 
-        ''"~/email-templates/SAP Email D - Delivery Approval.html"
-        'mail_dict.Add("mail", "CP") 'NEW AI CREATED
-        'mail_dict.Add("to", toAddress)
-        'mail_dict.Add("{ai_id}", aiNumber)
-        'mail_dict.Add("{owner}", aiOwner)
-        'mail_dict.Add("{description}", description)
-        'mail_dict.Add("{detail}", detail)
-        'mail_dict.Add("{duedate}", dueDateAsString)
-        'mail_dict.Add("{delivery}", utils.formatDateToSTring(Now.Date))
-        'mail_dict.Add("{requestor_name}", requestorName)
-        'mail_dict.Add("{app_link}", syscfg.getSystemUrl)
-        'mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the report")
-        'mail_dict.Add("{delivery_link1}", syscfg.getSystemUrl + "delivery.ashx?file=" + "C:\test.txt")
-        'mail_dict.Add("{filename1}", "C:\test.txt")
-        'mail_dict.Add("{subject}", "Delivery Notice | AI#" & aiNumber)
-
-        'sapMails.SendNotificationMail(mail_dict)
-        'mail_dict.Clear()
-
-        ''Need extension
-        '''".\email-templates\SAP Email E - Extension Requested.html"
-        'mail_dict.Add("mail", "NE")
-        'mail_dict.Add("to", toAddress)
-        'mail_dict.Add("{ai_id}", aiNumber)
-        'mail_dict.Add("{owner}", aiOwner)
-        'mail_dict.Add("{description}", description) 'MAIL SUBJECT / AI DESCRIPTION
-        'mail_dict.Add("{duedate}", dueDateAsString)
-        ''utils.formatDateToSTring(ai_old_due))
-        'mail_dict.Add("{extension}", dueDate.AddDays(3).ToString("dd/MMM/yyyy"))
-        'mail_dict.Add("{reason}", "need more time to complete the task")
-        'mail_dict.Add("{accept_link}", syscfg.getSystemUrl + "sap_accept_due.aspx?id=" + eLink.enLink(aiNumber))
-        'mail_dict.Add("{reject_link}", syscfg.getSystemUrl + "sap_reject_due.aspx?id=" + eLink.enLink(aiNumber))
-        'mail_dict.Add("{requestor_name}", requestorName)
-        'mail_dict.Add("{app_link}", syscfg.getSystemUrl)
-        'mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the report")
-        'mail_dict.Add("{subject}", "Extension Requested for AI#" & aiNumber)
 
         'sapMails.SendNotificationMail(mail_dict)
         'mail_dict.Clear()
@@ -273,17 +154,154 @@ Public Class emailGenerator
 
         '''AI Change Owner
         '''"~/email-templates/SAP Email P - AI Owner Changed.html"
-        mail_dict.Add("mail", "OC") 'AI Owner changed
+        'mail_dict.Add("mail", "OC") 'AI Owner changed
+        'mail_dict.Add("to", toAddress)
+        'mail_dict.Add("{ai_id}", aiNumber)
+        'mail_dict.Add("{ai_owner}", aiOwner)
+        'mail_dict.Add("{description}", description) 'MAIL SUBJECT / AI DESCRIPTION
+        'mail_dict.Add("{app_link}", syscfg.getSystemUrl)
+        'mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the report")
+        'mail_dict.Add("{subject}", "AI#" + aiNumber.ToString + " is no longer assigned to you")
+
+        'sapMails.SendNotificationMail(mail_dict)
+        'mail_dict.Clear()
+
+        '******************************
+        'TEMPLATES WITH BUTTONS
+        '******************************
+
+        ''Need more information
+        ''".\email-templates\SAP Email A - More info.html"
+        'mail_dict.Add("mail", "ND") 'ACTION ITEM MORE INFORMATION NEEDED
+        'mail_dict.Add("to", toAddress)
+        'mail_dict.Add("{requestor_name}", requestorName)
+        'mail_dict.Add("{ai_owner}", aiOwner)
+        'mail_dict.Add("{req_id}", reqNumber)
+        'mail_dict.Add("{name}", subject)
+        'mail_dict.Add("{hl_name}", requestorName)
+        'mail_dict.Add("{description}", "Asked for more information") 'MAIL SUBJECT / AI DESCRIPTION
+        'mail_dict.Add("{hl_descr}", description)
+        'mail_dict.Add("{duedate}", dueDateAsString)
+        'mail_dict.Add("{hl_due}", dueDateAsString)
+        'mail_dict.Add("{detail}", description)
+        'mail_dict.Add("{reply_mail_link}", "mailto:" & toAddress & "?subject=AI#" & aiNumber & "%20-%20To%20process%20your%20request%20additional%20info%20is%20needed&body=Dear%20Admin%2C%0D%0A%0D%0AHere%20is%20the%20info%20required%3A%0D%0A%0D%0A" & subject)
+        'mail_dict.Add("{app_link}", syscfg.getSystemUrl)
+        'mail_dict.Add("{subject}", aiOwner & " is requesting information for AI#" & aiNumber)
+
+        'sapMails.SendNotificationMail(mail_dict)
+        'mail_dict.Clear()
+
+        ''Reminder due in two days
+        ''".\email-templates\SAP Email B - Due 2 days.html"
+        'mail_dict.Add("mail", "CF") 'AI CREATED
+        'mail_dict.Add("to", toAddress)
+        'mail_dict.Add("{ai_id}", aiNumber)
+        'mail_dict.Add("{description}", description) 'MAIL SUBJECT / AI DESCRIPTION
+        'mail_dict.Add("{duedate}", dueDate.ToString("dd/MMM/yyyy"))
+        'mail_dict.Add("{confirm_link}", syscfg.getSystemUrl + "sap_confirm.aspx?id=" + eLink.enLink(aiNumber))
+        'mail_dict.Add("{extension_link}", syscfg.getSystemUrl + "sap_ext.aspx?id=" + eLink.enLink(aiNumber))
+        'mail_dict.Add("{need_information}", syscfg.getSystemUrl + "sap_ai_data.aspx?id=" + eLink.enLink(aiNumber))
+        'mail_dict.Add("{ai_owner}", aiOwner)
+        'mail_dict.Add("{app_link}", syscfg.getSystemUrl)
+        'mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the report")
+        'mail_dict.Add("{ai_link}", syscfg.getSystemUrl + "sap_ai_view.aspx?id=" + aiNumber)
+        'mail_dict.Add("{subject}", "AI#" + aiNumber + " Is due in " + dueDays.ToString + " " + dayText)
+
+        'sapMails.SendNotificationMail(mail_dict)
+        'mail_dict.Clear()
+
+        ''AI created And email to AI Owner
+        ''".\email-templates\SAP Email C - AI Owner.html"
+        'mail_dict.Add("mail", "CR") 'AI CREATED
+        'mail_dict.Add("to", toAddress)
+        'mail_dict.Add("{ai_id}", aiNumber)
+        'mail_dict.Add("{description}", "[" + subject + "] " + description) 'MAIL SUBJECT / AI DESCRIPTION
+        'mail_dict.Add("{duedate}", utils.formatDateToSTring(dueDate))
+        'mail_dict.Add("{accept_link}", syscfg.getSystemUrl + "sap_accept_new_due.aspx?id=" + eLink.enLink(aiNumber))
+        'mail_dict.Add("{reject_link}", syscfg.getSystemUrl + "sap_reject_due.aspx?id=" + eLink.enLink(aiNumber))
+        'mail_dict.Add("{extension_link}", syscfg.getSystemUrl + "sap_ext.aspx?id=" + eLink.enLink(aiNumber))
+        'mail_dict.Add("{need_information}", syscfg.getSystemUrl + "sap_ai_data.aspx?id=" + eLink.enLink(aiNumber))
+        'mail_dict.Add("{ai_owner}", aiOwner)
+        'mail_dict.Add("{app_link}", syscfg.getSystemUrl)
+        'mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the report")
+        'mail_dict.Add("{ai_link}", syscfg.getSystemUrl + "sap_ai_view.aspx?id=" + aiNumber)
+        'mail_dict.Add("{subject}", "New AI#" + aiNumber)
+
+        'sapMails.SendNotificationMail(mail_dict)
+        'mail_dict.Clear()
+
+        'Delivery approval 
+        '"~/email-templates/SAP Email D - Delivery Approval.html"
+        mail_dict.Add("mail", "CP") 'NEW AI CREATED
         mail_dict.Add("to", toAddress)
         mail_dict.Add("{ai_id}", aiNumber)
-        mail_dict.Add("{ai_owner}", aiOwner)
-        mail_dict.Add("{description}", description) 'MAIL SUBJECT / AI DESCRIPTION
+        mail_dict.Add("{owner}", aiOwner)
+        mail_dict.Add("{description}", description)
+        mail_dict.Add("{detail}", detail)
+        mail_dict.Add("{duedate}", dueDateAsString)
+        mail_dict.Add("{delivery}", utils.formatDateToSTring(Now.Date))
+        mail_dict.Add("{requestor_name}", requestorName)
         mail_dict.Add("{app_link}", syscfg.getSystemUrl)
         mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the report")
-        mail_dict.Add("{subject}", "AI#" + aiNumber.ToString + " is no longer assigned to you")
+        mail_dict.Add("{delivery_link1}", syscfg.getSystemUrl + "delivery.ashx?file=" + "C:\test.txt")
+        mail_dict.Add("{filename1}", "C:\test.txt")
+        mail_dict.Add("{subject}", "Delivery Notice | AI#" & aiNumber)
 
         sapMails.SendNotificationMail(mail_dict)
         mail_dict.Clear()
+
+        ''Action Item Due today
+        ''".\email-templates\SAP Email I - Due today.html"
+        'mail_dict.Add("mail", "DL") 'AI CREATED
+        'mail_dict.Add("to", toAddress)
+        'mail_dict.Add("{ai_id}", aiNumber)
+        'mail_dict.Add("{ai_owner}", aiOwner)
+        'mail_dict.Add("{description}", description) 'MAIL SUBJECT / AI DESCRIPTION
+        'mail_dict.Add("{duedate}", utils.formatDateToSTring(Now.Date) & " (Today)")
+        'mail_dict.Add("{delivery_link}", syscfg.getSystemUrl + "sap_dlvr.aspx?id=" + eLink.enLink(aiNumber))
+        'mail_dict.Add("{requestor_name}", requestorName)
+        'mail_dict.Add("{app_link}", syscfg.getSystemUrl)
+        'mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the report")
+        'mail_dict.Add("{ai_link}", syscfg.getSystemUrl + "sap_ai_view.aspx?id=" + aiNumber)
+        'mail_dict.Add("{subject}", "Your AI#" & aiNumber & " is Due Today")
+
+        'sapMails.SendNotificationMail(mail_dict)
+        'mail_dict.Clear()
+
+        ''Need extension
+        '''".\email-templates\SAP Email E - Extension Requested.html"
+        'mail_dict.Add("mail", "NE")
+        'mail_dict.Add("to", toAddress)
+        'mail_dict.Add("{ai_id}", aiNumber)
+        'mail_dict.Add("{owner}", aiOwner)
+        'mail_dict.Add("{description}", description) 'MAIL SUBJECT / AI DESCRIPTION
+        'mail_dict.Add("{duedate}", dueDateAsString)
+        ''utils.formatDateToSTring(ai_old_due))
+        'mail_dict.Add("{extension}", dueDate.AddDays(3).ToString("dd/MMM/yyyy"))
+        'mail_dict.Add("{reason}", "need more time to complete the task")
+        'mail_dict.Add("{accept_link}", syscfg.getSystemUrl + "sap_accept_due.aspx?id=" + eLink.enLink(aiNumber))
+        'mail_dict.Add("{reject_link}", syscfg.getSystemUrl + "sap_reject_due.aspx?id=" + eLink.enLink(aiNumber))
+        'mail_dict.Add("{requestor_name}", requestorName)
+        'mail_dict.Add("{app_link}", syscfg.getSystemUrl)
+        'mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the report")
+        'mail_dict.Add("{subject}", "Extension Requested for AI#" & aiNumber)
+
+        'sapMails.SendNotificationMail(mail_dict)
+        'mail_dict.Clear()
+
+        '******************************
+        'GENERIC EMAIL TEMPLATE
+        '******************************
+
+        ''Testing generic email template
+        'mail_dict.Add("mail", "ET") 'Email Template
+        'mail_dict.Add("to", toAddress)
+        'mail_dict.Add("{app_link}", syscfg.getSystemUrl)
+        'mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the report")
+        'mail_dict.Add("{subject}", "Generic email template")
+
+        'sapMails.SendNotificationMail(mail_dict)
+        'mail_dict.Clear()
 
         'Send and delete all the emails
         sapMails.sendAndDelete()
