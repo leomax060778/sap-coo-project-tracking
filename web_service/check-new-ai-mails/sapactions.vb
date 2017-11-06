@@ -221,7 +221,7 @@ Public Class SapActions
             ownerID = users.getIdByMail(sourceMail(owner))
 
             'CREATE ACTION ITEM
-            sql = "INSERT INTO actionitems (request_id, description, owner, status" + dueSQLfield + ") VALUES (" + req_id.ToString + ", '" + mailSubject + " / " + mailBody + "', '" + ownerID + "', 'PD'" + dueSQLdata + ");"
+            sql = "INSERT INTO actionitems (request_id, description, owner, status" + dueSQLfield + ") VALUES (" + req_id.ToString + ", '" + mailBody + "', '" + ownerID + "', 'PD'" + dueSQLdata + ");"
             '+ " / " + mailBody
 
             dbcomm = New OleDbCommand(sql, dbconn)
