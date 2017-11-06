@@ -98,6 +98,8 @@
                 emailTemplate = ".\email-templates/SAP Email K - AI Uncompleted.html"
             Case "OC"
                 emailTemplate = ".\email-templates/SAP Email P - AI Owner Changed.html"
+            Case "ET"
+                emailTemplate = ".\email-templates/emailTemplate.html"
             Case Else
                 emailTemplate = String.Empty
         End Select
