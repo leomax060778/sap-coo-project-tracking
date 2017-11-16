@@ -49,7 +49,7 @@ Partial Class Default2
 
         'REQUEST FORM
         'If Request.ServerVariables("REQUEST_METHOD") = "POST" Then
-        If Not IsPostBack Then
+        If IsPostBack Then
 
             '#####TODO:#CHECK#VALUES################
             Dim http_req_form_ai_id As String = Request.Form("form_ai_id")
