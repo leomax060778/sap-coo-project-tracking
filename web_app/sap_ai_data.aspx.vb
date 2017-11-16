@@ -122,7 +122,7 @@ Partial Class sap_ai_data
                 mail_dict.Add("{duedate}", utils.formatDateToSTring(http_ai_duedate))
                 mail_dict.Add("{hl_due}", http_ai_form_duedate)
                 mail_dict.Add("{detail}", http_ai_form_detail)
-                mail_dict.Add("{reply_mail_link}", "mailto:" & userCommon.getMailById(ai_owner) & "?subject=AI#" & http_ai_form_id.Trim() & "%20-%20To%20process%20your%20request%20additional%20info%20is%20needed&body=Dear%20Admin%2C%0D%0A%0D%0AHere%20is%20the%20info%20required%3A%0D%0A%0D%0A" & urlBody)
+                mail_dict.Add("{reply_mail_link}", "mailto:" & userCommon.getAdminMail & "?subject=AI#" & http_ai_form_id.Trim() & "%20-%20To%20process%20your%20request%20additional%20info%20is%20needed&body=Dear%20Admin%2C%0D%0A%0D%0AHere%20is%20the%20info%20required%3A%0D%0A%0D%0A" & urlBody)
                 mail_dict.Add("{app_link}", sysConfiguration.getSystemUrl)
                 mail_dict.Add("{subject}", userCommon.getNameById(ai_owner) & " is requesting information for AI#" & http_ai_form_id.Trim())
 
