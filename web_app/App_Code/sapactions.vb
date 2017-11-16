@@ -250,7 +250,7 @@ Public Class SapActions
                 mail_dict.Add("{d5}", "none")
             End If
 
-            mail_dict.Add("{completed_link}", sysConfiguration.getSystemUrl + "sap_completed.aspx?id=" + link.enLink(ai_id.ToString))
+            mail_dict.Add("{accept_link}", sysConfiguration.getSystemUrl + "sap_completed.aspx?id=" + link.enLink(ai_id.ToString))
             mail_dict.Add("{uncompleted_link}", sysConfiguration.getSystemUrl + "sap_uncompleted.aspx?id=" + link.enLink(ai_id.ToString))
 
             newMail.SendNotificationMail(mail_dict)

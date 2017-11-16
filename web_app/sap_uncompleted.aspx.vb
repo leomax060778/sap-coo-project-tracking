@@ -96,8 +96,30 @@ Partial Class _Default
 
                 newMail.SendNotificationMail(mail_dict)
 
-                mail_dict("to") = userCommon.getAdminMail()
-                newMail.SendNotificationMail(mail_dict)
+                'Sent message to Admins
+                Dim adminUsers() As String
+                adminUsers = userCommon.getAdminMail().Split(";")
+
+                For Each admin As String In adminUsers
+                    Dim adminName = userCommon.getNameByMail(admin)
+                    Dim adminId = userCommon.getIdByMail(admin)
+
+                    mail_dict = New Dictionary(Of String, String)
+                    mail_dict.Add("to", admin)
+                    mail_dict.Add("{ai_id}", ai_id.ToString)
+                    mail_dict.Add("{ai_owner}", adminName & "(" & adminId & ")")
+                    mail_dict.Add("{description}", description) 'MAIL SUBJECT / AI DESCRIPTION
+                    mail_dict.Add("{duedate}", duedate)
+                    mail_dict.Add("{reason}", Request.Form("reason"))
+                    mail_dict.Add("{requestor_name}", userCommon.getNameById(requestor_id))
+                    mail_dict.Add("{app_link}", sysConfiguration.getSystemUrl)
+                    mail_dict.Add("{contact_mail_link}", "mailto:" & userCommon.getAdminMail & "?subject=Questions about the report")
+                    mail_dict.Add("{subject}", "AI#" & ai_id.ToString & " Is Incomplete")
+
+                    newMail.SendNotificationMail(mail_dict)
+
+                Next
+
                 '////////////////////////////////////////////////////////////
                 'INSERT LOG HERE
                 '////////////////////////////////////////////////////////////
