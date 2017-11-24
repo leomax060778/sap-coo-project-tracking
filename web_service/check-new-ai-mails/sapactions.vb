@@ -505,7 +505,7 @@ Public Class SapActions
         audience = "OWNER"
         count = ais_sum_filter("ap")
         todayList = todayList & "<tr>
-                                    <td style='width: 80px;border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & audience & "</td> 
+                                    <td style='width: 80px;border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & audience & "</td> 
                                     <td style='width: 200px;border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'><a href='" & syscfg.getSystemUrl & "sap_main.aspx?f=ap'>Acceptance Pending (OW)</a></td>
                                     <td style='width: 80px;border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif;'>" & count & "</td>
                                     <td style='width: 330px;border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Get feedback and accept/reject the request in the system</td>
@@ -513,7 +513,7 @@ Public Class SapActions
         'Count overdue items
         count = ais_sum_filter("ov")
         todayList = todayList & "<tr>
-                                    <td style='width: 80px;border-radius: 0 0 0 5px;text-align: left; vertical-align: top; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'></td> 
+                                    <td style='width: 80px;border-radius: 0 0 0 5px;text-align: center; vertical-align: top; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'></td> 
                                     <td style='width: 200px;border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'><a href='" & syscfg.getSystemUrl & "sap_main.aspx?f=ov'>Overdue</a></td>
                                     <td style='width: 80px;border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif;'>" & count & "</td>
                                     <td style='width: 330px;border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Get feedback about the Status, brief the Requestor and update the information in the system</td>
@@ -523,7 +523,7 @@ Public Class SapActions
         audience = "REQUESTOR"
         count = ais_sum_filter("rq")
         todayList = todayList & "<tr>
-                                    <td style='width: 80px;border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & audience & "</td> 
+                                    <td style='width: 80px;border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & audience & "</td> 
                                     <td style='width: 200px;border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'><a href='" & syscfg.getSystemUrl & "sap_main.aspx?f=rq'>Acceptance Pending (RQ)</a></td>
                                     <td style='width: 80px;border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif;'>" & count & "</td>
                                     <td style='width: 330px;border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Ask the owner to accept it</td>
@@ -532,7 +532,7 @@ Public Class SapActions
         'Count extension pending items
         count = ais_sum_filter("ex")
         todayList = todayList & "<tr>
-                                    <td style='width: 80px;border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'></td> 
+                                    <td style='width: 80px;border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'></td> 
                                     <td style='width: 200px;border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'><a href='" & syscfg.getSystemUrl & "sap_main.aspx?f=ex'>Extension Pending</a></td>
                                     <td style='width: 80px;border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif;'>" & count & "</td>
                                     <td style='width: 330px;border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Get feedback and accept/reject the request in the system</td>
@@ -540,7 +540,7 @@ Public Class SapActions
         'Count unassigned items
         count = ais_sum_filter("ur")
         todayList = todayList & "<tr>
-                                    <td style='width: 80px;border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'></td> 
+                                    <td style='width: 80px;border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'></td> 
                                     <td style='width: 200px;border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'><a href='" & syscfg.getSystemUrl & "sap_main.aspx?f=ur'>Unassigned</a></td>
                                     <td style='width: 80px;border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif;'>" & count & "</td>
                                     <td style='width: 330px;border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Ask about the owner of the request and update the info in the system</td>
@@ -548,7 +548,7 @@ Public Class SapActions
         'Count need data items
         count = ais_sum_filter("nd")
         todayList = todayList & "<tr>
-                                    <td style='width: 80px;border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'></td> 
+                                    <td style='width: 80px;border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'></td> 
                                     <td style='width: 200px;border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'><a href='" & syscfg.getSystemUrl & "sap_main.aspx?f=nd'>Need Data</a></td>
                                     <td style='width: 80px;border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif;'>" & count & "</td>
                                     <td style='width: 330px;border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Ask about the missing info and update it in the system</td>
@@ -558,7 +558,7 @@ Public Class SapActions
         audience = "ADMIN"
         count = ais_sum_filter("dw")
         todayList = todayList & "<tr>
-                                    <td style='width: 80px;border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & audience & "</td> 
+                                    <td style='padding-width: 80px;border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & audience & "</td> 
                                     <td style='width: 200px;border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'><a href='" & syscfg.getSystemUrl & "sap_main.aspx?f=dw'> This Week DD</a></td>
                                     <td style='width: 80px;border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif;'>" & count & "</td>
                                     <td style='width: 330px;border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Be on top of this week deliverables</td>
@@ -566,7 +566,7 @@ Public Class SapActions
         'Count multiple owners items
         count = ais_sum_filter("du")
         todayList = todayList & "<tr>
-                                    <td style='width: 80px;border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'></td> 
+                                    <td style='width: 80px;border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'></td> 
                                     <td style='width: 200px;border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'><a href='" & syscfg.getSystemUrl & "sap_main.aspx?f=du'> Multiple Owner</a></td>
                                     <td style='width: 80px;border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif;'>" & count & "</td>
                                     <td style='width: 330px;border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>This are more complex projects, you might want to monitor closelly to make sure that everything goes as expected</td>
@@ -641,7 +641,7 @@ Public Class SapActions
                         newLine = Environment.NewLine & "<tr>
                                                            <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Pending</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'> <a href=" & syscfg.getSystemUrl & "sap_ai_view.aspx?id=" & aiID.ToString & ">#" & aiID.ToString & "</a></td>
-                                                           <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>New Action Item</td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>New Action Item</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & aiDesc & "</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & dueStr & "</td>
                                                        </tr>"
@@ -653,7 +653,7 @@ Public Class SapActions
                         newLine = Environment.NewLine & "<tr>
                                                            <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Delivered</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'> <a href=" & syscfg.getSystemUrl & "sap_ai_view.aspx?id=" & aiID.ToString & ">#" & aiID.ToString & "</a></td>
-                                                           <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Already delivered</td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Already delivered</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & aiDesc & "</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & dueStr & "</td>
                                                        </tr>"
@@ -665,7 +665,7 @@ Public Class SapActions
                         newLine = Environment.NewLine & "<tr>
                                                            <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Need Extension</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'> <a href=" & syscfg.getSystemUrl & "sap_ai_view.aspx?id=" & aiID.ToString & ">#" & aiID.ToString & "</a></td>
-                                                           <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Extension required</td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Extension required</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & aiDesc & "</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & dueStr & "</td>
                                                        </tr>"
@@ -676,7 +676,7 @@ Public Class SapActions
                         newLine = Environment.NewLine & "<tr>
                                                            <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Overdue</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'> <a href=" & syscfg.getSystemUrl & "sap_ai_view.aspx?id=" & aiID.ToString & ">#" & aiID.ToString & "</a></td>
-                                                           <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Overdue " & daysDiffStr & " day</td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Overdue " & daysDiffStr & " day</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & aiDesc & "</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & dueStr & "</td>
                                                        </tr>"
@@ -687,7 +687,7 @@ Public Class SapActions
                         newLine = Environment.NewLine & "<tr>
                                                            <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>In Progress</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'> <a href=" & syscfg.getSystemUrl & "sap_ai_view.aspx?id=" & aiID.ToString & ">#" & aiID.ToString & "</a></td>
-                                                           <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>AI in Progress</td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>AI in Progress</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & aiDesc & "</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & dueStr & "</td>
                                                        </tr>"
@@ -701,7 +701,7 @@ Public Class SapActions
                                                         "<tr>
                                                            <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>-</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'> <a href=" & syscfg.getSystemUrl & "sap_ai_view.aspx?id=" & aiID.ToString & ">#" & aiID.ToString & "</a></td>
-                                                           <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Delivery Today</td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Delivery Today</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & aiDesc & "</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & dueStr & "</td>
                                                        </tr>"
@@ -711,7 +711,7 @@ Public Class SapActions
                                                     "<tr>
                                                            <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>-</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'> <a href=" & syscfg.getSystemUrl & "sap_ai_view.aspx?id=" & aiID.ToString & ">#" & aiID.ToString & "</a></td>
-                                                           <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Confirm Today</td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Confirm Today</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & aiDesc & "</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & dueStr & "</td>
                                                        </tr>"
@@ -722,7 +722,7 @@ Public Class SapActions
                                                     "<tr>
                                                            <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>-</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'> <a href=" & syscfg.getSystemUrl & "sap_ai_view.aspx?id=" & aiID.ToString & ">#" & aiID.ToString & "</a></td>
-                                                           <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Delivery this week</td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Delivery this week</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & aiDesc & "</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & dueStr & "</td>
                                                        </tr>"
@@ -732,7 +732,7 @@ Public Class SapActions
                                                     "<tr>
                                                            <td style='border-radius: 0 0 0 5px;text-align: left;vertical-align: top; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>-</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'> <a href=" & syscfg.getSystemUrl & "sap_ai_view.aspx?id=" & aiID.ToString & ">#" & aiID.ToString & "</a></td>
-                                                           <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Delivery after this week</td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Delivery after this week</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & aiDesc & "</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & dueStr & "</td>
                                                        </tr>"
@@ -798,7 +798,7 @@ Public Class SapActions
         Dim users As New SapUser
         Dim newMail As New MailTemplate
         Dim id As String
-        Dim mail_dict As New Dictionary(Of String, String)
+        Dim mail_dict As Dictionary(Of String, String)
         Dim report As String
 
         report = getDataAdminReport()
@@ -811,7 +811,7 @@ Public Class SapActions
         If Not String.IsNullOrEmpty(report) Then
 
             For Each id In users.getAdminsID("")
-
+                mail_dict = New Dictionary(Of String, String)
                 mail_dict.Add("mail", "AR") 'ADMIN REPORT
                 mail_dict.Add("to", users.getMailById(id))
                 mail_dict.Add("{admin_name}", users.getNameById(id))
