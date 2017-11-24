@@ -44,7 +44,7 @@ Partial Class sap_reject_due
         End If
 
         'CHECK IF AI EXISTS AND AI ACTUAL STATUS IS NEED_EXTENSION
-        sql_ais = "SELECT * FROM actionitems WHERE id=" + ai_id.ToString + "AND status='NE'"
+        sql_ais = "SELECT * FROM actionitems WHERE id=" + ai_id.ToString + " AND status IN ('NE', 'PD')"
         dbcomm_ais = New OleDbCommand(sql_ais, dbconn)
         dbread_ais = dbcomm_ais.ExecuteReader()
 
@@ -54,6 +54,7 @@ Partial Class sap_reject_due
                 dbread_ais.Read()
                 Dim ai_descr As String = dbread_ais.GetString(2)
                 Dim ai_owner As String = dbread_ais.GetString(6)
+                Dim test As String = dbread_ais.GetDataTypeName(4)
                 Dim ai_duedate As Date
                 If Not dbread_ais.IsDBNull(4) Then
                     ai_duedate = dbread_ais.GetDateTime(4)
@@ -65,7 +66,8 @@ Partial Class sap_reject_due
                 'Dim ai_missing_days As Integer = DateDiff(DateInterval.Day, Today.Date, ai_old_due.Date)
 
                 'DUEDATE EXTENSION
-                sql = "UPDATE actionitems SET status='IP' WHERE id=" + ai_id.ToString
+                sql = "UPDATE actionitems SET due='" + ai_duedate.Year.ToString + "-" + ai_duedate.Month.ToString + "-" + ai_duedate.Day.ToString + "', extension=NULL, status='IP' WHERE id=" + ai_id.ToString
+
                 dbcomm = New OleDbCommand(sql, dbconn)
                 dbcomm.ExecuteScalar()
 
@@ -130,7 +132,7 @@ Partial Class sap_reject_due
         Else
             'AI DOES NOT EXIST
             'Set message on label
-            lblMessage.Text = "Action Item does not exist in the system. Please try again!"
+            lblMessage.Text = "Action Item does not exist in the system or it is no longer in Need Extension status. Please try again!"
 
         End If
 
