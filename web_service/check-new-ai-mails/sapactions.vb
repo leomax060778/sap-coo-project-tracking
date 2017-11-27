@@ -1,4 +1,5 @@
 ﻿Imports System.Data.OleDb
+Imports System.IO
 Imports System.Text
 Imports commonLib
 
@@ -774,7 +775,7 @@ Public Class SapActions
 
             'IF THERE ARE ANY NEWS
             If Not String.IsNullOrEmpty(report(interval)) Then
-
+                mail_dict = New Dictionary(Of String, String)
                 mail_dict.Add("mail", "OR") 'OWNER REPORT
                 mail_dict.Add("to", users.getMailById(id))
                 mail_dict.Add("{owner_name}", users.getNameById(id))
@@ -811,6 +812,8 @@ Public Class SapActions
         If Not String.IsNullOrEmpty(report) Then
 
             For Each id In users.getAdminsID("")
+                log("Admin Report - user TO: " & users.getMailById(id))
+
                 mail_dict = New Dictionary(Of String, String)
                 mail_dict.Add("mail", "AR") 'ADMIN REPORT
                 mail_dict.Add("to", users.getMailById(id))
@@ -820,7 +823,6 @@ Public Class SapActions
                 mail_dict.Add("{data}", report)
                 mail_dict.Add("{app_link}", syscfg.getSystemUrl)
                 mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the Admin report")
-
                 newMail.SendNotificationMail(mail_dict)
 
                 mail_dict.Clear()
@@ -829,6 +831,15 @@ Public Class SapActions
 
         End If
 
+    End Sub
+
+    Sub log(ByVal message As String)
+        Dim strFile As String = "log.txt"
+        Dim fileExists As Boolean = File.Exists(strFile)
+        Using sw As New StreamWriter(File.Open(strFile, FileMode.Append))
+            sw.WriteLine(
+                    "[" & DateTime.Now & "] " & message)
+        End Using
     End Sub
 
 

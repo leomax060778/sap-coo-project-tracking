@@ -471,9 +471,10 @@ Public Class MailTemplate
         Dim mailTemplate As String = ""
         Dim mailSubject As String = ""
         Dim mailBody As String = ""
-        Dim mailRecepient As String = mailData("to")
+        Dim mailRecepient As String = String.Empty
         Dim ai_Id As String = ""
 
+        mailRecepient = mailData("to")
         If mailData.ContainsKey("{ai_id}") AndAlso Not String.IsNullOrEmpty(mailData("{ai_id}")) Then
             ai_Id = mailData("{ai_id}")
         End If
@@ -494,7 +495,6 @@ Public Class MailTemplate
         mailBody = PopulateBody(reader, mailData)
 
         SendHtmlFormattedEmail(mailRecepient, mailSubject, mailBody, ai_Id)
-
     End Sub
 
     Sub sendAndDelete()
@@ -543,6 +543,7 @@ Public Class MailTemplate
 
                 While dbread.Read()
 
+                    e_mail = New MailMessage()
                     mailSubject = dbread.GetString(2)
                     mailBody = dbread.GetString(3)
 
@@ -597,7 +598,7 @@ Public Class MailTemplate
 
                                     'WAITING ENOUGH MUST SEND NOW
                                     log("sendAndDelete - Email from: " & emailAddressFrom)
-                                    log("sendAndDelete - Email to: " & CleanInput(dbread.GetString(1)))
+                                    log("sendAndDelete - e_mail.To #1: " & CleanInput(dbread.GetString(1)))
 
                                     e_mail = New MailMessage()
                                     e_mail.From = New System.Net.Mail.MailAddress(emailAddressFrom)
@@ -632,8 +633,8 @@ Public Class MailTemplate
 
                     Else
                         ' Any other subject
-                        log("sendAndDelete - Any other subject - Email from: " & emailAddressFrom)
-                        log("sendAndDelete - Any other subject - Email to: " & CleanInput(dbread.GetString(1)))
+                        log("sendAndDelete - Any other subject - Email from:  " & emailAddressFrom)
+                        log("sendAndDelete - e_mail.To #1: " & EmailAddressesToString(dbread.GetString(1)))
 
                         e_mail.From = New System.Net.Mail.MailAddress(emailAddressFrom)
                         e_mail.To.Add(EmailAddressesToString(dbread.GetString(1)))
