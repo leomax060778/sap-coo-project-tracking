@@ -44,36 +44,36 @@ Public Class emailGenerator
         'Send and delete all the emails
         sapMails.sendAndDelete()
 
-        'Admin Report
-        '".\email-templates\SAP Email O - Admin Report.html"
-        report = getDataAdminReport()
-        mail_dict.Add("mail", "AR") 'ADMIN REPORT
-        mail_dict.Add("{admin_name}", users.getNameById("C5246787"))
-        mail_dict.Add("to", toAddress)
-        mail_dict.Add("{time}", "Today")
-        mail_dict.Add("{date}", DateTime.Now.ToString("MM/dd/yyyy"))
-        mail_dict.Add("{data}", report)
-        mail_dict.Add("{app_link}", syscfg.getSystemUrl)
-        mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the Admin report")
+        ''Admin Report
+        ''".\email-templates\SAP Email O - Admin Report.html"
+        'report = getDataAdminReport()
+        'mail_dict.Add("mail", "AR") 'ADMIN REPORT
+        'mail_dict.Add("{admin_name}", users.getNameById("C5246787"))
+        'mail_dict.Add("to", toAddress)
+        'mail_dict.Add("{time}", "Today")
+        'mail_dict.Add("{date}", DateTime.Now.ToString("MM/dd/yyyy"))
+        'mail_dict.Add("{data}", report)
+        'mail_dict.Add("{app_link}", syscfg.getSystemUrl)
+        'mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the Admin report")
 
-        sapMails.SendNotificationMail(mail_dict)
-        mail_dict.Clear()
+        'sapMails.SendNotificationMail(mail_dict)
+        'mail_dict.Clear()
 
-        'Owner Report
-        '".\email-templates\SAP Email N - Owner Report.html"
-        reportOwner = getDataOwnerReport()
-        mail_dict.Add("mail", "OR") 'OWNER REPORT
-        mail_dict.Add("{owner_name}", users.getNameById("C5246787"))
-        mail_dict.Add("to", toAddress)
-        mail_dict.Add("{time}", "this week")
-        mail_dict.Add("{date}", utils.formatDateToSTring(Now.Date))
-        mail_dict.Add("{data}", reportOwner("this week"))
-        mail_dict.Add("{app_link}", syscfg.getSystemUrl)
-        mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the Owner report")
-        mail_dict.Add("{subject}", "Your Open Action Items")
+        ''Owner Report
+        ''".\email-templates\SAP Email N - Owner Report.html"
+        'reportOwner = getDataOwnerReport()
+        'mail_dict.Add("mail", "OR") 'OWNER REPORT
+        'mail_dict.Add("{owner_name}", users.getNameById("C5246787"))
+        'mail_dict.Add("to", toAddress)
+        'mail_dict.Add("{time}", "this week")
+        'mail_dict.Add("{date}", utils.formatDateToSTring(Now.Date))
+        'mail_dict.Add("{data}", reportOwner("this week"))
+        'mail_dict.Add("{app_link}", syscfg.getSystemUrl)
+        'mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the Owner report")
+        'mail_dict.Add("{subject}", "Your Open Action Items")
 
-        sapMails.SendNotificationMail(mail_dict)
-        mail_dict.Clear()
+        'sapMails.SendNotificationMail(mail_dict)
+        'mail_dict.Clear()
 
         ''New Request to Admin
         ''".\email-templates\SAP Email H - Admin New Request.html"
@@ -166,9 +166,9 @@ Public Class emailGenerator
         'sapMails.SendNotificationMail(mail_dict)
         'mail_dict.Clear()
 
-        ''******************************
-        ''TEMPLATES WITH BUTTONS
-        ''******************************
+        '''******************************
+        '''TEMPLATES WITH BUTTONS
+        '''******************************
 
         ''Need more information
         ''".\email-templates\SAP Email A - More info.html"
@@ -210,25 +210,25 @@ Public Class emailGenerator
         'sapMails.SendNotificationMail(mail_dict)
         'mail_dict.Clear()
 
-        ''AI created And email to AI Owner
-        ''".\email-templates\SAP Email C - AI Owner.html"
-        'mail_dict.Add("mail", "CR") 'AI CREATED
-        'mail_dict.Add("to", toAddress)
-        'mail_dict.Add("{ai_id}", aiNumber)
-        'mail_dict.Add("{description}", "[" + subject + "] " + description) 'MAIL SUBJECT / AI DESCRIPTION
-        'mail_dict.Add("{duedate}", utils.formatDateToSTring(dueDate))
-        'mail_dict.Add("{accept_link}", syscfg.getSystemUrl + "sap_accept_new_due.aspx?id=" + eLink.enLink(aiNumber))
-        'mail_dict.Add("{reject_link}", syscfg.getSystemUrl + "sap_reject_due.aspx?id=" + eLink.enLink(aiNumber))
-        'mail_dict.Add("{extension_link}", syscfg.getSystemUrl + "sap_ext.aspx?id=" + eLink.enLink(aiNumber))
-        'mail_dict.Add("{need_information}", syscfg.getSystemUrl + "sap_ai_data.aspx?id=" + eLink.enLink(aiNumber))
-        'mail_dict.Add("{ai_owner}", aiOwner)
-        'mail_dict.Add("{app_link}", syscfg.getSystemUrl)
-        'mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the report")
-        'mail_dict.Add("{ai_link}", syscfg.getSystemUrl + "sap_ai_view.aspx?id=" + aiNumber)
-        'mail_dict.Add("{subject}", "New AI#" + aiNumber)
+        'AI created And email to AI Owner
+        '".\email-templates\SAP Email C - AI Owner.html"
+        mail_dict.Add("mail", "CR") 'AI CREATED
+        mail_dict.Add("to", toAddress)
+        mail_dict.Add("{ai_id}", aiNumber)
+        mail_dict.Add("{description}", "[" + subject + "] " + description) 'MAIL SUBJECT / AI DESCRIPTION
+        mail_dict.Add("{duedate}", utils.formatDateToSTring(dueDate))
+        mail_dict.Add("{accept_link}", syscfg.getSystemUrl + "sap_accept_new_due.aspx?id=" + eLink.enLink(aiNumber))
+        mail_dict.Add("{reject_link}", syscfg.getSystemUrl + "sap_reject_due.aspx?id=" + eLink.enLink(aiNumber))
+        mail_dict.Add("{extension_link}", syscfg.getSystemUrl + "sap_ext.aspx?id=" + eLink.enLink(aiNumber))
+        mail_dict.Add("{need_information}", syscfg.getSystemUrl + "sap_ai_data.aspx?id=" + eLink.enLink(aiNumber))
+        mail_dict.Add("{ai_owner}", aiOwner)
+        mail_dict.Add("{app_link}", syscfg.getSystemUrl)
+        mail_dict.Add("{contact_mail_link}", "mailto:" & users.getAdminMail & "?subject=Questions about the report")
+        mail_dict.Add("{ai_link}", syscfg.getSystemUrl + "sap_ai_view.aspx?id=" + aiNumber)
+        mail_dict.Add("{subject}", "New AI#" + aiNumber)
 
-        'sapMails.SendNotificationMail(mail_dict)
-        'mail_dict.Clear()
+        sapMails.SendNotificationMail(mail_dict)
+        mail_dict.Clear()
 
         ''Delivery approval 
         ''"~/email-templates/SAP Email D - Delivery Approval.html"
@@ -289,9 +289,9 @@ Public Class emailGenerator
         'sapMails.SendNotificationMail(mail_dict)
         'mail_dict.Clear()
 
-        '******************************
-        'GENERIC EMAIL TEMPLATE
-        '******************************
+        ''******************************
+        ''Generic EMAIL TEMPLATE
+        ''******************************
 
         ''Testing generic email template
         'mail_dict.Add("mail", "ET") 'Email Template
@@ -405,7 +405,7 @@ Public Class emailGenerator
 
         'PD - Pending
         newLine = Environment.NewLine & "<tr>
-                                                           <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Pending</td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Pending</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'> <a href=" & syscfg.getSystemUrl & "sap_ai_view.aspx?id=" & aiID.ToString & ">#" & aiID.ToString & "</a></td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>New Action Item</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: left; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & aiDesc & "</td>
@@ -417,7 +417,7 @@ Public Class emailGenerator
 
         'DL Delivered
         newLine = Environment.NewLine & "<tr>
-                                                           <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Delivered</td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Delivered</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'> <a href=" & syscfg.getSystemUrl & "sap_ai_view.aspx?id=" & aiID.ToString & ">#" & aiID.ToString & "</a></td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Already delivered</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & aiDesc & "</td>
@@ -428,7 +428,7 @@ Public Class emailGenerator
 
         'IP In Progress
         newLine = Environment.NewLine & "<tr>
-                                                           <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>In Progress</td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>In Progress</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'> <a href=" & syscfg.getSystemUrl & "sap_ai_view.aspx?id=" & aiID.ToString & ">#" & aiID.ToString & "</a></td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>AI in Progress</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & aiDesc & "</td>
@@ -439,7 +439,7 @@ Public Class emailGenerator
 
         'NE Need Extension
         newLine = Environment.NewLine & "<tr>
-                                                           <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Need Extension</td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Need Extension</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'> <a href=" & syscfg.getSystemUrl & "sap_ai_view.aspx?id=" & aiID.ToString & ">#" & aiID.ToString & "</a></td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Extension required</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & aiDesc & "</td>
@@ -450,7 +450,7 @@ Public Class emailGenerator
 
         'OV OVerdue
         newLine = Environment.NewLine & "<tr>
-                                                           <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Overdue</td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Overdue</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'> <a href=" & syscfg.getSystemUrl & "sap_ai_view.aspx?id=" & aiID.ToString & ">#" & aiID.ToString & "</a></td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Overdue " & daysDiffStr & " day</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & aiDesc & "</td>

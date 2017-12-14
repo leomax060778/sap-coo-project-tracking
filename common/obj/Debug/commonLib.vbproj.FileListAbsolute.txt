@@ -4,7 +4,6 @@ C:\SAP\source\sap-coo-project-tracking\common\bin\Debug\commonLib.pdb
 C:\SAP\source\sap-coo-project-tracking\common\bin\Debug\commonLib.xml
 C:\SAP\source\sap-coo-project-tracking\common\bin\Debug\Mail.dll
 C:\SAP\source\sap-coo-project-tracking\common\bin\Debug\Mail.xml
-C:\SAP\source\sap-coo-project-tracking\common\obj\Debug\commonLib.vbprojResolveAssemblyReference.cache
 C:\SAP\source\sap-coo-project-tracking\common\obj\Debug\commonLib.Resources.resources
 C:\SAP\source\sap-coo-project-tracking\common\obj\Debug\commonLib.vbproj.GenerateResource.Cache
 C:\SAP\source\sap-coo-project-tracking\common\obj\Debug\commonLib.dll

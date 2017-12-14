@@ -1,4 +1,7 @@
-﻿Public Class Utils
+﻿Imports System.Net
+Imports System.Web
+
+Public Class Utils
 
     Public Function humanize_Fwd(ByVal i As Integer) As String
         Dim result As String
@@ -142,6 +145,20 @@
         End Select
 
         Return mailSubject
+    End Function
+
+    Public Function encode(ByVal valueToEncode As String) As String
+        Return HttpUtility.UrlEncode(valueToEncode)
+    End Function
+
+    Public Function decode(ByVal valueToDecode As String) As String
+        Return HttpContext.Current.Server.UrlDecode(valueToDecode)
+    End Function
+
+    Function removeCharacter(ByVal stringToCleanUp, ByVal characterToRemove)
+        ' replace the target with nothing
+        ' Replace() returns a new String and does not modify the current one
+        Return stringToCleanUp.Replace(characterToRemove, "")
     End Function
 
 End Class

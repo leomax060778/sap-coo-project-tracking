@@ -36,7 +36,7 @@ Public Class MailTemplate
     Function ResolveDisplayNameToSMTP(ByVal userName As String) As String 'ByRef session As Outlook.NameSpace,
         Dim users As New SapUser
 
-        Return users.getMailByName(userName)
+        Return users.getMailByName(utils.removeCharacter(userName, "'"))
 
     End Function
 
@@ -211,14 +211,16 @@ Public Class MailTemplate
             Next
         End If
 
-        If message.Cc.Count > 0 Then
-            Dim emailNameList As List(Of String) = GetMailNames(message.Cc)
-            For Each emailName As String In emailNameList
-                If Not String.IsNullOrEmpty(emailName) Then
-                    ownersList.AddRange(users.getOwnersEmailFromRecipient(emailName))
-                End If
-            Next
-        End If
+        'Disable adding the CC as owners for AI due to issue reported
+        'https://trello.com/c/vtOaiWst
+        'If message.Cc.Count > 0 Then
+        '    Dim emailNameList As List(Of String) = GetMailNames(message.Cc)
+        '    For Each emailName As String In emailNameList
+        '        If Not String.IsNullOrEmpty(emailName) Then
+        '            ownersList.AddRange(users.getOwnersEmailFromRecipient(emailName))
+        '        End If
+        '    Next
+        'End If
 
         Dim result As New Dictionary(Of String, String)
         Dim messageBody As String
@@ -558,17 +560,17 @@ Public Class MailTemplate
                             'DOES NOT HAVE ID
                             'FIND AI ID IN MAIL BODY LOOK FOR ;;;
                             'WRITE AI ID IN TABLE SEND
-                            ndxStart = mailBody.IndexOf(";;;") + 5
-                            ndxEnd = mailBody.IndexOf("<", ndxStart)
-                            aiIdStr = mailBody.Substring(ndxStart, ndxEnd - ndxStart)
+                            'ndxStart = mailBody.IndexOf(";;;") + 5
+                            'ndxEnd = mailBody.IndexOf("<", ndxStart)
+                            'aiIdStr = mailBody.Substring(ndxStart, ndxEnd - ndxStart)
 
-                            If dbread.IsDBNull(4) Then
-                                aiIdStr = aiIdStr + ", checked = '" + Now.ToString("yyyy-MM-dd hh:mm:ss tt") + "'"
-                            End If
+                            'If dbread.IsDBNull(4) Then
+                            '    aiIdStr = aiIdStr + ", checked = '" + Now.ToString("yyyy-MM-dd hh:mm:ss tt") + "'"
+                            'End If
 
-                            sqlupd = "UPDATE send SET ai_id = " + aiIdStr + " WHERE id = " + dbread.GetInt64(0).ToString + ";"
-                            dbupd = New OleDbCommand(sqlupd, dbconn)
-                            dbupd.ExecuteNonQuery()
+                            'sqlupd = "UPDATE send SET ai_id = " + aiIdStr + " WHERE id = " + dbread.GetInt64(0).ToString + ";"
+                            'dbupd = New OleDbCommand(sqlupd, dbconn)
+                            'dbupd.ExecuteNonQuery()
 
                             'MOVE NEXT
 

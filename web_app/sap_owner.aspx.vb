@@ -276,7 +276,7 @@ Partial Class _Default
                 '<td><a href="#">Create</a></td>
                 Dim tCell_btn As New HtmlTableCell
 
-                If ai_status <> "CF" And ai_status <> "DL" And ai_status <> "NE" And ai_missing_days > 0 And ai_has_duedate Then
+                If ai_status <> "CF" And ai_status <> "DL" And ai_status <> "NE" And ai_status <> "CP" And ai_missing_days > 0 And ai_has_duedate Then
                     'Dim ext_btn As New HtmlAnchor
                     'ext_btn.InnerText = "Extend"
                     'ext_btn.HRef = syscfg.getSystemUrl + "sap_ext.aspx?id=" + ai_id.ToString
@@ -311,7 +311,7 @@ Partial Class _Default
                     tCell_btn.Controls.Add(link_btn)
                 End If
 
-                If ai_status <> "PD" And ai_status <> "NE" And ai_status <> "DL" Then 'And ai_missing_days < 1
+                If ai_status <> "PD" And ai_status <> "NE" And ai_status <> "DL" And ai_status <> "CP" Then 'And ai_missing_days < 1
                     Dim link_btn As New Button
                     link_btn.CommandName = "Deliver"
                     link_btn.CommandArgument = ai_id.ToString

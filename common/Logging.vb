@@ -38,7 +38,7 @@ Public Class Logging
         sql_values = sql_values.Remove(0, 2)
         sql = "INSERT INTO log (" + sql_fields + ") VALUES (" + sql_values + ")"
         dbcomm = New OleDbCommand(sql, dbconn)
-        System.Diagnostics.Debug.WriteLine(dbcomm.ExecuteScalar())
+        'System.Diagnostics.Debug.WriteLine(dbcomm.ExecuteScalar())
 
         dbconn.Close()
 

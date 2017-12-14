@@ -27,7 +27,7 @@ Public Class MailTemplate
     End Function
 
 
-    Private Sub SendHtmlFormattedEmail(ByVal recipientEmail As String, ByVal subject As String, ByVal body As String)
+    Private Sub SendHtmlFormattedEmail(ByVal recipientEmail As String, ByVal subject As String, ByVal body As String, ByVal ai_Id As String)
 
         Dim dbconn As OleDbConnection
         Dim dbcomm As OleDbCommand
@@ -39,7 +39,13 @@ Public Class MailTemplate
         dbconn = New OleDbConnection(sysConfiguration.getConnection)
         dbconn.Open()
 
-        sql = "INSERT INTO send (recipients, subject, body) VALUES ('" + recipientEmail + "', '" + subject.Replace("&#34;", """").Replace("'", "&#39;") + "', '" + body.Replace("&#34;", """").Replace("'", "&#39;") + "')"
+        If (String.IsNullOrEmpty(ai_Id)) Then
+            sql = "INSERT INTO send (recipients, subject, body) VALUES ('" + recipientEmail + "', '" + subject.Replace("&#34;", """").Replace("'", "&#39;") + "', '" + body.Replace("&#34;", """").Replace("'", "&#39;") + "')"
+        Else
+            sql = "INSERT INTO send (recipients, subject, body, ai_id) VALUES ('" + recipientEmail + "', '" + subject.Replace("&#34;", """").Replace("'", "&#39;") + "', '" + body.Replace("&#34;", """").Replace("'", "&#39;") + "', " + ai_Id + ")"
+        End If
+        'sql = "INSERT INTO send (recipients, subject, body) VALUES ('" + recipientEmail + "', '" + subject.Replace("&#34;", """").Replace("'", "&#39;") + "', '" + body.Replace("&#34;", """").Replace("'", "&#39;") + "')"
+
         dbcomm = New OleDbCommand(sql, dbconn)
         dbcomm.ExecuteNonQuery()
         dbcomm.CommandText = "SELECT @@IDENTITY"
@@ -53,7 +59,12 @@ Public Class MailTemplate
         Dim mailTemplate As String = ""
         Dim mailSubject As String = ""
         Dim mailBody As String = ""
+        Dim ai_Id As String = ""
+
         Dim mailRecepient As String = mailData("to")
+        If mailData.ContainsKey("{ai_id}") AndAlso Not String.IsNullOrEmpty(mailData("{ai_id}")) Then
+            ai_Id = mailData("{ai_id}")
+        End If
 
         mailTemplate = commonUtil.getEmailTemplate(mailData("mail"))
 
@@ -70,7 +81,7 @@ Public Class MailTemplate
 
         mailBody = PopulateBody(reader, mailData)
 
-        SendHtmlFormattedEmail(mailRecepient, mailSubject, mailBody)
+        SendHtmlFormattedEmail(mailRecepient, mailSubject, mailBody, ai_Id)
 
     End Sub
 

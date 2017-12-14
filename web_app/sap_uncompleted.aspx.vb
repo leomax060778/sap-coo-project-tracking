@@ -105,6 +105,7 @@ Partial Class _Default
                     Dim adminId = userCommon.getIdByMail(admin)
 
                     mail_dict = New Dictionary(Of String, String)
+                    mail_dict.Add("mail", "AU") 'AI EXTENSION REJECTED
                     mail_dict.Add("to", admin)
                     mail_dict.Add("{ai_id}", ai_id.ToString)
                     mail_dict.Add("{ai_owner}", adminName & "(" & adminId & ")")

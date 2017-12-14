@@ -217,26 +217,26 @@ Public Class SapActions
             mail_dict.Add("{requestor_name}", userCommon.getNameById(requestor))
             mail_dict.Add("{app_link}", sysConfiguration.getSystemUrl)
             mail_dict.Add("{contact_mail_link}", "mailto:" & userCommon.getAdminMail & "?subject=Questions about the report")
-            mail_dict.Add("{delivery_link1}", sysConfiguration.getSystemUrl + "delivery.ashx?file=" + fileName1)
+            mail_dict.Add("{delivery_link1}", sysConfiguration.getSystemUrl + "delivery.ashx?file=" + utilCommon.encode(fileName1))
             mail_dict.Add("{filename1}", fileName1)
             mail_dict.Add("{subject}", "Delivery Notice | AI#" & ai_id)
 
             If fileName2 <> "" Then
-                mail_dict.Add("{delivery_link2}", sysConfiguration.getSystemUrl + "delivery.ashx?file=" + fileName2)
+                mail_dict.Add("{delivery_link2}", sysConfiguration.getSystemUrl + "delivery.ashx?file=" + utilCommon.encode(fileName2))
                 mail_dict.Add("{d2}", "block")
                 mail_dict.Add("{filename2}", fileName2)
             Else
                 mail_dict.Add("{d2}", "none")
             End If
             If fileName3 <> "" Then
-                mail_dict.Add("{delivery_link3}", sysConfiguration.getSystemUrl + "delivery.ashx?file=" + fileName3)
+                mail_dict.Add("{delivery_link3}", sysConfiguration.getSystemUrl + "delivery.ashx?file=" + utilCommon.encode(fileName3))
                 mail_dict.Add("{d3}", "block")
                 mail_dict.Add("{filename3}", fileName3)
             Else
                 mail_dict.Add("{d3}", "none")
             End If
             If fileName4 <> "" Then
-                mail_dict.Add("{delivery_link4}", sysConfiguration.getSystemUrl + "delivery.ashx?file=" + fileName4)
+                mail_dict.Add("{delivery_link4}", sysConfiguration.getSystemUrl + "delivery.ashx?file=" + utilCommon.encode(fileName4))
                 mail_dict.Add("{d4}", "block")
                 mail_dict.Add("{filename4}", fileName4)
             Else
@@ -244,7 +244,7 @@ Public Class SapActions
             End If
             If fileName5 <> "" Then
                 mail_dict.Add("{d5}", "block")
-                mail_dict.Add("{delivery_link5}", sysConfiguration.getSystemUrl + "delivery.ashx?file=" + fileName5)
+                mail_dict.Add("{delivery_link5}", sysConfiguration.getSystemUrl + "delivery.ashx?file=" + utilCommon.encode(fileName5))
                 mail_dict.Add("{filename5}", fileName5)
             Else
                 mail_dict.Add("{d5}", "none")

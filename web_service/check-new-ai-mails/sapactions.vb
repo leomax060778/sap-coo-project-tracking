@@ -640,7 +640,7 @@ Public Class SapActions
 
                     Case "PD"
                         newLine = Environment.NewLine & "<tr>
-                                                           <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Pending</td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Pending</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'> <a href=" & syscfg.getSystemUrl & "sap_ai_view.aspx?id=" & aiID.ToString & ">#" & aiID.ToString & "</a></td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>New Action Item</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & aiDesc & "</td>
@@ -652,7 +652,7 @@ Public Class SapActions
 
                     Case "DL"
                         newLine = Environment.NewLine & "<tr>
-                                                           <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Delivered</td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Delivered</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'> <a href=" & syscfg.getSystemUrl & "sap_ai_view.aspx?id=" & aiID.ToString & ">#" & aiID.ToString & "</a></td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Already delivered</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & aiDesc & "</td>
@@ -664,7 +664,7 @@ Public Class SapActions
 
                     Case "NE"
                         newLine = Environment.NewLine & "<tr>
-                                                           <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Need Extension</td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Need Extension</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'> <a href=" & syscfg.getSystemUrl & "sap_ai_view.aspx?id=" & aiID.ToString & ">#" & aiID.ToString & "</a></td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Extension required</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & aiDesc & "</td>
@@ -675,7 +675,7 @@ Public Class SapActions
 
                     Case "OD"
                         newLine = Environment.NewLine & "<tr>
-                                                           <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Overdue</td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Overdue</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'> <a href=" & syscfg.getSystemUrl & "sap_ai_view.aspx?id=" & aiID.ToString & ">#" & aiID.ToString & "</a></td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Overdue " & daysDiffStr & " day</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & aiDesc & "</td>
@@ -686,7 +686,7 @@ Public Class SapActions
 
                     Case "IP"
                         newLine = Environment.NewLine & "<tr>
-                                                           <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>In Progress</td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>In Progress</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'> <a href=" & syscfg.getSystemUrl & "sap_ai_view.aspx?id=" & aiID.ToString & ">#" & aiID.ToString & "</a></td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>AI in Progress</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & aiDesc & "</td>
@@ -700,7 +700,7 @@ Public Class SapActions
                             Case "0"
                                 newLine = Environment.NewLine &
                                                         "<tr>
-                                                           <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>-</td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>-</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'> <a href=" & syscfg.getSystemUrl & "sap_ai_view.aspx?id=" & aiID.ToString & ">#" & aiID.ToString & "</a></td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Delivery Today</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & aiDesc & "</td>
@@ -710,7 +710,7 @@ Public Class SapActions
                             Case "2"
                                 newLine = Environment.NewLine &
                                                     "<tr>
-                                                           <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>-</td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>-</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'> <a href=" & syscfg.getSystemUrl & "sap_ai_view.aspx?id=" & aiID.ToString & ">#" & aiID.ToString & "</a></td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Confirm Today</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & aiDesc & "</td>
@@ -721,7 +721,7 @@ Public Class SapActions
                                 If daysDiff < 6 Then
                                     newLine = Environment.NewLine &
                                                     "<tr>
-                                                           <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>-</td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>-</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'> <a href=" & syscfg.getSystemUrl & "sap_ai_view.aspx?id=" & aiID.ToString & ">#" & aiID.ToString & "</a></td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Delivery this week</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & aiDesc & "</td>
@@ -731,7 +731,7 @@ Public Class SapActions
                                 Else
                                     newLine = Environment.NewLine &
                                                     "<tr>
-                                                           <td style='border-radius: 0 0 0 5px;text-align: left;vertical-align: top; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>-</td>
+                                                           <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top; font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>-</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'> <a href=" & syscfg.getSystemUrl & "sap_ai_view.aspx?id=" & aiID.ToString & ">#" & aiID.ToString & "</a></td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: center; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>Delivery after this week</td>
                                                            <td style='border-radius: 0 0 0 5px;text-align: left; vertical-align: top;font-size: 12px;font-family: Arial, Helvetica, sans-serif; color: #555555;'>" & aiDesc & "</td>
