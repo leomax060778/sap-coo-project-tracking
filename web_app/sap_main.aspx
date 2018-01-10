@@ -107,6 +107,10 @@
                 option_id = 8;
                 break;
 
+            case "ro":
+                option_id = 9;
+                break;
+
             default:
                 option_id = 0;
                 break;
@@ -226,6 +230,7 @@ background-color: white;
                 <option label="Extension Pending" value="sap_main.aspx?f=ex"></option>
                 <option label="Acceptance Pending (OW)" value="sap_main.aspx?f=ap"></option>
                 <option label="Acceptance Pending (RQ)" value="sap_main.aspx?f=rq"></option>
+                <option label="Rejected by Owner" value="sap_main.aspx?f=ro"></option>
             </select>
         </div>
         

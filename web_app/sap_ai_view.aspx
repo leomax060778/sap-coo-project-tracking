@@ -134,6 +134,7 @@
                                 <option value="PD">Pending</option>
                                 <option value="IP">In Progress</option>
                                 <option value="DL">Delivered</option>
+                                <option value="RO">Rejected by Owner</option>
                             </select>
                         </td>
                         <td><h4>Description</h4><textarea rows="4" cols="30" name="descr" id="descr" class="fw fs form-control" runat="server" ></textarea></td>

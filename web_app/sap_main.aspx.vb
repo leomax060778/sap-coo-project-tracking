@@ -230,6 +230,11 @@ Partial Class Default2
                 extra_where = "(status <> 'DL' OR status <> 'PD') AND due IS NOT null AND ai_count >= 0"
                 extra_subq = ", (SELECT COUNT(distinct actionitems.id) FROM actionitems WHERE requests.id = actionitems.request_id AND (actionitems.status <> 'DL' AND actionitems.status <> 'PD') AND (DATEDIFF(day, TODAY(), actionitems.due)) < 0 AND actionitems.owner IS NOT null) AS ai_count"
 
+            Case "ro"
+                extra_where = "(status = 'RO' OR ai_count > 0)"
+                extra_subq = ", (SELECT count(*) FROM actionitems WHERE requests.id = actionitems.request_id AND actionitems.status = 'RO') AS ai_count"
+
+
         End Select
 
         '############ROWS#ITERATION#############

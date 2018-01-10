@@ -65,7 +65,7 @@ Partial Class sap_reject_due
                 Dim requestor_id As String = actions.getRequestorIdFromRequestId(request_id)
                 'Dim ai_missing_days As Integer = DateDiff(DateInterval.Day, Today.Date, ai_old_due.Date)
 
-                'DUEDATE EXTENSION
+                'Reject AI
                 sql = "UPDATE actionitems SET due='" + ai_duedate.Year.ToString + "-" + ai_duedate.Month.ToString + "-" + ai_duedate.Day.ToString +
                     "', reject_reason = '" + Request.Form("reason") +
                     "', extension=NULL, status='RO' WHERE id=" + ai_id.ToString
@@ -86,23 +86,9 @@ Partial Class sap_reject_due
                 '////////////////////////////////////////////////////////////
                 'CREATE EMAIL AND SEND TO REQUESTOR
                 '////////////////////////////////////////////////////////////
-
-
-                'mail_dict.Add("mail", "ER") 'AI EXTENSION REJECTED
-                'mail_dict.Add("to", userCommon.getMailById(ai_owner))
-                'mail_dict.Add("{ai_id}", ai_id.ToString)
-                'mail_dict.Add("{ai_owner}", userCommon.getNameById(ai_owner) & "(" & ai_owner & ")")
-                'mail_dict.Add("{requestor}", userCommon.getMailById(requestor_id))
-                'mail_dict.Add("{description}", ai_descr) 'MAIL SUBJECT / AI DESCRIPTION
-                'mail_dict.Add("{duedate}", utils.formatDateToSTring(ai_duedate))
-                'mail_dict.Add("{reason}", Request.Form("reason"))
-                'mail_dict.Add("{requestor_name}", userCommon.getNameById(requestor_id))
-                'mail_dict.Add("{app_link}", sysConfiguration.getSystemUrl)
-                'mail_dict.Add("{contact_mail_link}", "mailto:" & userCommon.getAdminMail & "?subject=Questions about the report")
-                'mail_dict.Add("{subject}", "AI#" & ai_id.ToString & " Extension Rejected")
-
                 Dim newMail As New MailTemplate
                 Dim mail_dict As New Dictionary(Of String, String)
+
                 mail_dict.Add("mail", "RO") 'AI Rejected by Owner
                 mail_dict.Add("to", userCommon.getMailById(requestor_id))
                 mail_dict.Add("{ai_id}", ai_id.ToString)

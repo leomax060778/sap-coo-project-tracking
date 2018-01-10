@@ -55,6 +55,8 @@ Public Class Utils
                 result = "Confirmed"
             Case "DL"
                 result = "Delivered"
+            Case "RO"
+                result = "Rejected by Owner"
             Case Else
                 result = "Unset"
         End Select
@@ -101,6 +103,8 @@ Public Class Utils
                 emailTemplate = ".\email-templates/SAP Email K - AI Uncompleted.html"
             Case "OC"
                 emailTemplate = ".\email-templates/SAP Email P - AI Owner Changed.html"
+            Case "RO"
+                emailTemplate = ".\email-templates/SAP Email Q - Owner Rejection Notice.html"
             Case "ET"
                 emailTemplate = ".\email-templates/emailTemplate.html"
             Case Else
@@ -140,6 +144,8 @@ Public Class Utils
                 mailSubject = "AI completed"
             Case "AU"
                 mailSubject = "AI uncompleted"
+            Case "RO"
+                mailSubject = "AI rejected"
             Case Else
                 'ERROR / HALT DO NOTHING
         End Select
