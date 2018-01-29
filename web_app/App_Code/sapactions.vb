@@ -217,10 +217,15 @@ Public Class SapActions
             mail_dict.Add("{requestor_name}", userCommon.getNameById(requestor))
             mail_dict.Add("{app_link}", sysConfiguration.getSystemUrl)
             mail_dict.Add("{contact_mail_link}", "mailto:" & userCommon.getAdminMail & "?subject=Questions about the report")
-            mail_dict.Add("{delivery_link1}", sysConfiguration.getSystemUrl + "delivery.ashx?file=" + utilCommon.encode(fileName1))
-            mail_dict.Add("{filename1}", fileName1)
             mail_dict.Add("{subject}", "Delivery Notice | AI#" & ai_id)
 
+            If fileName1 <> "" Then
+                mail_dict.Add("{delivery_link1}", sysConfiguration.getSystemUrl + "delivery.ashx?file=" + utilCommon.encode(fileName1))
+                mail_dict.Add("{d1}", "block")
+                mail_dict.Add("{filename1}", fileName1)
+            Else
+                mail_dict.Add("{d1}", "none")
+            End If
             If fileName2 <> "" Then
                 mail_dict.Add("{delivery_link2}", sysConfiguration.getSystemUrl + "delivery.ashx?file=" + utilCommon.encode(fileName2))
                 mail_dict.Add("{d2}", "block")
